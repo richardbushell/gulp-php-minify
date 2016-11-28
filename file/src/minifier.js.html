@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/minifier.js | Gulp-PHP-Minify API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <a data-ice="repoURL" href="https://github.com/cedx/gulp-php-minify" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/minifier.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import child from &apos;child_process&apos;;
+import path from &apos;path&apos;;
+import {Observable} from &apos;rxjs&apos;;
+import * as pkg from &apos;../package.json&apos;;
+import portFinder from &apos;portfinder&apos;;
+import superagent from &apos;superagent&apos;;
+import {Transform} from &apos;stream&apos;;
+
+/**
+ * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.
+ */
+export class Minifier extends Transform {
+
+  /**
+   * Initializes a new instance of the class.
+   * @param {object} [options] The checker settings.
+   */
+  constructor(options = {}) {
+    super({objectMode: true});
+
+    /**
+     * The path to the PHP executable.
+     * @type {string}
+     */
+    this.binary = typeof options.binary == &apos;string&apos; ? path.normalize(options.binary) : &apos;php&apos;;
+
+    /**
+     * Value indicating whether to silent the plug-in output.
+     * @type {boolean}
+     */
+    this.silent = typeof options.silent == &apos;boolean&apos; ? options.silent : false;
+
+    /**
+     * The underlying PHP process.
+     * @type {object}
+     */
+    this._phpServer = null;
+  }
+
+  /**
+   * Value indicating whether the server is currently listening.
+   * @type {boolean}
+   */
+  get listening() {
+    return typeof this._phpServer == &apos;object&apos; &amp;&amp; this._phpServer;
+  }
+
+  /**
+   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.
+   * @return {Observable} Completes when the PHP process is finally terminated.
+   */
+  close() {
+    return !this.listening ? Observable.of(null) : new Observable(observer =&gt; {
+      this._phpServer.process.kill();
+      this._phpServer = null;
+      observer.next();
+      observer.complete();
+    });
+  }
+
+  /**
+   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.
+   * @return {Observable&lt;number&gt;} The port used by the PHP process.
+   */
+  listen() {
+    if (this.listening) return Observable.of(this._phpServer.port);
+
+    let getPort = Observable.bindNodeCallback(portFinder.getPort);
+    return getPort().do(port =&gt; {
+      let address = &apos;127.0.0.1&apos;;
+      let args = [&apos;-S&apos;, `${address}:${port}`, &apos;-t&apos;, path.join(__dirname, &apos;../web&apos;)];
+
+      this._phpServer = {address, port, process: child.spawn(this.binary, args)};
+      this.once(&apos;end&apos;, () =&gt; this.close().subscribe());
+    });
+  }
+
+  /**
+   * Transforms input and produces output.
+   * @param {File} file The chunk to be transformed.
+   * @param {string} encoding The encoding type if the chunk is a string.
+   * @param {function} callback The function to invoke when the supplied chunk has been processed.
+   */
+  _transform(file, encoding, callback) {
+    if (!this.silent) console.log(`Minifying: ${file.path}`);
+
+    this.listen().subscribe(() =&gt; superagent
+      .get(`http://${this._phpServer.address}:${this._phpServer.port}/index.php`)
+      .query({file: file.path})
+      .end((err, res) =&gt; {
+        if (err) callback(new Error(`[${pkg.name}] ${err}`));
+        else {
+          file.contents = Buffer.from(res.text, encoding);
+          callback(null, file);
+        }
+      }));
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

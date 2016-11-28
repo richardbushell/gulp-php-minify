@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Gulp-PHP-Minify API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <a data-ice="repoURL" href="https://github.com/cedx/gulp-php-minify" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="gulp-php-minify">Gulp-PHP-Minify</h1>
+<p><img src="https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg" alt="Release"> <img src="https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg" alt="License"> <img src="https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg" alt="Downloads"> <img src="https://img.shields.io/david/cedx/gulp-php-minify.svg" alt="Dependencies"> <img src="https://img.shields.io/codacy/grade/042f875438fe4ea383fabea5dad8e353.svg" alt="Code quality"></p>
+<p><a href="http://gulpjs.com">Gulp.js</a> plug-in minifying <a href="https://secure.php.net">PHP</a> source code by removing comments and whitespace.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>If you haven&apos;t used <a href="http://gulpjs.com">Gulp.js</a> before, be sure to check out the <a href="https://github.com/gulpjs/gulp/blob/master/docs/README.md">related documentation</a>, as it explains how to create a <code>gulpfile.js</code> as well as install and use plug-ins.
+Once you&apos;re familiar with that process, you may install this plug-in with this command:</p>
+<pre><code class="lang-shell"><code class="source-code prettyprint">$ npm install --save-dev @cedx/gulp-php-minify</code>
+</code></pre>
+<p>Once the plug-in has been installed, it may be enabled inside your <code>gulpfile.js</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>The plug-in takes a list of <a href="https://secure.php.net">PHP</a> scripts as input, and removes the comments and whitespace in these files by applying the <a href="https://secure.php.net/manual/en/function.php-strip-whitespace.php"><code>php_strip_whitespace()</code></a> function on their contents:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">const gulp = require(&apos;gulp&apos;);
+const {phpMinify} = require(&apos;@cedx/gulp-php-minify&apos;);
+
+gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**/*.php&apos;, {read: false})
+  .pipe(phpMinify())
+  .pipe(gulp.dest(&apos;path/to/out&apos;))
+);</code>
+</code></pre>
+<p>The plug-in only needs the file paths, so you should specify the <code>read</code> option to <code>false</code> when providing the file list, and you should not have any other plug-in before it.</p>
+<h2 id="options">Options</h2>
+<h3 id="-binary-"><code>binary</code></h3>
+<p>The plug-in relies on the availability of the <a href="https://secure.php.net">PHP</a> executable on the target system: it requires a version <strong>5.5 or later</strong>. By default, the plug-in will use the <code>php</code> binary found on the system path.</p>
+<p>If the plug-in cannot find the default <code>php</code> binary, or if you want to use a different one, you can provide the path to the <code>php</code> executable by using the <code>binary</code> option:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**/*.php&apos;, {read: false})
+  .pipe(phpMinify({binary: &apos;C:\\Program Files\\PHP\\php.exe&apos;}))
+  .pipe(gulp.dest(&apos;path/to/out&apos;));</code>
+</code></pre>
+<h3 id="-silent-"><code>silent</code></h3>
+<p>By default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the <code>silent</code> option to <code>true</code>.</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**/*.php&apos;, {read: false})
+  .pipe(phpMinify({silent: true}))
+  .pipe(gulp.dest(&apos;path/to/out&apos;));</code>
+</code></pre>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="https://cedx.github.io/gulp-php-minify">API Reference</a></li>
+<li><a href="https://www.codacy.com/app/cedx/gulp-php-minify">Code Quality</a></li>
+<li><a href="https://travis-ci.org/cedx/gulp-php-minify">Continuous Integration</a></li>
+</ul>
+<h2 id="license">License</h2>
+<p><a href="https://github.com/cedx/gulp-php-minify">Gulp-PHP-Minify</a> is distributed under the Apache License, version 2.0.</p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

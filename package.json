@@ -1,0 +1,54 @@
+{
+  "description": "Gulp.js plug-in minifying PHP source code by removing comments and whitespace.",
+  "homepage": "https://github.com/cedx/gulp-php-minify",
+  "name": "@cedx/gulp-php-minify",
+
+  "author": "Cédric Belin <cedric@belin.io>",
+  "bugs": "https://github.com/cedx/gulp-php-minify/issues",
+  "license": "Apache-2.0",
+  "repository": "cedx/gulp-php-minify",
+  "version": "1.0.0",
+
+  "jsnext:main": "./src/index",
+  "main": "./lib/index",
+
+  "dependencies": {
+    "portfinder": "^1.0.10",
+    "rxjs": "^5.0.0-rc.4",
+    "superagent": "^3.1.0"
+  },
+  "devDependencies": {
+    "@cedx/gulp-david": "^3.0.2",
+    "babel-preset-latest": "^6.16.0",
+    "babel-register": "^6.18.0",
+    "codacy-coverage": "^2.0.0",
+    "del": "^2.2.2",
+    "esdoc": "^0.4.8",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-istanbul": "^1.1.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-load-plugins": "^1.4.0",
+    "gulp-mocha": "^3.0.1",
+    "gulp-zip": "^3.2.0",
+    "isparta": "^4.0.0",
+    "vinyl": "^2.0.1"
+  },
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "keywords": [
+    "compress",
+    "gulp",
+    "gulpplugin",
+    "minify",
+    "observable",
+    "php",
+    "rxjs"
+  ],
+  "scripts": {
+    "coverage": "codacy-coverage < var/lcov.info",
+    "prepublish": "gulp build",
+    "test": "gulp test"
+  }
+}
