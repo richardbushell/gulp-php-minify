@@ -39,7 +39,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/minifier.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import child from &apos;child_process&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import childProcess from &apos;child_process&apos;;
 import path from &apos;path&apos;;
 import {Observable} from &apos;rxjs&apos;;
 import * as pkg from &apos;../package.json&apos;;
@@ -79,7 +79,7 @@ export class Minifier extends Transform {
   }
 
   /**
-   * Value indicating whether the server is currently listening.
+   * Value indicating whether the PHP process is currently listening.
    * @type {boolean}
    */
   get listening() {
@@ -94,6 +94,7 @@ export class Minifier extends Transform {
     return !this.listening ? Observable.of(null) : new Observable(observer =&gt; {
       this._phpServer.process.kill();
       this._phpServer = null;
+
       observer.next();
       observer.complete();
     });
@@ -110,9 +111,14 @@ export class Minifier extends Transform {
     return getPort().do(port =&gt; {
       let address = &apos;127.0.0.1&apos;;
       let args = [&apos;-S&apos;, `${address}:${port}`, &apos;-t&apos;, path.join(__dirname, &apos;../web&apos;)];
+      this._phpServer = {address, port, process: childProcess.spawn(this.binary, args)};
 
-      this._phpServer = {address, port, process: child.spawn(this.binary, args)};
-      this.once(&apos;end&apos;, () =&gt; this.close().subscribe());
+      let listener = () =&gt; {
+        this.removeListener(&apos;end&apos;, listener).removeListener(&apos;error&apos;, listener);
+        this.close().subscribe();
+      };
+
+      this.once(&apos;end&apos;, listener).once(&apos;error&apos;, listener);
     });
   }
 

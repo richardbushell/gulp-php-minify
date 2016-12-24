@@ -44,6 +44,8 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1"><span class="manual-dot"></span><a href="manual/changelog.html#changelog" data-ice="link">Changelog</a></li>
+<li data-ice="manualNav" class="indent-h4"><span class="manual-dot"></span><a href="manual/changelog.html#version-1-1-0" data-ice="link">Version 1.1.0</a></li>
+<li data-ice="manualNav" class="indent-h4"><span class="manual-dot"></span><a href="manual/changelog.html#version-1-0-1" data-ice="link">Version 1.0.1</a></li>
 <li data-ice="manualNav" class="indent-h4"><span class="manual-dot"></span><a href="manual/changelog.html#version-1-0-0" data-ice="link">Version 1.0.0</a></li>
 <li data-ice="manualNav" class="indent-h4"><span class="manual-dot"></span><a href="manual/changelog.html#version-0-3-1" data-ice="link">Version 0.3.1</a></li>
 <li data-ice="manualNav" class="indent-h4"><span class="manual-dot"></span><a href="manual/changelog.html#version-0-3-0" data-ice="link">Version 0.3.0</a></li>
@@ -64,6 +66,16 @@
   </div>
   <div data-ice="content"><h1 id="changelog">Changelog</h1>
 <p>This file contains highlights of what changes on each version of the <a href="https://github.com/cedx/gulp-php-minify">Gulp-PHP-Minify</a> package.</p>
+<h4 id="version-1-1-0">Version 1.1.0</h4>
+<ul>
+<li>Properly handle the stream events: added support for the <code>error</code> event, remove the registered listeners on stream close.</li>
+<li>Replaced the <a href="https://www.codacy.com">Codacy</a> code coverage service by the <a href="https://coveralls.io">Coveralls</a> one.</li>
+<li>Updated the package dependencies.</li>
+</ul>
+<h4 id="version-1-0-1">Version 1.0.1</h4>
+<ul>
+<li>Fixed <a href="https://github.com/cedx/gulp-php-minify/issues/1">GitHub issue #1</a>.</li>
+</ul>
 <h4 id="version-1-0-0">Version 1.0.0</h4>
 <ul>
 <li>Breaking change: the plug-in is not anymore a default export. The use of destructuring assignment is advised to access it.</li>
