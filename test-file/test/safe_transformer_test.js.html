@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/index.js | Gulp-PHP-Minify API Document</title>
+  <title data-ice="title">test/safe_transformer_test.js | Gulp-PHP-Minify API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -40,21 +40,47 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Minifier} from &apos;./minifier&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">test/safe_transformer_test.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
-export * from &apos;./fast_transformer&apos;;
-export * from &apos;./minifier&apos;;
-export * from &apos;./safe_transformer&apos;;
+import {expect} from &apos;chai&apos;;
+import path from &apos;path&apos;;
+import {Minifier, SafeTransformer} from &apos;../src/index&apos;;
 
 /**
- * Create a new instance of the plug-in.
- * @param {object} [options] The plug-in options.
- * @return {Minifier} The newly created instance.
+ * @test {SafeTransformer}
  */
-export function phpMinify(options = {}) {
-  return new Minifier(options);
-}
+describe(&apos;SafeTransformer&apos;, function() {
+  this.timeout(30000);
+
+  /**
+   * @test {SafeTransformer#transform}
+   */
+  describe(&apos;#transform()&apos;, () =&gt; {
+    let script = path.join(__dirname, &apos;sample.php&apos;);
+    let transformer = new SafeTransformer(new Minifier());
+
+    it(&apos;should remove the inline comments&apos;, async () =&gt; {
+      let output = await transformer.transform(script);
+      expect(output).to.contain(&apos;&lt;?= \&apos;Hello World!\&apos; ?&gt;&apos;);
+    });
+
+    it(&apos;should remove the multi-line comments&apos;, async () =&gt; {
+      let output = await transformer.transform(script);
+      expect(output).to.contain(&apos;namespace dummy; class Dummy&apos;);
+    });
+
+    it(&apos;should remove the single-line comments&apos;, async () =&gt; {
+      let output = await transformer.transform(script);
+      expect(output).to.contain(&apos;$className = get_class($this); return $className;&apos;);
+    });
+
+    it(&apos;should remove the whitespace&apos;, async () =&gt; {
+      let output = await transformer.transform(script);
+      expect(output).to.contain(&apos;__construct() { }&apos;);
+    });
+  });
+});
 </code></pre>
 
 </div>

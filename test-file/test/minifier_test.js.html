@@ -32,7 +32,9 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></span></li>
 </ul>
 </div>
@@ -41,10 +43,10 @@
 <div class="content" data-ice="content"><h1 data-ice="title">test/minifier_test.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
-import assert from &apos;assert&apos;;
+import {expect} from &apos;chai&apos;;
+import path from &apos;path&apos;;
 import File from &apos;vinyl&apos;;
 import {Minifier} from &apos;../src/index&apos;;
-import path from &apos;path&apos;;
 
 /**
  * @test {Minifier}
@@ -57,35 +59,12 @@ describe(&apos;Minifier&apos;, function() {
    */
   describe(&apos;#constructor()&apos;, () =&gt; {
     it(&apos;should initialize the existing properties&apos;, () =&gt; {
-      assert.equal(new Minifier({binary: &apos;./FooBar.exe&apos;}).binary, &apos;FooBar.exe&apos;);
-      assert.equal(new Minifier({silent: true}).silent, true);
+      expect(new Minifier({binary: &apos;./FooBar.exe&apos;}).binary).to.equal(&apos;FooBar.exe&apos;);
+      expect(new Minifier({silent: true}).silent).to.be.true;
     });
 
     it(&apos;should not create new properties&apos;, () =&gt; {
-      assert.ok(!(&apos;foo&apos; in new Minifier({foo: &apos;bar&apos;})));
-    });
-  });
-
-  /**
-   * @test {Minifier#listening}
-   */
-  describe(&apos;#listening&apos;, () =&gt; {
-    let minifier = new Minifier();
-
-    it(&apos;should return `true` when the server is listening&apos;, done =&gt; {
-      assert.ok(!minifier.listening);
-      minifier.listen().subscribe(
-        () =&gt; assert.ok(minifier.listening),
-        done, done
-      );
-    });
-
-    it(&apos;should return `false` when the server is not listening&apos;, done =&gt; {
-      assert.ok(minifier.listening);
-      minifier.close().subscribe(
-        () =&gt; assert.ok(!minifier.listening),
-        done, done
-      );
+      expect(new Minifier({foo: &apos;bar&apos;})).to.not.have.property(&apos;foo&apos;);
     });
   });
 
@@ -96,37 +75,27 @@ describe(&apos;Minifier&apos;, function() {
     let file = new File({path: path.join(__dirname, &apos;sample.php&apos;)});
     let minifier = new Minifier({silent: true});
 
-    it(&apos;should remove the inline comments&apos;, () =&gt; {
-      minifier._transform(file, &apos;utf8&apos;, (err, result) =&gt; {
-        assert.ifError(err);
-        assert.ok(result.contents.toString().includes(&apos;&lt;?= \&apos;Hello World!\&apos; ?&gt;&apos;));
-        minifier.close().subscribe();
-      });
+    it(&apos;should remove the inline comments&apos;, async () =&gt; {
+      let result = await minifier._transform(file, &apos;utf8&apos;);
+      expect(result.contents.toString()).to.contain(&apos;&lt;?= \&apos;Hello World!\&apos; ?&gt;&apos;);
     });
 
-    it(&apos;should remove the multi-line comments&apos;, () =&gt; {
-      minifier._transform(file, &apos;utf8&apos;, (err, result) =&gt; {
-        assert.ifError(err);
-        assert.ok(result.contents.toString().includes(&apos;namespace dummy; class Dummy&apos;));
-        minifier.close().subscribe();
-      });
+    it(&apos;should remove the multi-line comments&apos;, async () =&gt; {
+      let result = await minifier._transform(file, &apos;utf8&apos;);
+      expect(result.contents.toString()).to.contain(&apos;namespace dummy; class Dummy&apos;);
     });
 
-    it(&apos;should remove the single-line comments&apos;, () =&gt; {
-      minifier._transform(file, &apos;utf8&apos;, (err, result) =&gt; {
-        assert.ifError(err);
-        assert.ok(result.contents.toString().includes(&apos;$className = get_class($this); return $className;&apos;));
-        minifier.close().subscribe();
-      });
+    it(&apos;should remove the single-line comments&apos;, async () =&gt; {
+      let result = await minifier._transform(file, &apos;utf8&apos;);
+      expect(result.contents.toString()).to.contain(&apos;$className = get_class($this); return $className;&apos;);
     });
 
-    it(&apos;should remove the whitespace&apos;, () =&gt; {
-      minifier._transform(file, &apos;utf8&apos;, (err, result) =&gt; {
-        assert.ifError(err);
-        assert.ok(result.contents.toString().includes(&apos;__construct() { }&apos;));
-        minifier.close().subscribe();
-      });
+    it(&apos;should remove the whitespace&apos;, async () =&gt; {
+      let result = await minifier._transform(file, &apos;utf8&apos;);
+      expect(result.contents.toString()).to.contain(&apos;__construct() { }&apos;);
     });
+
+    minifier.emit(&apos;end&apos;);
   });
 });
 </code></pre>
@@ -134,7 +103,7 @@ describe(&apos;Minifier&apos;, function() {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.1)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

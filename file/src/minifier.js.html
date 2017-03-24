@@ -32,20 +32,22 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/minifier.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import childProcess from &apos;child_process&apos;;
-import path from &apos;path&apos;;
-import {Observable} from &apos;rxjs&apos;;
-import * as pkg from &apos;../package.json&apos;;
-import portFinder from &apos;portfinder&apos;;
-import superagent from &apos;superagent&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import path from &apos;path&apos;;
 import {Transform} from &apos;stream&apos;;
+import which from &apos;which&apos;;
+
+import * as pkg from &apos;../package.json&apos;;
+import {FastTransformer} from &apos;./fast_transformer&apos;;
+import {SafeTransformer} from &apos;./safe_transformer&apos;;
 
 /**
  * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.
@@ -63,7 +65,13 @@ export class Minifier extends Transform {
      * The path to the PHP executable.
      * @type {string}
      */
-    this.binary = typeof options.binary == &apos;string&apos; ? path.normalize(options.binary) : &apos;php&apos;;
+    this.binary = typeof options.binary == &apos;string&apos; ? path.normalize(options.binary) : which.sync(&apos;php&apos;);
+
+    /**
+     * The transformation type.
+     * @type {string}
+     */
+    this.mode = typeof options.mode == &apos;string&apos; ? options.mode : &apos;safe&apos;;
 
     /**
      * Value indicating whether to silent the plug-in output.
@@ -76,71 +84,36 @@ export class Minifier extends Transform {
      * @type {object}
      */
     this._phpServer = null;
-  }
 
-  /**
-   * Value indicating whether the PHP process is currently listening.
-   * @type {boolean}
-   */
-  get listening() {
-    return typeof this._phpServer == &apos;object&apos; &amp;&amp; this._phpServer;
-  }
-
-  /**
-   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.
-   * @return {Observable} Completes when the PHP process is finally terminated.
-   */
-  close() {
-    return !this.listening ? Observable.of(null) : new Observable(observer =&gt; {
-      this._phpServer.process.kill();
-      this._phpServer = null;
-
-      observer.next();
-      observer.complete();
-    });
-  }
-
-  /**
-   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.
-   * @return {Observable&lt;number&gt;} The port used by the PHP process.
-   */
-  listen() {
-    if (this.listening) return Observable.of(this._phpServer.port);
-
-    let getPort = Observable.bindNodeCallback(portFinder.getPort);
-    return getPort().do(port =&gt; {
-      let address = &apos;127.0.0.1&apos;;
-      let args = [&apos;-S&apos;, `${address}:${port}`, &apos;-t&apos;, path.join(__dirname, &apos;../web&apos;)];
-      this._phpServer = {address, port, process: childProcess.spawn(this.binary, args)};
-
-      let listener = () =&gt; {
-        this.removeListener(&apos;end&apos;, listener).removeListener(&apos;error&apos;, listener);
-        this.close().subscribe();
-      };
-
-      this.once(&apos;end&apos;, listener).once(&apos;error&apos;, listener);
-    });
+    /**
+     * The instance used to process the PHP code.
+     * @type {object}
+     */
+    this._transformer = this.mode == &apos;fast&apos; ? new FastTransformer(this) : new SafeTransformer(this);
   }
 
   /**
    * Transforms input and produces output.
-   * @param {File} file The chunk to be transformed.
+   * @param {File} file The chunk to transform.
    * @param {string} encoding The encoding type if the chunk is a string.
-   * @param {function} callback The function to invoke when the supplied chunk has been processed.
+   * @param {function} [callback] The function to invoke when the supplied chunk has been processed.
+   * @return {Promise&lt;File&gt;} The transformed chunk.
    */
-  _transform(file, encoding, callback) {
-    if (!this.silent) console.log(`Minifying: ${file.path}`);
+  async _transform(file, encoding, callback) {
+    try {
+      if (!this.silent) console.log(`Minifying: ${file.path}`);
 
-    this.listen().subscribe(() =&gt; superagent
-      .get(`http://${this._phpServer.address}:${this._phpServer.port}/index.php`)
-      .query({file: file.path})
-      .end((err, res) =&gt; {
-        if (err) callback(new Error(`[${pkg.name}] ${err}`));
-        else {
-          file.contents = Buffer.from(res.text, encoding);
-          callback(null, file);
-        }
-      }));
+      let data = await this._transformer.transform(file.path);
+      file.contents = Buffer.from(data, encoding);
+
+      if (typeof callback == &apos;function&apos;) callback(null, file);
+    }
+
+    catch (err) {
+      if (typeof callback == &apos;function&apos;) callback(new Error(`[${pkg.name}] ${err.message}`));
+    }
+
+    return file;
   }
 }
 </code></pre>
@@ -148,7 +121,7 @@ export class Minifier extends Transform {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.1)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
