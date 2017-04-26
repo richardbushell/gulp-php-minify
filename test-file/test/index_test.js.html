@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">test/fast_transformer_test.js | Gulp-PHP-Minify API Document</title>
+  <title data-ice="title">test/index_test.js | Gulp-PHP-Minify API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -40,62 +40,31 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">test/fast_transformer_test.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">test/index_test.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
 import {expect} from &apos;chai&apos;;
 import {describe, it} from &apos;mocha&apos;;
-import path from &apos;path&apos;;
-import {FastTransformer, Minifier} from &apos;../src/index&apos;;
+import {Minifier, phpMinify} from &apos;../src/index&apos;;
 
 /**
- * @test {FastTransformer}
+ * @test {phpMinify}
  */
-describe(&apos;FastTransformer&apos;, function() {
-  this.timeout(30000);
-
-  /**
-   * @test {FastTransformer#listening}
-   */
-  describe(&apos;#listening&apos;, () =&gt; {
-    it(&apos;should return whether the server is listening&apos;, async () =&gt; {
-      let transformer = new FastTransformer(new Minifier());
-      expect(transformer.listening).to.be.false;
-      await transformer.listen();
-      expect(transformer.listening).to.be.true;
-      await transformer.close();
-      expect(transformer.listening).to.be.false;
-    });
+describe(&apos;phpMinify()&apos;, () =&gt; {
+  it(&apos;should return a `Minifier` instance&apos;, () =&gt; {
+    expect(phpMinify()).to.be.instanceof(Minifier);
   });
 
-  /**
-   * @test {FastTransformer#transform}
-   */
-  describe(&apos;#transform()&apos;, () =&gt; {
-    let script = path.join(__dirname, &apos;fixtures/sample.php&apos;);
-    let transformer = new FastTransformer(new Minifier());
-
-    it(&apos;should remove the inline comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;&lt;?= \&apos;Hello World!\&apos; ?&gt;&apos;);
+  it(&apos;should properly initialize the minifier properties&apos;, () =&gt; {
+    let minifier = phpMinify({
+      binary: &apos;/usr/local/bin/php&apos;,
+      mode: &apos;fast&apos;,
+      silent: true
     });
 
-    it(&apos;should remove the multi-line comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;namespace dummy; class Dummy&apos;);
-    });
-
-    it(&apos;should remove the single-line comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;$className = get_class($this); return $className;&apos;);
-    });
-
-    it(&apos;should remove the whitespace&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;__construct() { }&apos;);
-    });
-
-    return transformer.close();
+    expect(minifier.binary).to.equal(process.platform == &apos;win32&apos; ? &apos;\\usr\\local\\bin\\php&apos; : &apos;/usr/local/bin/php&apos;);
+    expect(minifier.mode).to.equal(&apos;fast&apos;);
+    expect(minifier.silent).to.be.true;
   });
 });
 </code></pre>

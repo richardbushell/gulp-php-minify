@@ -355,140 +355,164 @@ window.esdocSearchIndex = [
   ],
   [
     "fasttransformer src/fast_transformer.js~fasttransformer,fasttransformer",
-    "test-file/test/fast_transformer_test.js.html#lineNumber10",
+    "test-file/test/fast_transformer_test.js.html#lineNumber11",
     "FastTransformer",
     "test"
   ],
   [
     "fasttransformer#listening src/fast_transformer.js~fasttransformer#listening,fasttransformer#listening",
-    "test-file/test/fast_transformer_test.js.html#lineNumber16",
+    "test-file/test/fast_transformer_test.js.html#lineNumber17",
     "FastTransformer #listening",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber17",
+    "test-file/test/fast_transformer_test.js.html#lineNumber18",
     "FastTransformer #listening should return whether the server is listening",
     "test"
   ],
   [
     "fasttransformer#transform src/fast_transformer.js~fasttransformer#transform,fasttransformer#transform",
-    "test-file/test/fast_transformer_test.js.html#lineNumber30",
+    "test-file/test/fast_transformer_test.js.html#lineNumber31",
     "FastTransformer #transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber34",
+    "test-file/test/fast_transformer_test.js.html#lineNumber35",
     "FastTransformer #transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber39",
+    "test-file/test/fast_transformer_test.js.html#lineNumber40",
     "FastTransformer #transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber44",
+    "test-file/test/fast_transformer_test.js.html#lineNumber45",
     "FastTransformer #transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber49",
+    "test-file/test/fast_transformer_test.js.html#lineNumber50",
     "FastTransformer #transform() should remove the whitespace",
     "test"
   ],
   [
     "minifier src/minifier.js~minifier,minifier",
-    "test-file/test/minifier_test.js.html#lineNumber11",
+    "test-file/test/minifier_test.js.html#lineNumber12",
     "Minifier",
     "test"
   ],
   [
     "minifier#_transform minifier#_transform,minifier#_transform",
-    "test-file/test/minifier_test.js.html#lineNumber31",
+    "test-file/test/minifier_test.js.html#lineNumber45",
     "Minifier #_transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber35",
+    "test-file/test/minifier_test.js.html#lineNumber50",
     "Minifier #_transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber40",
+    "test-file/test/minifier_test.js.html#lineNumber55",
     "Minifier #_transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber45",
+    "test-file/test/minifier_test.js.html#lineNumber60",
     "Minifier #_transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber50",
+    "test-file/test/minifier_test.js.html#lineNumber65",
     "Minifier #_transform() should remove the whitespace",
     "test"
   ],
   [
-    "minifier#constructor src/minifier.js~minifier#constructor,minifier#constructor",
-    "test-file/test/minifier_test.js.html#lineNumber17",
-    "Minifier #constructor()",
-    "test"
-  ],
-  [
-    "",
+    "minifier#mode src/minifier.js~minifier#mode,minifier#mode",
     "test-file/test/minifier_test.js.html#lineNumber18",
-    "Minifier #constructor() should initialize the existing properties",
+    "Minifier #mode",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber23",
-    "Minifier #constructor() should not create new properties",
+    "test-file/test/minifier_test.js.html#lineNumber25",
+    "Minifier #mode should be `fast` if the underlying transformer is a `FastTransformer` one",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/minifier_test.js.html#lineNumber19",
+    "Minifier #mode should be `safe` if the underlying transformer is a `SafeTransformer` one",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/minifier_test.js.html#lineNumber31",
+    "Minifier #mode should change the underlying transformer on value update",
     "test"
   ],
   [
     "safetransformer src/safe_transformer.js~safetransformer,safetransformer",
-    "test-file/test/safe_transformer_test.js.html#lineNumber10",
+    "test-file/test/safe_transformer_test.js.html#lineNumber11",
     "SafeTransformer",
     "test"
   ],
   [
     "safetransformer#transform src/safe_transformer.js~safetransformer#transform,safetransformer#transform",
-    "test-file/test/safe_transformer_test.js.html#lineNumber16",
+    "test-file/test/safe_transformer_test.js.html#lineNumber17",
     "SafeTransformer #transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber20",
+    "test-file/test/safe_transformer_test.js.html#lineNumber21",
     "SafeTransformer #transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber25",
+    "test-file/test/safe_transformer_test.js.html#lineNumber26",
     "SafeTransformer #transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber30",
+    "test-file/test/safe_transformer_test.js.html#lineNumber31",
     "SafeTransformer #transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber35",
+    "test-file/test/safe_transformer_test.js.html#lineNumber36",
     "SafeTransformer #transform() should remove the whitespace",
+    "test"
+  ],
+  [
+    "phpminify src/index.js~phpminify,phpminify",
+    "test-file/test/index_test.js.html#lineNumber10",
+    "phpMinify()",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/index_test.js.html#lineNumber15",
+    "phpMinify() should properly initialize the minifier properties",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/index_test.js.html#lineNumber11",
+    "phpMinify() should return a `Minifier` instance",
     "test"
   ],
   [
@@ -559,7 +583,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/minifier.js~minifier#mode",
-    "class/src/minifier.js~Minifier.html#instance-member-mode",
+    "class/src/minifier.js~Minifier.html#instance-get-mode",
+    "src/minifier.js~Minifier#mode",
+    "member"
+  ],
+  [
+    "src/minifier.js~minifier#mode",
+    "class/src/minifier.js~Minifier.html#instance-set-mode",
     "src/minifier.js~Minifier#mode",
     "member"
   ],
@@ -591,6 +621,12 @@ window.esdocSearchIndex = [
     "test/fast_transformer_test.js",
     "test-file/test/fast_transformer_test.js.html",
     "test/fast_transformer_test.js",
+    "testFile"
+  ],
+  [
+    "test/index_test.js",
+    "test-file/test/index_test.js.html",
+    "test/index_test.js",
     "testFile"
   ],
   [

@@ -41,13 +41,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Minifier} from &apos;<span><a href="file/src/minifier.js.html#lineNumber12">@cedx/gulp-php-minify/src/minifier.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Minifier} from &apos;<span><a href="file/src/minifier.js.html#lineNumber10">@cedx/gulp-php-minify/src/minifier.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/minifier.js.html#lineNumber12">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/minifier.js.html#lineNumber10">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -79,7 +79,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/minifier_test.js.html#lineNumber11">Minifier</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/minifier_test.js.html#lineNumber12">Minifier</a></span></li>
 </ul>
   </div>
 
@@ -105,7 +105,7 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>)</span>
+          <span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(binary: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
         </p>
       </div>
       <div>
@@ -159,7 +159,7 @@
     <td>
       <span class="access" data-ice="access">public</span>
       
-      
+      <span class="kind" data-ice="kind">get</span>
       
       <span class="override" data-ice="override"></span>
     </td>
@@ -168,13 +168,41 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html#instance-member-mode">mode</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+          <span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html#instance-get-mode">mode</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
         </p>
       </div>
       <div>
         
         
         <div data-ice="description"><p>The transformation type.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      <span class="kind" data-ice="kind">set</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          <span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html#instance-set-mode">mode</a></span></span><span data-ice="signature">(value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Sets the transformation type.</p>
 </div>
       </div>
     </td>
@@ -230,11 +258,11 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(binary: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber18">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber16">source</a></span></span>
     </span>
   </h3>
 
@@ -255,10 +283,10 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">options</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
+      <td data-ice="name" data-depth="0">binary</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li></ul></td>
-      <td data-ice="description"><p>The checker settings.</p>
+      <td data-ice="description"><p>The path to the PHP executable.</p>
 </td>
     </tr>
 </tbody>
@@ -278,13 +306,7 @@
 
   
 
-  <div data-ice="tests">
-    <h4>Test:</h4>
-    <ul>
-      
-    <li data-ice="test"><span><a href="test-file/test/minifier_test.js.html#lineNumber17">Minifier #constructor()</a></span></li>
-</ul>
-  </div>
+  
 
   
   
@@ -304,7 +326,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber25">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber23">source</a></span></span>
     </span>
   </h3>
 
@@ -337,10 +359,10 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-mode">
+  <h3 data-ice="anchor" id="instance-get-mode">
     <span class="access" data-ice="access">public</span>
     
-    
+    <span class="kind" data-ice="kind">get</span>
     
     
     
@@ -348,7 +370,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber31">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber48">source</a></span></span>
     </span>
   </h3>
 
@@ -356,6 +378,56 @@
   
   
   <div data-ice="description"><p>The transformation type.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <div data-ice="tests">
+    <h4>Test:</h4>
+    <ul>
+      
+    <li data-ice="test"><span><a href="test-file/test/minifier_test.js.html#lineNumber18">Minifier #mode</a></span></li>
+</ul>
+  </div>
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-set-mode">
+    <span class="access" data-ice="access">public</span>
+    
+    <span class="kind" data-ice="kind">set</span>
+    
+    
+    
+    <span data-ice="name">mode</span><span data-ice="signature">(value: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber56">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Sets the transformation type.</p>
 </div>
 
   
@@ -392,7 +464,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/minifier.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 

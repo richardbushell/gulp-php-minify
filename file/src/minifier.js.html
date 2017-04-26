@@ -41,9 +41,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/minifier.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import path from &apos;path&apos;;
-import {Transform} from &apos;stream&apos;;
-import which from &apos;which&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Transform} from &apos;stream&apos;;
 
 import * as pkg from &apos;../package.json&apos;;
 import {FastTransformer} from &apos;./fast_transformer&apos;;
@@ -56,28 +54,22 @@ export class Minifier extends Transform {
 
   /**
    * Initializes a new instance of the class.
-   * @param {object} [options] The checker settings.
+   * @param {string} [binary] The path to the PHP executable.
    */
-  constructor(options = {}) {
+  constructor(binary = &apos;php&apos;) {
     super({objectMode: true});
 
     /**
      * The path to the PHP executable.
      * @type {string}
      */
-    this.binary = typeof options.binary == &apos;string&apos; ? path.normalize(options.binary) : which.sync(&apos;php&apos;);
-
-    /**
-     * The transformation type.
-     * @type {string}
-     */
-    this.mode = typeof options.mode == &apos;string&apos; ? options.mode : &apos;safe&apos;;
+    this.binary = binary;
 
     /**
      * Value indicating whether to silent the plug-in output.
      * @type {boolean}
      */
-    this.silent = typeof options.silent == &apos;boolean&apos; ? options.silent : false;
+    this.silent = false;
 
     /**
      * The underlying PHP process.
@@ -89,7 +81,23 @@ export class Minifier extends Transform {
      * The instance used to process the PHP code.
      * @type {object}
      */
-    this._transformer = this.mode == &apos;fast&apos; ? new FastTransformer(this) : new SafeTransformer(this);
+    this._transformer = new SafeTransformer(this);
+  }
+
+  /**
+   * The transformation type.
+   * @type {string}
+   */
+  get mode() {
+    return this._transformer instanceof FastTransformer ? &apos;fast&apos; : &apos;safe&apos;;
+  }
+
+  /**
+   * Sets the transformation type.
+   * @param {string} value The new transformation type.
+   */
+  set mode(value) {
+    this._transformer = value == &apos;fast&apos; ? new FastTransformer(this) : new SafeTransformer(this);
   }
 
   /**

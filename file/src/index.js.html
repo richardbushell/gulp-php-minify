@@ -41,7 +41,9 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Minifier} from &apos;./minifier&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import path from &apos;path&apos;;
+import which from &apos;which&apos;;
+import {Minifier} from &apos;./minifier&apos;;
 
 export * from &apos;./fast_transformer&apos;;
 export * from &apos;./minifier&apos;;
@@ -53,7 +55,10 @@ export * from &apos;./safe_transformer&apos;;
  * @return {Minifier} The newly created instance.
  */
 export function phpMinify(options = {}) {
-  return new Minifier(options);
+  let minifier = new Minifier(typeof options.binary == &apos;string&apos; ? path.normalize(options.binary) : which.sync(&apos;php&apos;));
+  if (typeof options.mode == &apos;string&apos;) minifier.mode = options.mode;
+  if (typeof options.silent == &apos;boolean&apos;) minifier.silent = options.silent;
+  return minifier;
 }
 </code></pre>
 

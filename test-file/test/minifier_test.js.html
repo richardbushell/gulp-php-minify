@@ -44,9 +44,10 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
 import {expect} from &apos;chai&apos;;
+import {describe, it} from &apos;mocha&apos;;
 import path from &apos;path&apos;;
 import File from &apos;vinyl&apos;;
-import {Minifier} from &apos;../src/index&apos;;
+import {FastTransformer, Minifier, SafeTransformer} from &apos;../src/index&apos;;
 
 /**
  * @test {Minifier}
@@ -55,16 +56,29 @@ describe(&apos;Minifier&apos;, function() {
   this.timeout(60000);
 
   /**
-   * @test {Minifier#constructor}
+   * @test {Minifier#mode}
    */
-  describe(&apos;#constructor()&apos;, () =&gt; {
-    it(&apos;should initialize the existing properties&apos;, () =&gt; {
-      expect(new Minifier({binary: &apos;./FooBar.exe&apos;}).binary).to.equal(&apos;FooBar.exe&apos;);
-      expect(new Minifier({silent: true}).silent).to.be.true;
+  describe(&apos;#mode&apos;, () =&gt; {
+    it(&apos;should be `safe` if the underlying transformer is a `SafeTransformer` one&apos;, () =&gt; {
+      let minifier = new Minifier();
+      minifier._transformer = new SafeTransformer(minifier);
+      expect(minifier.mode).to.equal(&apos;safe&apos;);
     });
 
-    it(&apos;should not create new properties&apos;, () =&gt; {
-      expect(new Minifier({foo: &apos;bar&apos;})).to.not.have.property(&apos;foo&apos;);
+    it(&apos;should be `fast` if the underlying transformer is a `FastTransformer` one&apos;, () =&gt; {
+      let minifier = new Minifier();
+      minifier._transformer = new FastTransformer(minifier);
+      expect(minifier.mode).to.equal(&apos;fast&apos;);
+    });
+
+    it(&apos;should change the underlying transformer on value update&apos;, () =&gt; {
+      let minifier = new Minifier();
+
+      minifier.mode = &apos;fast&apos;;
+      expect(minifier._transformer).to.be.instanceOf(FastTransformer);
+
+      minifier.mode = &apos;safe&apos;;
+      expect(minifier._transformer).to.be.instanceOf(SafeTransformer);
     });
   });
 
@@ -72,8 +86,9 @@ describe(&apos;Minifier&apos;, function() {
    * @test {Minifier#_transform}
    */
   describe(&apos;#_transform()&apos;, () =&gt; {
-    let file = new File({path: path.join(__dirname, &apos;sample.php&apos;)});
-    let minifier = new Minifier({silent: true});
+    let file = new File({path: path.join(__dirname, &apos;fixtures/sample.php&apos;)});
+    let minifier = new Minifier();
+    minifier.silent = true;
 
     it(&apos;should remove the inline comments&apos;, async () =&gt; {
       let result = await minifier._transform(file, &apos;utf8&apos;);

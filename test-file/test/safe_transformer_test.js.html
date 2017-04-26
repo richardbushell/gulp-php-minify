@@ -44,6 +44,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
 import {expect} from &apos;chai&apos;;
+import {describe, it} from &apos;mocha&apos;;
 import path from &apos;path&apos;;
 import {Minifier, SafeTransformer} from &apos;../src/index&apos;;
 
@@ -57,7 +58,7 @@ describe(&apos;SafeTransformer&apos;, function() {
    * @test {SafeTransformer#transform}
    */
   describe(&apos;#transform()&apos;, () =&gt; {
-    let script = path.join(__dirname, &apos;sample.php&apos;);
+    let script = path.join(__dirname, &apos;fixtures/sample.php&apos;);
     let transformer = new SafeTransformer(new Minifier());
 
     it(&apos;should remove the inline comments&apos;, async () =&gt; {

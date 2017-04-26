@@ -1,7 +1,7 @@
 {
   "coverage": "100%",
-  "expectCount": 16,
-  "actualCount": 16,
+  "expectCount": 17,
+  "actualCount": 17,
   "files": {
     "src/fast_transformer.js": {
       "expectCount": 7,
@@ -9,8 +9,8 @@
       "undocumentLines": []
     },
     "src/minifier.js": {
-      "expectCount": 5,
-      "actualCount": 5,
+      "expectCount": 6,
+      "actualCount": 6,
       "undocumentLines": []
     },
     "src/safe_transformer.js": {
