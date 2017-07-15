@@ -45,7 +45,6 @@
 
 import {expect} from &apos;chai&apos;;
 import {describe, it} from &apos;mocha&apos;;
-import path from &apos;path&apos;;
 import {Minifier, SafeTransformer} from &apos;../src/index&apos;;
 
 /**
@@ -58,27 +57,33 @@ describe(&apos;SafeTransformer&apos;, function() {
    * @test {SafeTransformer#transform}
    */
   describe(&apos;#transform()&apos;, () =&gt; {
-    let script = path.join(__dirname, &apos;fixtures/sample.php&apos;);
-    let transformer = new SafeTransformer(new Minifier());
+    let script = &apos;test/fixtures/sample.php&apos;;
+    let transformer = new SafeTransformer(new Minifier);
 
-    it(&apos;should remove the inline comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;&lt;?= \&apos;Hello World!\&apos; ?&gt;&apos;);
+    it(&apos;should remove the inline comments&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        /* eslint-disable quotes */
+        expect(output).to.contain(&quot;&lt;?= &apos;Hello World!&apos; ?&gt;&quot;);
+        /* eslint-enable quotes */
+      }, done, done);
     });
 
-    it(&apos;should remove the multi-line comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;namespace dummy; class Dummy&apos;);
+    it(&apos;should remove the multi-line comments&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        expect(output).to.contain(&apos;namespace dummy; class Dummy&apos;);
+      }, done, done);
     });
 
-    it(&apos;should remove the single-line comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;$className = get_class($this); return $className;&apos;);
+    it(&apos;should remove the single-line comments&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        expect(output).to.contain(&apos;$className = get_class($this); return $className;&apos;);
+      }, done, done);
     });
 
-    it(&apos;should remove the whitespace&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;__construct() { }&apos;);
+    it(&apos;should remove the whitespace&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        expect(output).to.contain(&apos;__construct() { }&apos;);
+      }, done, done);
     });
   });
 });

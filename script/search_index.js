@@ -355,145 +355,145 @@ window.esdocSearchIndex = [
   ],
   [
     "fasttransformer src/fast_transformer.js~fasttransformer,fasttransformer",
-    "test-file/test/fast_transformer_test.js.html#lineNumber11",
+    "test-file/test/fast_transformer_test.js.html#lineNumber10",
     "FastTransformer",
     "test"
   ],
   [
     "fasttransformer#listening src/fast_transformer.js~fasttransformer#listening,fasttransformer#listening",
-    "test-file/test/fast_transformer_test.js.html#lineNumber17",
+    "test-file/test/fast_transformer_test.js.html#lineNumber16",
     "FastTransformer #listening",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber18",
+    "test-file/test/fast_transformer_test.js.html#lineNumber17",
     "FastTransformer #listening should return whether the server is listening",
     "test"
   ],
   [
     "fasttransformer#transform src/fast_transformer.js~fasttransformer#transform,fasttransformer#transform",
-    "test-file/test/fast_transformer_test.js.html#lineNumber31",
+    "test-file/test/fast_transformer_test.js.html#lineNumber32",
     "FastTransformer #transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber35",
+    "test-file/test/fast_transformer_test.js.html#lineNumber37",
     "FastTransformer #transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber40",
+    "test-file/test/fast_transformer_test.js.html#lineNumber45",
     "FastTransformer #transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber45",
+    "test-file/test/fast_transformer_test.js.html#lineNumber51",
     "FastTransformer #transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber50",
+    "test-file/test/fast_transformer_test.js.html#lineNumber57",
     "FastTransformer #transform() should remove the whitespace",
     "test"
   ],
   [
     "minifier src/minifier.js~minifier,minifier",
-    "test-file/test/minifier_test.js.html#lineNumber12",
+    "test-file/test/minifier_test.js.html#lineNumber11",
     "Minifier",
     "test"
   ],
   [
     "minifier#_transform minifier#_transform,minifier#_transform",
-    "test-file/test/minifier_test.js.html#lineNumber45",
+    "test-file/test/minifier_test.js.html#lineNumber44",
     "Minifier #_transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber50",
+    "test-file/test/minifier_test.js.html#lineNumber51",
     "Minifier #_transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber55",
+    "test-file/test/minifier_test.js.html#lineNumber63",
     "Minifier #_transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber60",
+    "test-file/test/minifier_test.js.html#lineNumber73",
     "Minifier #_transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber65",
+    "test-file/test/minifier_test.js.html#lineNumber83",
     "Minifier #_transform() should remove the whitespace",
     "test"
   ],
   [
     "minifier#mode src/minifier.js~minifier#mode,minifier#mode",
-    "test-file/test/minifier_test.js.html#lineNumber18",
+    "test-file/test/minifier_test.js.html#lineNumber17",
     "Minifier #mode",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber25",
+    "test-file/test/minifier_test.js.html#lineNumber24",
     "Minifier #mode should be `fast` if the underlying transformer is a `FastTransformer` one",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber19",
+    "test-file/test/minifier_test.js.html#lineNumber18",
     "Minifier #mode should be `safe` if the underlying transformer is a `SafeTransformer` one",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber31",
+    "test-file/test/minifier_test.js.html#lineNumber30",
     "Minifier #mode should change the underlying transformer on value update",
     "test"
   ],
   [
     "safetransformer src/safe_transformer.js~safetransformer,safetransformer",
-    "test-file/test/safe_transformer_test.js.html#lineNumber11",
+    "test-file/test/safe_transformer_test.js.html#lineNumber10",
     "SafeTransformer",
     "test"
   ],
   [
     "safetransformer#transform src/safe_transformer.js~safetransformer#transform,safetransformer#transform",
-    "test-file/test/safe_transformer_test.js.html#lineNumber17",
+    "test-file/test/safe_transformer_test.js.html#lineNumber16",
     "SafeTransformer #transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber21",
+    "test-file/test/safe_transformer_test.js.html#lineNumber20",
     "SafeTransformer #transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber26",
+    "test-file/test/safe_transformer_test.js.html#lineNumber28",
     "SafeTransformer #transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber31",
+    "test-file/test/safe_transformer_test.js.html#lineNumber34",
     "SafeTransformer #transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber36",
+    "test-file/test/safe_transformer_test.js.html#lineNumber40",
     "SafeTransformer #transform() should remove the whitespace",
     "test"
   ],

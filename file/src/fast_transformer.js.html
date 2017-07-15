@@ -41,9 +41,10 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/fast_transformer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import child_process from &apos;child_process&apos;;
-import path from &apos;path&apos;;
-import portFinder from &apos;portfinder&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {spawn} from &apos;child_process&apos;;
+import {createServer} from &apos;net&apos;;
+import {join} from &apos;path&apos;;
+import {Observable} from &apos;rxjs&apos;;
 import superagent from &apos;superagent&apos;;
 
 /**
@@ -64,12 +65,14 @@ export class FastTransformer {
    * @param {Minifier} minifier The instance providing access to the minifier settings.
    */
   constructor(minifier) {
+    let handler = () =&gt; this.close().subscribe();
 
     /**
      * The instance providing access to the minifier settings.
      * @type {Minifier}
      */
     this._minifier = minifier;
+    this._minifier.on(&apos;end&apos;, handler).on(&apos;error&apos;, handler);
 
     /**
      * The underlying PHP process.
@@ -88,55 +91,60 @@ export class FastTransformer {
 
   /**
    * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.
-   * @return {Promise} Completes when the PHP process is finally terminated.
+   * @return {Observable} Completes when the PHP process is finally terminated.
    */
-  async close() {
-    if (this.listening) {
+  close() {
+    return !this.listening ? Observable.of(null) : new Observable(observer =&gt; {
       this._phpServer.process.kill();
       this._phpServer = null;
-    }
-
-    return null;
+      observer.next();
+      observer.complete();
+    });
   }
 
   /**
    * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.
-   * @return {Promise&lt;number&gt;} The port used by the PHP process.
+   * @return {Observable&lt;number&gt;} The port used by the PHP process.
    */
-  async listen() {
-    if (this.listening) return this._phpServer.port;
+  listen() {
+    if (this.listening) return Observable.of(this._phpServer.port);
 
-    const getPort = () =&gt; new Promise((resolve, reject) =&gt; portFinder.getPort((err, port) =&gt; {
-      if (err) reject(err);
-      else resolve(port);
-    }));
-
-    let address = FastTransformer.DEFAULT_ADDRESS;
-    let port = await getPort();
-
-    return new Promise(resolve =&gt; {
-      let handler = async () =&gt; await this.close();
-      this._minifier.once(&apos;end&apos;, handler).once(&apos;error&apos;, handler);
-
-      let args = [&apos;-S&apos;, `${address}:${port}`, &apos;-t&apos;, path.join(__dirname, &apos;../web&apos;)];
-      this._phpServer = {address, port, process: child_process.spawn(this._minifier.binary, args)};
-      setTimeout(() =&gt; resolve(port), 1000);
-    });
+    return this._getPort().map(port =&gt; {
+      let address = FastTransformer.DEFAULT_ADDRESS;
+      let args = [&apos;-S&apos;, `${address}:${port}`, &apos;-t&apos;, join(__dirname, &apos;../web&apos;)];
+      this._phpServer = {address, port, process: spawn(this._minifier.binary, args)};
+      return port;
+    }).delay(1000);
   }
 
   /**
    * Processes a PHP script.
    * @param {string} script The path to the PHP script.
-   * @return {Promise&lt;string&gt;} The transformed script.
+   * @return {Observable&lt;string&gt;} The transformed script.
    */
-  async transform(script) {
-    await this.listen();
+  transform(script) {
+    return this.listen()
+      .mergeMap(() =&gt; Observable.from(superagent
+        .get(`http://${this._phpServer.address}:${this._phpServer.port}/index.php`)
+        .query({file: script})))
+      .map(res =&gt; res.text);
+  }
 
-    let response = await superagent
-      .get(`http://${this._phpServer.address}:${this._phpServer.port}/index.php`)
-      .query({file: script});
+  /**
+   * Gets an ephemeral port chosen by the system.
+   * @return {Observable&lt;number&gt;} A port that the server can listen on.
+   */
+  _getPort() {
+    return new Observable(observer =&gt; {
+      let server = createServer();
+      server.unref();
+      server.on(&apos;error&apos;, err =&gt; observer.error(err));
 
-    return response.text;
+      server.listen(0, FastTransformer.DEFAULT_ADDRESS, () =&gt; {
+        observer.next(server.address().port);
+        server.close(() =&gt; observer.complete());
+      });
+    });
   }
 }
 </code></pre>

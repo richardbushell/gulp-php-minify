@@ -41,7 +41,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/safe_transformer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import child_process from &apos;child_process&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {execFile} from &apos;child_process&apos;;
+import {Observable} from &apos;rxjs&apos;;
 
 /**
  * Removes comments and whitespace from a PHP script, by calling a PHP process.
@@ -64,15 +65,11 @@ export class SafeTransformer {
   /**
    * Processes a PHP script.
    * @param {string} script The path to the PHP script.
-   * @return {Promise&lt;string&gt;} The transformed script.
+   * @return {Observable&lt;string&gt;} The transformed script.
    */
-  async transform(script) {
-    let args = [&apos;-w&apos;, script];
-    let options = {maxBuffer: 10 * 1024 * 1024};
-    return new Promise((resolve, reject) =&gt; child_process.execFile(this._minifier.binary, args, options, (error, stdout) =&gt; {
-      if (error) reject(error);
-      else resolve(stdout);
-    }));
+  transform(script) {
+    const exec = Observable.bindNodeCallback(execFile, stdout =&gt; stdout);
+    return exec(this._minifier.binary, [&apos;-w&apos;, script], {maxBuffer: 10 * 1024 * 1024});
   }
 }
 </code></pre>

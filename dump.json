@@ -3,7 +3,7 @@
     "__docId__": 0,
     "kind": "file",
     "name": "src/fast_transformer.js",
-    "content": "import child_process from 'child_process';\nimport path from 'path';\nimport portFinder from 'portfinder';\nimport superagent from 'superagent';\n\n/**\n * Removes comments and whitespace from a PHP script, by calling a Web service.\n */\nexport class FastTransformer {\n\n  /**\n   * The default address that the server is listening on.\n   * @type {string}\n   */\n  static get DEFAULT_ADDRESS() {\n    return '127.0.0.1';\n  }\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {Minifier} minifier The instance providing access to the minifier settings.\n   */\n  constructor(minifier) {\n\n    /**\n     * The instance providing access to the minifier settings.\n     * @type {Minifier}\n     */\n    this._minifier = minifier;\n\n    /**\n     * The underlying PHP process.\n     * @type {object}\n     */\n    this._phpServer = null;\n  }\n\n  /**\n   * Value indicating whether the PHP process is currently listening.\n   * @type {boolean}\n   */\n  get listening() {\n    return Boolean(this._phpServer && typeof this._phpServer == 'object');\n  }\n\n  /**\n   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.\n   * @return {Promise} Completes when the PHP process is finally terminated.\n   */\n  async close() {\n    if (this.listening) {\n      this._phpServer.process.kill();\n      this._phpServer = null;\n    }\n\n    return null;\n  }\n\n  /**\n   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.\n   * @return {Promise<number>} The port used by the PHP process.\n   */\n  async listen() {\n    if (this.listening) return this._phpServer.port;\n\n    const getPort = () => new Promise((resolve, reject) => portFinder.getPort((err, port) => {\n      if (err) reject(err);\n      else resolve(port);\n    }));\n\n    let address = FastTransformer.DEFAULT_ADDRESS;\n    let port = await getPort();\n\n    return new Promise(resolve => {\n      let handler = async () => await this.close();\n      this._minifier.once('end', handler).once('error', handler);\n\n      let args = ['-S', `${address}:${port}`, '-t', path.join(__dirname, '../web')];\n      this._phpServer = {address, port, process: child_process.spawn(this._minifier.binary, args)};\n      setTimeout(() => resolve(port), 1000);\n    });\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    await this.listen();\n\n    let response = await superagent\n      .get(`http://${this._phpServer.address}:${this._phpServer.port}/index.php`)\n      .query({file: script});\n\n    return response.text;\n  }\n}\n",
+    "content": "import {spawn} from 'child_process';\r\nimport {createServer} from 'net';\r\nimport {join} from 'path';\r\nimport {Observable} from 'rxjs';\r\nimport superagent from 'superagent';\r\n\r\n/**\r\n * Removes comments and whitespace from a PHP script, by calling a Web service.\r\n */\r\nexport class FastTransformer {\r\n\r\n  /**\r\n   * The default address that the server is listening on.\r\n   * @type {string}\r\n   */\r\n  static get DEFAULT_ADDRESS() {\r\n    return '127.0.0.1';\r\n  }\r\n\r\n  /**\r\n   * Initializes a new instance of the class.\r\n   * @param {Minifier} minifier The instance providing access to the minifier settings.\r\n   */\r\n  constructor(minifier) {\r\n    let handler = () => this.close().subscribe();\r\n\r\n    /**\r\n     * The instance providing access to the minifier settings.\r\n     * @type {Minifier}\r\n     */\r\n    this._minifier = minifier;\r\n    this._minifier.on('end', handler).on('error', handler);\r\n\r\n    /**\r\n     * The underlying PHP process.\r\n     * @type {object}\r\n     */\r\n    this._phpServer = null;\r\n  }\r\n\r\n  /**\r\n   * Value indicating whether the PHP process is currently listening.\r\n   * @type {boolean}\r\n   */\r\n  get listening() {\r\n    return Boolean(this._phpServer && typeof this._phpServer == 'object');\r\n  }\r\n\r\n  /**\r\n   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.\r\n   * @return {Observable} Completes when the PHP process is finally terminated.\r\n   */\r\n  close() {\r\n    return !this.listening ? Observable.of(null) : new Observable(observer => {\r\n      this._phpServer.process.kill();\r\n      this._phpServer = null;\r\n      observer.next();\r\n      observer.complete();\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.\r\n   * @return {Observable<number>} The port used by the PHP process.\r\n   */\r\n  listen() {\r\n    if (this.listening) return Observable.of(this._phpServer.port);\r\n\r\n    return this._getPort().map(port => {\r\n      let address = FastTransformer.DEFAULT_ADDRESS;\r\n      let args = ['-S', `${address}:${port}`, '-t', join(__dirname, '../web')];\r\n      this._phpServer = {address, port, process: spawn(this._minifier.binary, args)};\r\n      return port;\r\n    }).delay(1000);\r\n  }\r\n\r\n  /**\r\n   * Processes a PHP script.\r\n   * @param {string} script The path to the PHP script.\r\n   * @return {Observable<string>} The transformed script.\r\n   */\r\n  transform(script) {\r\n    return this.listen()\r\n      .mergeMap(() => Observable.from(superagent\r\n        .get(`http://${this._phpServer.address}:${this._phpServer.port}/index.php`)\r\n        .query({file: script})))\r\n      .map(res => res.text);\r\n  }\r\n\r\n  /**\r\n   * Gets an ephemeral port chosen by the system.\r\n   * @return {Observable<number>} A port that the server can listen on.\r\n   */\r\n  _getPort() {\r\n    return new Observable(observer => {\r\n      let server = createServer();\r\n      server.unref();\r\n      server.on('error', err => observer.error(err));\r\n\r\n      server.listen(0, FastTransformer.DEFAULT_ADDRESS, () => {\r\n        observer.next(server.address().port);\r\n        server.close(() => observer.complete());\r\n      });\r\n    });\r\n  }\r\n}\r\n",
     "static": true,
     "longname": "src/fast_transformer.js",
     "access": null,
@@ -22,7 +22,7 @@
     "importPath": "@cedx/gulp-php-minify/src/fast_transformer.js",
     "importStyle": "{FastTransformer}",
     "description": "Removes comments and whitespace from a PHP script, by calling a Web service.",
-    "lineNumber": 9,
+    "lineNumber": 10,
     "interface": false
   },
   {
@@ -36,7 +36,7 @@
     "longname": "src/fast_transformer.js~FastTransformer.DEFAULT_ADDRESS",
     "access": null,
     "description": "The default address that the server is listening on.",
-    "lineNumber": 15,
+    "lineNumber": 16,
     "type": {
       "nullable": null,
       "types": [
@@ -57,7 +57,7 @@
     "longname": "src/fast_transformer.js~FastTransformer#constructor",
     "access": null,
     "description": "Initializes a new instance of the class.",
-    "lineNumber": 23,
+    "lineNumber": 24,
     "params": [
       {
         "nullable": null,
@@ -80,7 +80,7 @@
     "longname": "src/fast_transformer.js~FastTransformer#_minifier",
     "access": null,
     "description": "The instance providing access to the minifier settings.",
-    "lineNumber": 29,
+    "lineNumber": 31,
     "type": {
       "nullable": null,
       "types": [
@@ -99,7 +99,7 @@
     "longname": "src/fast_transformer.js~FastTransformer#_phpServer",
     "access": null,
     "description": "The underlying PHP process.",
-    "lineNumber": 35,
+    "lineNumber": 38,
     "type": {
       "nullable": null,
       "types": [
@@ -120,7 +120,7 @@
     "longname": "src/fast_transformer.js~FastTransformer#listening",
     "access": null,
     "description": "Value indicating whether the PHP process is currently listening.",
-    "lineNumber": 42,
+    "lineNumber": 45,
     "type": {
       "nullable": null,
       "types": [
@@ -136,17 +136,17 @@
     "name": "close",
     "memberof": "src/fast_transformer.js~FastTransformer",
     "generator": false,
-    "async": true,
+    "async": false,
     "static": false,
     "longname": "src/fast_transformer.js~FastTransformer#close",
     "access": null,
     "description": "Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.",
-    "lineNumber": 50,
+    "lineNumber": 53,
     "params": [],
     "return": {
       "nullable": null,
       "types": [
-        "Promise"
+        "Observable"
       ],
       "spread": false,
       "description": "Completes when the PHP process is finally terminated."
@@ -161,7 +161,7 @@
     "longname": "src/fast_transformer.js~FastTransformer#_phpServer",
     "access": null,
     "description": null,
-    "lineNumber": 53,
+    "lineNumber": 56,
     "undocument": true,
     "unknown": [
       {
@@ -181,17 +181,17 @@
     "name": "listen",
     "memberof": "src/fast_transformer.js~FastTransformer",
     "generator": false,
-    "async": true,
+    "async": false,
     "static": false,
     "longname": "src/fast_transformer.js~FastTransformer#listen",
     "access": null,
     "description": "Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.",
-    "lineNumber": 63,
+    "lineNumber": 66,
     "params": [],
     "return": {
       "nullable": null,
       "types": [
-        "Promise<number>"
+        "Observable<number>"
       ],
       "spread": false,
       "description": "The port used by the PHP process."
@@ -206,7 +206,7 @@
     "longname": "src/fast_transformer.js~FastTransformer#_phpServer",
     "access": null,
     "description": null,
-    "lineNumber": 79,
+    "lineNumber": 72,
     "undocument": true,
     "unknown": [
       {
@@ -226,12 +226,12 @@
     "name": "transform",
     "memberof": "src/fast_transformer.js~FastTransformer",
     "generator": false,
-    "async": true,
+    "async": false,
     "static": false,
     "longname": "src/fast_transformer.js~FastTransformer#transform",
     "access": null,
     "description": "Processes a PHP script.",
-    "lineNumber": 89,
+    "lineNumber": 82,
     "params": [
       {
         "nullable": null,
@@ -247,7 +247,7 @@
     "return": {
       "nullable": null,
       "types": [
-        "Promise<string>"
+        "Observable<string>"
       ],
       "spread": false,
       "description": "The transformed script."
@@ -255,9 +255,31 @@
   },
   {
     "__docId__": 12,
+    "kind": "method",
+    "name": "_getPort",
+    "memberof": "src/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/fast_transformer.js~FastTransformer#_getPort",
+    "access": null,
+    "description": "Gets an ephemeral port chosen by the system.",
+    "lineNumber": 94,
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Observable<number>"
+      ],
+      "spread": false,
+      "description": "A port that the server can listen on."
+    }
+  },
+  {
+    "__docId__": 13,
     "kind": "file",
     "name": "src/index.js",
-    "content": "import path from 'path';\nimport which from 'which';\nimport {Minifier} from './minifier';\n\nexport * from './fast_transformer';\nexport * from './minifier';\nexport * from './safe_transformer';\n\n/**\n * Create a new instance of the plug-in.\n * @param {object} [options] The plug-in options.\n * @return {Minifier} The newly created instance.\n */\nexport function phpMinify(options = {}) {\n  let minifier = new Minifier(typeof options.binary == 'string' ? path.normalize(options.binary) : which.sync('php'));\n  if (typeof options.mode == 'string') minifier.mode = options.mode;\n  if (typeof options.silent == 'boolean') minifier.silent = options.silent;\n  return minifier;\n}\n",
+    "content": "import {normalize} from 'path';\r\nimport {sync as which} from 'which';\r\nimport {Minifier} from './minifier';\r\n\r\nexport * from './fast_transformer';\r\nexport * from './minifier';\r\nexport * from './safe_transformer';\r\n\r\n/**\r\n * Create a new instance of the plug-in.\r\n * @param {object} [options] The plug-in options.\r\n * @return {Minifier} The newly created instance.\r\n */\r\nexport function phpMinify(options = {}) {\r\n  let minifier = new Minifier(typeof options.binary == 'string' ? normalize(options.binary) : which('php'));\r\n  if (typeof options.mode == 'string') minifier.mode = options.mode;\r\n  if (typeof options.silent == 'boolean') minifier.silent = options.silent;\r\n  return minifier;\r\n}\r\n",
     "static": true,
     "longname": "src/index.js",
     "access": null,
@@ -265,7 +287,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 13,
+    "__docId__": 14,
     "kind": "function",
     "name": "phpMinify",
     "memberof": "src/index.js",
@@ -301,10 +323,10 @@
     }
   },
   {
-    "__docId__": 14,
+    "__docId__": 15,
     "kind": "file",
     "name": "src/minifier.js",
-    "content": "import {Transform} from 'stream';\n\nimport * as pkg from '../package.json';\nimport {FastTransformer} from './fast_transformer';\nimport {SafeTransformer} from './safe_transformer';\n\n/**\n * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.\n */\nexport class Minifier extends Transform {\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {string} [binary] The path to the PHP executable.\n   */\n  constructor(binary = 'php') {\n    super({objectMode: true});\n\n    /**\n     * The path to the PHP executable.\n     * @type {string}\n     */\n    this.binary = binary;\n\n    /**\n     * Value indicating whether to silent the plug-in output.\n     * @type {boolean}\n     */\n    this.silent = false;\n\n    /**\n     * The underlying PHP process.\n     * @type {object}\n     */\n    this._phpServer = null;\n\n    /**\n     * The instance used to process the PHP code.\n     * @type {object}\n     */\n    this._transformer = new SafeTransformer(this);\n  }\n\n  /**\n   * The transformation type.\n   * @type {string}\n   */\n  get mode() {\n    return this._transformer instanceof FastTransformer ? 'fast' : 'safe';\n  }\n\n  /**\n   * Sets the transformation type.\n   * @param {string} value The new transformation type.\n   */\n  set mode(value) {\n    this._transformer = value == 'fast' ? new FastTransformer(this) : new SafeTransformer(this);\n  }\n\n  /**\n   * Transforms input and produces output.\n   * @param {File} file The chunk to transform.\n   * @param {string} encoding The encoding type if the chunk is a string.\n   * @param {function} [callback] The function to invoke when the supplied chunk has been processed.\n   * @return {Promise<File>} The transformed chunk.\n   */\n  async _transform(file, encoding, callback) {\n    try {\n      if (!this.silent) console.log(`Minifying: ${file.path}`);\n\n      let data = await this._transformer.transform(file.path);\n      file.contents = Buffer.from(data, encoding);\n\n      if (typeof callback == 'function') callback(null, file);\n    }\n\n    catch (err) {\n      if (typeof callback == 'function') callback(new Error(`[${pkg.name}] ${err.message}`));\n    }\n\n    return file;\n  }\n}\n",
+    "content": "import {Transform} from 'stream';\r\n\r\nimport {name as pkgName} from '../package.json';\r\nimport {FastTransformer} from './fast_transformer';\r\nimport {SafeTransformer} from './safe_transformer';\r\n\r\n/**\r\n * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.\r\n */\r\nexport class Minifier extends Transform {\r\n\r\n  /**\r\n   * Initializes a new instance of the class.\r\n   * @param {string} [binary] The path to the PHP executable.\r\n   */\r\n  constructor(binary = 'php') {\r\n    super({objectMode: true});\r\n\r\n    /**\r\n     * The path to the PHP executable.\r\n     * @type {string}\r\n     */\r\n    this.binary = binary;\r\n\r\n    /**\r\n     * Value indicating whether to silent the plug-in output.\r\n     * @type {boolean}\r\n     */\r\n    this.silent = false;\r\n\r\n    /**\r\n     * The instance used to process the PHP code.\r\n     * @type {object}\r\n     */\r\n    this._transformer = new SafeTransformer(this);\r\n  }\r\n\r\n  /**\r\n   * The transformation type.\r\n   * @type {string}\r\n   */\r\n  get mode() {\r\n    return this._transformer instanceof FastTransformer ? 'fast' : 'safe';\r\n  }\r\n\r\n  /**\r\n   * Sets the transformation type.\r\n   * @param {string} value The new transformation type.\r\n   */\r\n  set mode(value) {\r\n    this._transformer = value == 'fast' ? new FastTransformer(this) : new SafeTransformer(this);\r\n  }\r\n\r\n  /**\r\n   * Transforms input and produces output.\r\n   * @param {File} file The chunk to transform.\r\n   * @param {string} encoding The encoding type if the chunk is a string.\r\n   * @param {function} callback The function to invoke when the supplied chunk has been processed.\r\n   */\r\n  _transform(file, encoding, callback) {\r\n    if (!this.silent) console.log(`Minifying: ${file.path}`);\r\n\r\n    this._transformer.transform(file.path).subscribe({\r\n      error: err => callback(new Error(`[${pkgName}] ${err.message}`)),\r\n      next: data => {\r\n        file.contents = Buffer.from(data, encoding);\r\n        callback(null, file);\r\n      }\r\n    });\r\n  }\r\n}\r\n",
     "static": true,
     "longname": "src/minifier.js",
     "access": null,
@@ -312,7 +334,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 15,
+    "__docId__": 16,
     "kind": "class",
     "name": "Minifier",
     "memberof": "src/minifier.js",
@@ -330,7 +352,7 @@
     ]
   },
   {
-    "__docId__": 16,
+    "__docId__": 17,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/minifier.js~Minifier",
@@ -355,7 +377,7 @@
     ]
   },
   {
-    "__docId__": 17,
+    "__docId__": 18,
     "kind": "member",
     "name": "binary",
     "memberof": "src/minifier.js~Minifier",
@@ -374,7 +396,7 @@
     }
   },
   {
-    "__docId__": 18,
+    "__docId__": 19,
     "kind": "member",
     "name": "silent",
     "memberof": "src/minifier.js~Minifier",
@@ -393,25 +415,6 @@
     }
   },
   {
-    "__docId__": 19,
-    "kind": "member",
-    "name": "_phpServer",
-    "memberof": "src/minifier.js~Minifier",
-    "static": false,
-    "longname": "src/minifier.js~Minifier#_phpServer",
-    "access": null,
-    "description": "The underlying PHP process.",
-    "lineNumber": 35,
-    "type": {
-      "nullable": null,
-      "types": [
-        "object"
-      ],
-      "spread": false,
-      "description": null
-    }
-  },
-  {
     "__docId__": 20,
     "kind": "member",
     "name": "_transformer",
@@ -420,7 +423,7 @@
     "longname": "src/minifier.js~Minifier#_transformer",
     "access": null,
     "description": "The instance used to process the PHP code.",
-    "lineNumber": 41,
+    "lineNumber": 35,
     "type": {
       "nullable": null,
       "types": [
@@ -441,7 +444,7 @@
     "longname": "src/minifier.js~Minifier#mode",
     "access": null,
     "description": "The transformation type.",
-    "lineNumber": 48,
+    "lineNumber": 42,
     "type": {
       "nullable": null,
       "types": [
@@ -462,7 +465,7 @@
     "longname": "src/minifier.js~Minifier#mode",
     "access": null,
     "description": "Sets the transformation type.",
-    "lineNumber": 56,
+    "lineNumber": 50,
     "params": [
       {
         "nullable": null,
@@ -490,7 +493,7 @@
     "longname": "src/minifier.js~Minifier#_transformer",
     "access": null,
     "description": null,
-    "lineNumber": 57,
+    "lineNumber": 51,
     "undocument": true,
     "unknown": [
       {
@@ -510,12 +513,12 @@
     "name": "_transform",
     "memberof": "src/minifier.js~Minifier",
     "generator": false,
-    "async": true,
+    "async": false,
     "static": false,
     "longname": "src/minifier.js~Minifier#_transform",
     "access": null,
     "description": "Transforms input and produces output.",
-    "lineNumber": 67,
+    "lineNumber": 60,
     "params": [
       {
         "nullable": null,
@@ -543,25 +546,17 @@
           "function"
         ],
         "spread": false,
-        "optional": true,
+        "optional": false,
         "name": "callback",
         "description": "The function to invoke when the supplied chunk has been processed."
       }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "Promise<File>"
-      ],
-      "spread": false,
-      "description": "The transformed chunk."
-    }
+    ]
   },
   {
     "__docId__": 25,
     "kind": "file",
     "name": "src/safe_transformer.js",
-    "content": "import child_process from 'child_process';\n\n/**\n * Removes comments and whitespace from a PHP script, by calling a PHP process.\n */\nexport class SafeTransformer {\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {Minifier} minifier The instance providing access to the minifier settings.\n   */\n  constructor(minifier) {\n\n    /**\n     * The instance providing access to the minifier settings.\n     * @type {Minifier}\n     */\n    this._minifier = minifier;\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    let args = ['-w', script];\n    let options = {maxBuffer: 10 * 1024 * 1024};\n    return new Promise((resolve, reject) => child_process.execFile(this._minifier.binary, args, options, (error, stdout) => {\n      if (error) reject(error);\n      else resolve(stdout);\n    }));\n  }\n}\n",
+    "content": "import {execFile} from 'child_process';\r\nimport {Observable} from 'rxjs';\r\n\r\n/**\r\n * Removes comments and whitespace from a PHP script, by calling a PHP process.\r\n */\r\nexport class SafeTransformer {\r\n\r\n  /**\r\n   * Initializes a new instance of the class.\r\n   * @param {Minifier} minifier The instance providing access to the minifier settings.\r\n   */\r\n  constructor(minifier) {\r\n\r\n    /**\r\n     * The instance providing access to the minifier settings.\r\n     * @type {Minifier}\r\n     */\r\n    this._minifier = minifier;\r\n  }\r\n\r\n  /**\r\n   * Processes a PHP script.\r\n   * @param {string} script The path to the PHP script.\r\n   * @return {Observable<string>} The transformed script.\r\n   */\r\n  transform(script) {\r\n    const exec = Observable.bindNodeCallback(execFile, stdout => stdout);\r\n    return exec(this._minifier.binary, ['-w', script], {maxBuffer: 10 * 1024 * 1024});\r\n  }\r\n}\r\n",
     "static": true,
     "longname": "src/safe_transformer.js",
     "access": null,
@@ -580,7 +575,7 @@
     "importPath": "@cedx/gulp-php-minify/src/safe_transformer.js",
     "importStyle": "{SafeTransformer}",
     "description": "Removes comments and whitespace from a PHP script, by calling a PHP process.",
-    "lineNumber": 6,
+    "lineNumber": 7,
     "interface": false
   },
   {
@@ -594,7 +589,7 @@
     "longname": "src/safe_transformer.js~SafeTransformer#constructor",
     "access": null,
     "description": "Initializes a new instance of the class.",
-    "lineNumber": 12,
+    "lineNumber": 13,
     "params": [
       {
         "nullable": null,
@@ -617,7 +612,7 @@
     "longname": "src/safe_transformer.js~SafeTransformer#_minifier",
     "access": null,
     "description": "The instance providing access to the minifier settings.",
-    "lineNumber": 18,
+    "lineNumber": 19,
     "type": {
       "nullable": null,
       "types": [
@@ -633,12 +628,12 @@
     "name": "transform",
     "memberof": "src/safe_transformer.js~SafeTransformer",
     "generator": false,
-    "async": true,
+    "async": false,
     "static": false,
     "longname": "src/safe_transformer.js~SafeTransformer#transform",
     "access": null,
     "description": "Processes a PHP script.",
-    "lineNumber": 26,
+    "lineNumber": 27,
     "params": [
       {
         "nullable": null,
@@ -654,7 +649,7 @@
     "return": {
       "nullable": null,
       "types": [
-        "Promise<string>"
+        "Observable<string>"
       ],
       "spread": false,
       "description": "The transformed script."
@@ -1326,7 +1321,7 @@
     "__docId__": 87,
     "kind": "testFile",
     "name": "test/fast_transformer_test.js",
-    "content": "'use strict';\n\nimport {expect} from 'chai';\nimport {describe, it} from 'mocha';\nimport path from 'path';\nimport {FastTransformer, Minifier} from '../src/index';\n\n/**\n * @test {FastTransformer}\n */\ndescribe('FastTransformer', function() {\n  this.timeout(30000);\n\n  /**\n   * @test {FastTransformer#listening}\n   */\n  describe('#listening', () => {\n    it('should return whether the server is listening', async () => {\n      let transformer = new FastTransformer(new Minifier());\n      expect(transformer.listening).to.be.false;\n      await transformer.listen();\n      expect(transformer.listening).to.be.true;\n      await transformer.close();\n      expect(transformer.listening).to.be.false;\n    });\n  });\n\n  /**\n   * @test {FastTransformer#transform}\n   */\n  describe('#transform()', () => {\n    let script = path.join(__dirname, 'fixtures/sample.php');\n    let transformer = new FastTransformer(new Minifier());\n\n    it('should remove the inline comments', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('<?= \\'Hello World!\\' ?>');\n    });\n\n    it('should remove the multi-line comments', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('namespace dummy; class Dummy');\n    });\n\n    it('should remove the single-line comments', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('$className = get_class($this); return $className;');\n    });\n\n    it('should remove the whitespace', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('__construct() { }');\n    });\n\n    return transformer.close();\n  });\n});\n",
+    "content": "'use strict';\r\n\r\nimport {expect} from 'chai';\r\nimport {after, describe, it} from 'mocha';\r\nimport {FastTransformer, Minifier} from '../src/index';\r\n\r\n/**\r\n * @test {FastTransformer}\r\n */\r\ndescribe('FastTransformer', function() {\r\n  this.timeout(30000);\r\n\r\n  /**\r\n   * @test {FastTransformer#listening}\r\n   */\r\n  describe('#listening', () => {\r\n    it('should return whether the server is listening', done => {\r\n      let transformer = new FastTransformer(new Minifier);\r\n      expect(transformer.listening).to.be.false;\r\n\r\n      transformer.listen()\r\n        .do(() => expect(transformer.listening).to.be.true)\r\n        .mergeMap(() => transformer.close())\r\n        .do(() => expect(transformer.listening).to.be.false)\r\n        .subscribe(null, done, done);\r\n    });\r\n  });\r\n\r\n  /**\r\n   * @test {FastTransformer#transform}\r\n   */\r\n  describe('#transform()', () => {\r\n    let script = 'test/fixtures/sample.php';\r\n    let transformer = new FastTransformer(new Minifier);\r\n    after(() => transformer.close().subscribe());\r\n\r\n    it('should remove the inline comments', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        /* eslint-disable quotes */\r\n        expect(output).to.contain(\"<?= 'Hello World!' ?>\");\r\n        /* eslint-enable quotes */\r\n      }, done, done);\r\n    });\r\n\r\n    it('should remove the multi-line comments', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        expect(output).to.contain('namespace dummy; class Dummy');\r\n      }, done, done);\r\n    });\r\n\r\n    it('should remove the single-line comments', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        expect(output).to.contain('$className = get_class($this); return $className;');\r\n      }, done, done);\r\n    });\r\n\r\n    it('should remove the whitespace', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        expect(output).to.contain('__construct() { }');\r\n      }, done, done);\r\n    });\r\n  });\r\n});\r\n",
     "static": true,
     "longname": "test/fast_transformer_test.js",
     "access": null,
@@ -1344,7 +1339,7 @@
     "longname": "test/fast_transformer_test.js~describe0",
     "access": null,
     "description": "FastTransformer",
-    "lineNumber": 11,
+    "lineNumber": 10,
     "unknown": [
       {
         "tagName": "@test",
@@ -1366,7 +1361,7 @@
     "longname": "test/fast_transformer_test.js~describe0.describe1",
     "access": null,
     "description": "#listening",
-    "lineNumber": 17,
+    "lineNumber": 16,
     "unknown": [
       {
         "tagName": "@test",
@@ -1388,7 +1383,7 @@
     "longname": "test/fast_transformer_test.js~describe0.describe1.it2",
     "access": null,
     "description": "should return whether the server is listening",
-    "lineNumber": 18
+    "lineNumber": 17
   },
   {
     "__docId__": 91,
@@ -1401,7 +1396,7 @@
     "longname": "test/fast_transformer_test.js~describe0.describe3",
     "access": null,
     "description": "#transform()",
-    "lineNumber": 31,
+    "lineNumber": 32,
     "unknown": [
       {
         "tagName": "@test",
@@ -1423,7 +1418,7 @@
     "longname": "test/fast_transformer_test.js~describe0.describe3.it4",
     "access": null,
     "description": "should remove the inline comments",
-    "lineNumber": 35
+    "lineNumber": 37
   },
   {
     "__docId__": 93,
@@ -1436,7 +1431,7 @@
     "longname": "test/fast_transformer_test.js~describe0.describe3.it5",
     "access": null,
     "description": "should remove the multi-line comments",
-    "lineNumber": 40
+    "lineNumber": 45
   },
   {
     "__docId__": 94,
@@ -1449,7 +1444,7 @@
     "longname": "test/fast_transformer_test.js~describe0.describe3.it6",
     "access": null,
     "description": "should remove the single-line comments",
-    "lineNumber": 45
+    "lineNumber": 51
   },
   {
     "__docId__": 95,
@@ -1462,13 +1457,13 @@
     "longname": "test/fast_transformer_test.js~describe0.describe3.it7",
     "access": null,
     "description": "should remove the whitespace",
-    "lineNumber": 50
+    "lineNumber": 57
   },
   {
     "__docId__": 96,
     "kind": "testFile",
     "name": "test/index_test.js",
-    "content": "'use strict';\n\nimport {expect} from 'chai';\nimport {describe, it} from 'mocha';\nimport {Minifier, phpMinify} from '../src/index';\n\n/**\n * @test {phpMinify}\n */\ndescribe('phpMinify()', () => {\n  it('should return a `Minifier` instance', () => {\n    expect(phpMinify()).to.be.instanceof(Minifier);\n  });\n\n  it('should properly initialize the minifier properties', () => {\n    let minifier = phpMinify({\n      binary: '/usr/local/bin/php',\n      mode: 'fast',\n      silent: true\n    });\n\n    expect(minifier.binary).to.equal(process.platform == 'win32' ? '\\\\usr\\\\local\\\\bin\\\\php' : '/usr/local/bin/php');\n    expect(minifier.mode).to.equal('fast');\n    expect(minifier.silent).to.be.true;\n  });\n});\n",
+    "content": "'use strict';\r\n\r\nimport {expect} from 'chai';\r\nimport {describe, it} from 'mocha';\r\nimport {Minifier, phpMinify} from '../src/index';\r\n\r\n/**\r\n * @test {phpMinify}\r\n */\r\ndescribe('phpMinify()', () => {\r\n  it('should return a `Minifier` instance', () => {\r\n    expect(phpMinify()).to.be.instanceof(Minifier);\r\n  });\r\n\r\n  it('should properly initialize the minifier properties', () => {\r\n    let minifier = phpMinify({\r\n      binary: '/usr/local/bin/php',\r\n      mode: 'fast',\r\n      silent: true\r\n    });\r\n\r\n    expect(minifier.binary).to.equal(process.platform == 'win32' ? '\\\\usr\\\\local\\\\bin\\\\php' : '/usr/local/bin/php');\r\n    expect(minifier.mode).to.equal('fast');\r\n    expect(minifier.silent).to.be.true;\r\n  });\r\n});\r\n",
     "static": true,
     "longname": "test/index_test.js",
     "access": null,
@@ -1527,7 +1522,7 @@
     "__docId__": 100,
     "kind": "testFile",
     "name": "test/minifier_test.js",
-    "content": "'use strict';\n\nimport {expect} from 'chai';\nimport {describe, it} from 'mocha';\nimport path from 'path';\nimport File from 'vinyl';\nimport {FastTransformer, Minifier, SafeTransformer} from '../src/index';\n\n/**\n * @test {Minifier}\n */\ndescribe('Minifier', function() {\n  this.timeout(60000);\n\n  /**\n   * @test {Minifier#mode}\n   */\n  describe('#mode', () => {\n    it('should be `safe` if the underlying transformer is a `SafeTransformer` one', () => {\n      let minifier = new Minifier();\n      minifier._transformer = new SafeTransformer(minifier);\n      expect(minifier.mode).to.equal('safe');\n    });\n\n    it('should be `fast` if the underlying transformer is a `FastTransformer` one', () => {\n      let minifier = new Minifier();\n      minifier._transformer = new FastTransformer(minifier);\n      expect(minifier.mode).to.equal('fast');\n    });\n\n    it('should change the underlying transformer on value update', () => {\n      let minifier = new Minifier();\n\n      minifier.mode = 'fast';\n      expect(minifier._transformer).to.be.instanceOf(FastTransformer);\n\n      minifier.mode = 'safe';\n      expect(minifier._transformer).to.be.instanceOf(SafeTransformer);\n    });\n  });\n\n  /**\n   * @test {Minifier#_transform}\n   */\n  describe('#_transform()', () => {\n    let file = new File({path: path.join(__dirname, 'fixtures/sample.php')});\n    let minifier = new Minifier();\n    minifier.silent = true;\n\n    it('should remove the inline comments', async () => {\n      let result = await minifier._transform(file, 'utf8');\n      expect(result.contents.toString()).to.contain('<?= \\'Hello World!\\' ?>');\n    });\n\n    it('should remove the multi-line comments', async () => {\n      let result = await minifier._transform(file, 'utf8');\n      expect(result.contents.toString()).to.contain('namespace dummy; class Dummy');\n    });\n\n    it('should remove the single-line comments', async () => {\n      let result = await minifier._transform(file, 'utf8');\n      expect(result.contents.toString()).to.contain('$className = get_class($this); return $className;');\n    });\n\n    it('should remove the whitespace', async () => {\n      let result = await minifier._transform(file, 'utf8');\n      expect(result.contents.toString()).to.contain('__construct() { }');\n    });\n\n    minifier.emit('end');\n  });\n});\n",
+    "content": "'use strict';\r\n\r\nimport {expect} from 'chai';\r\nimport {after, describe, it} from 'mocha';\r\nimport File from 'vinyl';\r\nimport {FastTransformer, Minifier, SafeTransformer} from '../src/index';\r\n\r\n/**\r\n * @test {Minifier}\r\n */\r\ndescribe('Minifier', function() {\r\n  this.timeout(60000);\r\n\r\n  /**\r\n   * @test {Minifier#mode}\r\n   */\r\n  describe('#mode', () => {\r\n    it('should be `safe` if the underlying transformer is a `SafeTransformer` one', () => {\r\n      let minifier = new Minifier;\r\n      minifier._transformer = new SafeTransformer(minifier);\r\n      expect(minifier.mode).to.equal('safe');\r\n    });\r\n\r\n    it('should be `fast` if the underlying transformer is a `FastTransformer` one', () => {\r\n      let minifier = new Minifier;\r\n      minifier._transformer = new FastTransformer(minifier);\r\n      expect(minifier.mode).to.equal('fast');\r\n    });\r\n\r\n    it('should change the underlying transformer on value update', () => {\r\n      let minifier = new Minifier;\r\n\r\n      minifier.mode = 'fast';\r\n      expect(minifier._transformer).to.be.instanceOf(FastTransformer);\r\n\r\n      minifier.mode = 'safe';\r\n      expect(minifier._transformer).to.be.instanceOf(SafeTransformer);\r\n    });\r\n  });\r\n\r\n  /**\r\n   * @test {Minifier#_transform}\r\n   */\r\n  describe('#_transform()', () => {\r\n    let file = new File({path: 'test/fixtures/sample.php'});\r\n\r\n    let minifier = new Minifier;\r\n    minifier.silent = true;\r\n    after(() => minifier.emit('end'));\r\n\r\n    it('should remove the inline comments', done => {\r\n      minifier._transform(file, 'utf8', (err, file) => {\r\n        if (err) done(err);\r\n        else {\r\n          /* eslint-disable quotes */\r\n          expect(file.contents.toString()).to.contain(\"<?= 'Hello World!' ?>\");\r\n          done();\r\n          /* eslint-enable quotes */\r\n        }\r\n      });\r\n    });\r\n\r\n    it('should remove the multi-line comments', done => {\r\n      minifier._transform(file, 'utf8', (err, file) => {\r\n        if (err) done(err);\r\n        else {\r\n          expect(file.contents.toString()).to.contain('namespace dummy; class Dummy');\r\n          done();\r\n        }\r\n      });\r\n    });\r\n\r\n    it('should remove the single-line comments', done => {\r\n      minifier._transform(file, 'utf8', (err, file) => {\r\n        if (err) done(err);\r\n        else {\r\n          expect(file.contents.toString()).to.contain('$className = get_class($this); return $className;');\r\n          done();\r\n        }\r\n      });\r\n    });\r\n\r\n    it('should remove the whitespace', done => {\r\n      minifier._transform(file, 'utf8', (err, file) => {\r\n        if (err) done(err);\r\n        else {\r\n          expect(file.contents.toString()).to.contain('__construct() { }');\r\n          done();\r\n        }\r\n      });\r\n    });\r\n  });\r\n});\r\n",
     "static": true,
     "longname": "test/minifier_test.js",
     "access": null,
@@ -1545,7 +1540,7 @@
     "longname": "test/minifier_test.js~describe11",
     "access": null,
     "description": "Minifier",
-    "lineNumber": 12,
+    "lineNumber": 11,
     "unknown": [
       {
         "tagName": "@test",
@@ -1567,7 +1562,7 @@
     "longname": "test/minifier_test.js~describe11.describe12",
     "access": null,
     "description": "#mode",
-    "lineNumber": 18,
+    "lineNumber": 17,
     "unknown": [
       {
         "tagName": "@test",
@@ -1589,7 +1584,7 @@
     "longname": "test/minifier_test.js~describe11.describe12.it13",
     "access": null,
     "description": "should be `safe` if the underlying transformer is a `SafeTransformer` one",
-    "lineNumber": 19
+    "lineNumber": 18
   },
   {
     "__docId__": 104,
@@ -1602,7 +1597,7 @@
     "longname": "test/minifier_test.js~describe11.describe12.it14",
     "access": null,
     "description": "should be `fast` if the underlying transformer is a `FastTransformer` one",
-    "lineNumber": 25
+    "lineNumber": 24
   },
   {
     "__docId__": 105,
@@ -1615,7 +1610,7 @@
     "longname": "test/minifier_test.js~describe11.describe12.it15",
     "access": null,
     "description": "should change the underlying transformer on value update",
-    "lineNumber": 31
+    "lineNumber": 30
   },
   {
     "__docId__": 106,
@@ -1628,7 +1623,7 @@
     "longname": "test/minifier_test.js~describe11.describe16",
     "access": null,
     "description": "#_transform()",
-    "lineNumber": 45,
+    "lineNumber": 44,
     "unknown": [
       {
         "tagName": "@test",
@@ -1650,7 +1645,7 @@
     "longname": "test/minifier_test.js~describe11.describe16.it17",
     "access": null,
     "description": "should remove the inline comments",
-    "lineNumber": 50
+    "lineNumber": 51
   },
   {
     "__docId__": 108,
@@ -1663,7 +1658,7 @@
     "longname": "test/minifier_test.js~describe11.describe16.it18",
     "access": null,
     "description": "should remove the multi-line comments",
-    "lineNumber": 55
+    "lineNumber": 63
   },
   {
     "__docId__": 109,
@@ -1676,7 +1671,7 @@
     "longname": "test/minifier_test.js~describe11.describe16.it19",
     "access": null,
     "description": "should remove the single-line comments",
-    "lineNumber": 60
+    "lineNumber": 73
   },
   {
     "__docId__": 110,
@@ -1689,13 +1684,13 @@
     "longname": "test/minifier_test.js~describe11.describe16.it20",
     "access": null,
     "description": "should remove the whitespace",
-    "lineNumber": 65
+    "lineNumber": 83
   },
   {
     "__docId__": 111,
     "kind": "testFile",
     "name": "test/safe_transformer_test.js",
-    "content": "'use strict';\n\nimport {expect} from 'chai';\nimport {describe, it} from 'mocha';\nimport path from 'path';\nimport {Minifier, SafeTransformer} from '../src/index';\n\n/**\n * @test {SafeTransformer}\n */\ndescribe('SafeTransformer', function() {\n  this.timeout(30000);\n\n  /**\n   * @test {SafeTransformer#transform}\n   */\n  describe('#transform()', () => {\n    let script = path.join(__dirname, 'fixtures/sample.php');\n    let transformer = new SafeTransformer(new Minifier());\n\n    it('should remove the inline comments', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('<?= \\'Hello World!\\' ?>');\n    });\n\n    it('should remove the multi-line comments', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('namespace dummy; class Dummy');\n    });\n\n    it('should remove the single-line comments', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('$className = get_class($this); return $className;');\n    });\n\n    it('should remove the whitespace', async () => {\n      let output = await transformer.transform(script);\n      expect(output).to.contain('__construct() { }');\n    });\n  });\n});\n",
+    "content": "'use strict';\r\n\r\nimport {expect} from 'chai';\r\nimport {describe, it} from 'mocha';\r\nimport {Minifier, SafeTransformer} from '../src/index';\r\n\r\n/**\r\n * @test {SafeTransformer}\r\n */\r\ndescribe('SafeTransformer', function() {\r\n  this.timeout(30000);\r\n\r\n  /**\r\n   * @test {SafeTransformer#transform}\r\n   */\r\n  describe('#transform()', () => {\r\n    let script = 'test/fixtures/sample.php';\r\n    let transformer = new SafeTransformer(new Minifier);\r\n\r\n    it('should remove the inline comments', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        /* eslint-disable quotes */\r\n        expect(output).to.contain(\"<?= 'Hello World!' ?>\");\r\n        /* eslint-enable quotes */\r\n      }, done, done);\r\n    });\r\n\r\n    it('should remove the multi-line comments', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        expect(output).to.contain('namespace dummy; class Dummy');\r\n      }, done, done);\r\n    });\r\n\r\n    it('should remove the single-line comments', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        expect(output).to.contain('$className = get_class($this); return $className;');\r\n      }, done, done);\r\n    });\r\n\r\n    it('should remove the whitespace', done => {\r\n      transformer.transform(script).subscribe(output => {\r\n        expect(output).to.contain('__construct() { }');\r\n      }, done, done);\r\n    });\r\n  });\r\n});\r\n",
     "static": true,
     "longname": "test/safe_transformer_test.js",
     "access": null,
@@ -1713,7 +1708,7 @@
     "longname": "test/safe_transformer_test.js~describe21",
     "access": null,
     "description": "SafeTransformer",
-    "lineNumber": 11,
+    "lineNumber": 10,
     "unknown": [
       {
         "tagName": "@test",
@@ -1735,7 +1730,7 @@
     "longname": "test/safe_transformer_test.js~describe21.describe22",
     "access": null,
     "description": "#transform()",
-    "lineNumber": 17,
+    "lineNumber": 16,
     "unknown": [
       {
         "tagName": "@test",
@@ -1757,7 +1752,7 @@
     "longname": "test/safe_transformer_test.js~describe21.describe22.it23",
     "access": null,
     "description": "should remove the inline comments",
-    "lineNumber": 21
+    "lineNumber": 20
   },
   {
     "__docId__": 115,
@@ -1770,7 +1765,7 @@
     "longname": "test/safe_transformer_test.js~describe21.describe22.it24",
     "access": null,
     "description": "should remove the multi-line comments",
-    "lineNumber": 26
+    "lineNumber": 28
   },
   {
     "__docId__": 116,
@@ -1783,7 +1778,7 @@
     "longname": "test/safe_transformer_test.js~describe21.describe22.it25",
     "access": null,
     "description": "should remove the single-line comments",
-    "lineNumber": 31
+    "lineNumber": 34
   },
   {
     "__docId__": 117,
@@ -1796,6 +1791,6 @@
     "longname": "test/safe_transformer_test.js~describe21.describe22.it26",
     "access": null,
     "description": "should remove the whitespace",
-    "lineNumber": 36
+    "lineNumber": 40
   }
 ]

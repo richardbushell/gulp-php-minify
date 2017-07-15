@@ -44,8 +44,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
 import {expect} from &apos;chai&apos;;
-import {describe, it} from &apos;mocha&apos;;
-import path from &apos;path&apos;;
+import {after, describe, it} from &apos;mocha&apos;;
 import File from &apos;vinyl&apos;;
 import {FastTransformer, Minifier, SafeTransformer} from &apos;../src/index&apos;;
 
@@ -60,19 +59,19 @@ describe(&apos;Minifier&apos;, function() {
    */
   describe(&apos;#mode&apos;, () =&gt; {
     it(&apos;should be `safe` if the underlying transformer is a `SafeTransformer` one&apos;, () =&gt; {
-      let minifier = new Minifier();
+      let minifier = new Minifier;
       minifier._transformer = new SafeTransformer(minifier);
       expect(minifier.mode).to.equal(&apos;safe&apos;);
     });
 
     it(&apos;should be `fast` if the underlying transformer is a `FastTransformer` one&apos;, () =&gt; {
-      let minifier = new Minifier();
+      let minifier = new Minifier;
       minifier._transformer = new FastTransformer(minifier);
       expect(minifier.mode).to.equal(&apos;fast&apos;);
     });
 
     it(&apos;should change the underlying transformer on value update&apos;, () =&gt; {
-      let minifier = new Minifier();
+      let minifier = new Minifier;
 
       minifier.mode = &apos;fast&apos;;
       expect(minifier._transformer).to.be.instanceOf(FastTransformer);
@@ -86,31 +85,53 @@ describe(&apos;Minifier&apos;, function() {
    * @test {Minifier#_transform}
    */
   describe(&apos;#_transform()&apos;, () =&gt; {
-    let file = new File({path: path.join(__dirname, &apos;fixtures/sample.php&apos;)});
-    let minifier = new Minifier();
+    let file = new File({path: &apos;test/fixtures/sample.php&apos;});
+
+    let minifier = new Minifier;
     minifier.silent = true;
+    after(() =&gt; minifier.emit(&apos;end&apos;));
 
-    it(&apos;should remove the inline comments&apos;, async () =&gt; {
-      let result = await minifier._transform(file, &apos;utf8&apos;);
-      expect(result.contents.toString()).to.contain(&apos;&lt;?= \&apos;Hello World!\&apos; ?&gt;&apos;);
+    it(&apos;should remove the inline comments&apos;, done =&gt; {
+      minifier._transform(file, &apos;utf8&apos;, (err, file) =&gt; {
+        if (err) done(err);
+        else {
+          /* eslint-disable quotes */
+          expect(file.contents.toString()).to.contain(&quot;&lt;?= &apos;Hello World!&apos; ?&gt;&quot;);
+          done();
+          /* eslint-enable quotes */
+        }
+      });
     });
 
-    it(&apos;should remove the multi-line comments&apos;, async () =&gt; {
-      let result = await minifier._transform(file, &apos;utf8&apos;);
-      expect(result.contents.toString()).to.contain(&apos;namespace dummy; class Dummy&apos;);
+    it(&apos;should remove the multi-line comments&apos;, done =&gt; {
+      minifier._transform(file, &apos;utf8&apos;, (err, file) =&gt; {
+        if (err) done(err);
+        else {
+          expect(file.contents.toString()).to.contain(&apos;namespace dummy; class Dummy&apos;);
+          done();
+        }
+      });
     });
 
-    it(&apos;should remove the single-line comments&apos;, async () =&gt; {
-      let result = await minifier._transform(file, &apos;utf8&apos;);
-      expect(result.contents.toString()).to.contain(&apos;$className = get_class($this); return $className;&apos;);
+    it(&apos;should remove the single-line comments&apos;, done =&gt; {
+      minifier._transform(file, &apos;utf8&apos;, (err, file) =&gt; {
+        if (err) done(err);
+        else {
+          expect(file.contents.toString()).to.contain(&apos;$className = get_class($this); return $className;&apos;);
+          done();
+        }
+      });
     });
 
-    it(&apos;should remove the whitespace&apos;, async () =&gt; {
-      let result = await minifier._transform(file, &apos;utf8&apos;);
-      expect(result.contents.toString()).to.contain(&apos;__construct() { }&apos;);
+    it(&apos;should remove the whitespace&apos;, done =&gt; {
+      minifier._transform(file, &apos;utf8&apos;, (err, file) =&gt; {
+        if (err) done(err);
+        else {
+          expect(file.contents.toString()).to.contain(&apos;__construct() { }&apos;);
+          done();
+        }
+      });
     });
-
-    minifier.emit(&apos;end&apos;);
   });
 });
 </code></pre>

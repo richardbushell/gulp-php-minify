@@ -44,8 +44,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
 import {expect} from &apos;chai&apos;;
-import {describe, it} from &apos;mocha&apos;;
-import path from &apos;path&apos;;
+import {after, describe, it} from &apos;mocha&apos;;
 import {FastTransformer, Minifier} from &apos;../src/index&apos;;
 
 /**
@@ -58,13 +57,15 @@ describe(&apos;FastTransformer&apos;, function() {
    * @test {FastTransformer#listening}
    */
   describe(&apos;#listening&apos;, () =&gt; {
-    it(&apos;should return whether the server is listening&apos;, async () =&gt; {
-      let transformer = new FastTransformer(new Minifier());
+    it(&apos;should return whether the server is listening&apos;, done =&gt; {
+      let transformer = new FastTransformer(new Minifier);
       expect(transformer.listening).to.be.false;
-      await transformer.listen();
-      expect(transformer.listening).to.be.true;
-      await transformer.close();
-      expect(transformer.listening).to.be.false;
+
+      transformer.listen()
+        .do(() =&gt; expect(transformer.listening).to.be.true)
+        .mergeMap(() =&gt; transformer.close())
+        .do(() =&gt; expect(transformer.listening).to.be.false)
+        .subscribe(null, done, done);
     });
   });
 
@@ -72,30 +73,35 @@ describe(&apos;FastTransformer&apos;, function() {
    * @test {FastTransformer#transform}
    */
   describe(&apos;#transform()&apos;, () =&gt; {
-    let script = path.join(__dirname, &apos;fixtures/sample.php&apos;);
-    let transformer = new FastTransformer(new Minifier());
+    let script = &apos;test/fixtures/sample.php&apos;;
+    let transformer = new FastTransformer(new Minifier);
+    after(() =&gt; transformer.close().subscribe());
 
-    it(&apos;should remove the inline comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;&lt;?= \&apos;Hello World!\&apos; ?&gt;&apos;);
+    it(&apos;should remove the inline comments&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        /* eslint-disable quotes */
+        expect(output).to.contain(&quot;&lt;?= &apos;Hello World!&apos; ?&gt;&quot;);
+        /* eslint-enable quotes */
+      }, done, done);
     });
 
-    it(&apos;should remove the multi-line comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;namespace dummy; class Dummy&apos;);
+    it(&apos;should remove the multi-line comments&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        expect(output).to.contain(&apos;namespace dummy; class Dummy&apos;);
+      }, done, done);
     });
 
-    it(&apos;should remove the single-line comments&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;$className = get_class($this); return $className;&apos;);
+    it(&apos;should remove the single-line comments&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        expect(output).to.contain(&apos;$className = get_class($this); return $className;&apos;);
+      }, done, done);
     });
 
-    it(&apos;should remove the whitespace&apos;, async () =&gt; {
-      let output = await transformer.transform(script);
-      expect(output).to.contain(&apos;__construct() { }&apos;);
+    it(&apos;should remove the whitespace&apos;, done =&gt; {
+      transformer.transform(script).subscribe(output =&gt; {
+        expect(output).to.contain(&apos;__construct() { }&apos;);
+      }, done, done);
     });
-
-    return transformer.close();
   });
 });
 </code></pre>
