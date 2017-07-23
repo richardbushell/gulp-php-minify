@@ -32,10 +32,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-factory">factory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -51,8 +52,8 @@ Once you&apos;re familiar with that process, you may install this plug-in with t
 <p>Once the plug-in has been installed, it may be enabled inside your <code>gulpfile.js</code> file.</p>
 <h2 id="usage">Usage</h2>
 <p>The plug-in takes a list of <a href="https://secure.php.net">PHP</a> scripts as input, and removes the comments and whitespace in these files by applying the <a href="https://secure.php.net/manual/en/function.php-strip-whitespace.php"><code>php_strip_whitespace()</code></a> function on their contents:</p>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">import {phpMinify} from &apos;@cedx/gulp-php-minify&apos;;
-import gulp from &apos;gulp&apos;;
+<pre><code class="lang-javascript"><code class="source-code prettyprint">const {phpMinify} = require(&apos;@cedx/gulp-php-minify&apos;);
+const gulp = require(&apos;gulp&apos;);
 
 gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**.php&apos;, {read: false})
   .pipe(phpMinify())

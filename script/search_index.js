@@ -1,26 +1,32 @@
 window.esdocSearchIndex = [
   [
-    "@cedx/gulp-php-minify/src/fast_transformer.js~fasttransformer",
-    "class/src/fast_transformer.js~FastTransformer.html",
-    "<span>FastTransformer</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/src/fast_transformer.js</span>",
+    "@cedx/gulp-php-minify/lib/fast_transformer.js~fasttransformer",
+    "class/lib/fast_transformer.js~FastTransformer.html",
+    "<span>FastTransformer</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/fast_transformer.js</span>",
     "class"
   ],
   [
-    "@cedx/gulp-php-minify/src/minifier.js~minifier",
-    "class/src/minifier.js~Minifier.html",
-    "<span>Minifier</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/src/minifier.js</span>",
+    "@cedx/gulp-php-minify/lib/minifier.js~minifier",
+    "class/lib/minifier.js~Minifier.html",
+    "<span>Minifier</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/minifier.js</span>",
     "class"
   ],
   [
-    "@cedx/gulp-php-minify/src/safe_transformer.js~safetransformer",
-    "class/src/safe_transformer.js~SafeTransformer.html",
-    "<span>SafeTransformer</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/src/safe_transformer.js</span>",
+    "@cedx/gulp-php-minify/lib/safe_transformer.js~safetransformer",
+    "class/lib/safe_transformer.js~SafeTransformer.html",
+    "<span>SafeTransformer</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/safe_transformer.js</span>",
     "class"
   ],
   [
-    "@cedx/gulp-php-minify/src/index.js~phpminify",
-    "function/index.html#static-function-phpMinify",
-    "<span>phpMinify</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/src/index.js</span>",
+    "@cedx/gulp-php-minify/lib/minifier.js~transform",
+    "variable/index.html#static-variable-Transform",
+    "<span>Transform</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/minifier.js</span>",
+    "variable"
+  ],
+  [
+    "@cedx/gulp-php-minify/lib/factory.js~factory",
+    "function/index.html#static-function-factory",
+    "<span>factory</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/factory.js</span>",
     "function"
   ],
   [
@@ -354,279 +360,279 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "fasttransformer src/fast_transformer.js~fasttransformer,fasttransformer",
-    "test-file/test/fast_transformer_test.js.html#lineNumber10",
+    "fasttransformer lib/fast_transformer.js~fasttransformer,fasttransformer",
+    "test-file/test/fast_transformer_test.js.html#lineNumber9",
     "FastTransformer",
     "test"
   ],
   [
-    "fasttransformer#listening src/fast_transformer.js~fasttransformer#listening,fasttransformer#listening",
-    "test-file/test/fast_transformer_test.js.html#lineNumber16",
+    "fasttransformer#listening lib/fast_transformer.js~fasttransformer#listening,fasttransformer#listening",
+    "test-file/test/fast_transformer_test.js.html#lineNumber15",
     "FastTransformer #listening",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber17",
+    "test-file/test/fast_transformer_test.js.html#lineNumber16",
     "FastTransformer #listening should return whether the server is listening",
     "test"
   ],
   [
-    "fasttransformer#transform src/fast_transformer.js~fasttransformer#transform,fasttransformer#transform",
-    "test-file/test/fast_transformer_test.js.html#lineNumber32",
+    "fasttransformer#transform lib/fast_transformer.js~fasttransformer#transform,fasttransformer#transform",
+    "test-file/test/fast_transformer_test.js.html#lineNumber31",
     "FastTransformer #transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber37",
+    "test-file/test/fast_transformer_test.js.html#lineNumber36",
     "FastTransformer #transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber45",
+    "test-file/test/fast_transformer_test.js.html#lineNumber44",
     "FastTransformer #transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber51",
+    "test-file/test/fast_transformer_test.js.html#lineNumber50",
     "FastTransformer #transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/fast_transformer_test.js.html#lineNumber57",
+    "test-file/test/fast_transformer_test.js.html#lineNumber56",
     "FastTransformer #transform() should remove the whitespace",
     "test"
   ],
   [
-    "minifier src/minifier.js~minifier,minifier",
-    "test-file/test/minifier_test.js.html#lineNumber11",
+    "minifier lib/minifier.js~minifier,minifier",
+    "test-file/test/minifier_test.js.html#lineNumber10",
     "Minifier",
     "test"
   ],
   [
     "minifier#_transform minifier#_transform,minifier#_transform",
-    "test-file/test/minifier_test.js.html#lineNumber44",
+    "test-file/test/minifier_test.js.html#lineNumber43",
     "Minifier #_transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber51",
+    "test-file/test/minifier_test.js.html#lineNumber50",
     "Minifier #_transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber63",
+    "test-file/test/minifier_test.js.html#lineNumber62",
     "Minifier #_transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber73",
+    "test-file/test/minifier_test.js.html#lineNumber72",
     "Minifier #_transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber83",
+    "test-file/test/minifier_test.js.html#lineNumber82",
     "Minifier #_transform() should remove the whitespace",
     "test"
   ],
   [
-    "minifier#mode src/minifier.js~minifier#mode,minifier#mode",
-    "test-file/test/minifier_test.js.html#lineNumber17",
+    "minifier#mode lib/minifier.js~minifier#mode,minifier#mode",
+    "test-file/test/minifier_test.js.html#lineNumber16",
     "Minifier #mode",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber24",
+    "test-file/test/minifier_test.js.html#lineNumber23",
     "Minifier #mode should be `fast` if the underlying transformer is a `FastTransformer` one",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber18",
+    "test-file/test/minifier_test.js.html#lineNumber17",
     "Minifier #mode should be `safe` if the underlying transformer is a `SafeTransformer` one",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber30",
+    "test-file/test/minifier_test.js.html#lineNumber29",
     "Minifier #mode should change the underlying transformer on value update",
     "test"
   ],
   [
-    "safetransformer src/safe_transformer.js~safetransformer,safetransformer",
-    "test-file/test/safe_transformer_test.js.html#lineNumber10",
+    "safetransformer lib/safe_transformer.js~safetransformer,safetransformer",
+    "test-file/test/safe_transformer_test.js.html#lineNumber9",
     "SafeTransformer",
     "test"
   ],
   [
-    "safetransformer#transform src/safe_transformer.js~safetransformer#transform,safetransformer#transform",
-    "test-file/test/safe_transformer_test.js.html#lineNumber16",
+    "safetransformer#transform lib/safe_transformer.js~safetransformer#transform,safetransformer#transform",
+    "test-file/test/safe_transformer_test.js.html#lineNumber15",
     "SafeTransformer #transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber20",
+    "test-file/test/safe_transformer_test.js.html#lineNumber19",
     "SafeTransformer #transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber28",
+    "test-file/test/safe_transformer_test.js.html#lineNumber27",
     "SafeTransformer #transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber34",
+    "test-file/test/safe_transformer_test.js.html#lineNumber33",
     "SafeTransformer #transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/safe_transformer_test.js.html#lineNumber40",
+    "test-file/test/safe_transformer_test.js.html#lineNumber39",
     "SafeTransformer #transform() should remove the whitespace",
     "test"
   ],
   [
-    "phpminify src/index.js~phpminify,phpminify",
-    "test-file/test/index_test.js.html#lineNumber10",
-    "phpMinify()",
+    "factory lib/factory.js~factory,factory",
+    "test-file/test/factory_test.js.html#lineNumber9",
+    "factory()",
     "test"
   ],
   [
     "",
-    "test-file/test/index_test.js.html#lineNumber15",
-    "phpMinify() should properly initialize the minifier properties",
+    "test-file/test/factory_test.js.html#lineNumber14",
+    "factory() should properly initialize the minifier properties",
     "test"
   ],
   [
     "",
-    "test-file/test/index_test.js.html#lineNumber11",
-    "phpMinify() should return a `Minifier` instance",
+    "test-file/test/factory_test.js.html#lineNumber10",
+    "factory() should return a `Minifier` instance",
     "test"
   ],
   [
-    "src/fast_transformer.js",
-    "file/src/fast_transformer.js.html",
-    "src/fast_transformer.js",
+    "lib/factory.js",
+    "file/lib/factory.js.html",
+    "lib/factory.js",
     "file"
   ],
   [
-    "src/fast_transformer.js~fasttransformer#close",
-    "class/src/fast_transformer.js~FastTransformer.html#instance-method-close",
-    "src/fast_transformer.js~FastTransformer#close",
-    "method"
-  ],
-  [
-    "src/fast_transformer.js~fasttransformer#constructor",
-    "class/src/fast_transformer.js~FastTransformer.html#instance-constructor-constructor",
-    "src/fast_transformer.js~FastTransformer#constructor",
-    "method"
-  ],
-  [
-    "src/fast_transformer.js~fasttransformer#listen",
-    "class/src/fast_transformer.js~FastTransformer.html#instance-method-listen",
-    "src/fast_transformer.js~FastTransformer#listen",
-    "method"
-  ],
-  [
-    "src/fast_transformer.js~fasttransformer#listening",
-    "class/src/fast_transformer.js~FastTransformer.html#instance-get-listening",
-    "src/fast_transformer.js~FastTransformer#listening",
-    "member"
-  ],
-  [
-    "src/fast_transformer.js~fasttransformer#transform",
-    "class/src/fast_transformer.js~FastTransformer.html#instance-method-transform",
-    "src/fast_transformer.js~FastTransformer#transform",
-    "method"
-  ],
-  [
-    "src/fast_transformer.js~fasttransformer.default_address",
-    "class/src/fast_transformer.js~FastTransformer.html#static-get-DEFAULT_ADDRESS",
-    "src/fast_transformer.js~FastTransformer.DEFAULT_ADDRESS",
-    "member"
-  ],
-  [
-    "src/index.js",
-    "file/src/index.js.html",
-    "src/index.js",
+    "lib/fast_transformer.js",
+    "file/lib/fast_transformer.js.html",
+    "lib/fast_transformer.js",
     "file"
   ],
   [
-    "src/minifier.js",
-    "file/src/minifier.js.html",
-    "src/minifier.js",
+    "lib/fast_transformer.js~fasttransformer#close",
+    "class/lib/fast_transformer.js~FastTransformer.html#instance-method-close",
+    "lib/fast_transformer.js~FastTransformer#close",
+    "method"
+  ],
+  [
+    "lib/fast_transformer.js~fasttransformer#constructor",
+    "class/lib/fast_transformer.js~FastTransformer.html#instance-constructor-constructor",
+    "lib/fast_transformer.js~FastTransformer#constructor",
+    "method"
+  ],
+  [
+    "lib/fast_transformer.js~fasttransformer#listen",
+    "class/lib/fast_transformer.js~FastTransformer.html#instance-method-listen",
+    "lib/fast_transformer.js~FastTransformer#listen",
+    "method"
+  ],
+  [
+    "lib/fast_transformer.js~fasttransformer#listening",
+    "class/lib/fast_transformer.js~FastTransformer.html#instance-get-listening",
+    "lib/fast_transformer.js~FastTransformer#listening",
+    "member"
+  ],
+  [
+    "lib/fast_transformer.js~fasttransformer#transform",
+    "class/lib/fast_transformer.js~FastTransformer.html#instance-method-transform",
+    "lib/fast_transformer.js~FastTransformer#transform",
+    "method"
+  ],
+  [
+    "lib/fast_transformer.js~fasttransformer.default_address",
+    "class/lib/fast_transformer.js~FastTransformer.html#static-get-DEFAULT_ADDRESS",
+    "lib/fast_transformer.js~FastTransformer.DEFAULT_ADDRESS",
+    "member"
+  ],
+  [
+    "lib/minifier.js",
+    "file/lib/minifier.js.html",
+    "lib/minifier.js",
     "file"
   ],
   [
-    "src/minifier.js~minifier#binary",
-    "class/src/minifier.js~Minifier.html#instance-member-binary",
-    "src/minifier.js~Minifier#binary",
+    "lib/minifier.js~minifier#binary",
+    "class/lib/minifier.js~Minifier.html#instance-member-binary",
+    "lib/minifier.js~Minifier#binary",
     "member"
   ],
   [
-    "src/minifier.js~minifier#constructor",
-    "class/src/minifier.js~Minifier.html#instance-constructor-constructor",
-    "src/minifier.js~Minifier#constructor",
+    "lib/minifier.js~minifier#constructor",
+    "class/lib/minifier.js~Minifier.html#instance-constructor-constructor",
+    "lib/minifier.js~Minifier#constructor",
     "method"
   ],
   [
-    "src/minifier.js~minifier#mode",
-    "class/src/minifier.js~Minifier.html#instance-get-mode",
-    "src/minifier.js~Minifier#mode",
+    "lib/minifier.js~minifier#mode",
+    "class/lib/minifier.js~Minifier.html#instance-get-mode",
+    "lib/minifier.js~Minifier#mode",
     "member"
   ],
   [
-    "src/minifier.js~minifier#mode",
-    "class/src/minifier.js~Minifier.html#instance-set-mode",
-    "src/minifier.js~Minifier#mode",
+    "lib/minifier.js~minifier#mode",
+    "class/lib/minifier.js~Minifier.html#instance-set-mode",
+    "lib/minifier.js~Minifier#mode",
     "member"
   ],
   [
-    "src/minifier.js~minifier#silent",
-    "class/src/minifier.js~Minifier.html#instance-member-silent",
-    "src/minifier.js~Minifier#silent",
+    "lib/minifier.js~minifier#silent",
+    "class/lib/minifier.js~Minifier.html#instance-member-silent",
+    "lib/minifier.js~Minifier#silent",
     "member"
   ],
   [
-    "src/safe_transformer.js",
-    "file/src/safe_transformer.js.html",
-    "src/safe_transformer.js",
+    "lib/safe_transformer.js",
+    "file/lib/safe_transformer.js.html",
+    "lib/safe_transformer.js",
     "file"
   ],
   [
-    "src/safe_transformer.js~safetransformer#constructor",
-    "class/src/safe_transformer.js~SafeTransformer.html#instance-constructor-constructor",
-    "src/safe_transformer.js~SafeTransformer#constructor",
+    "lib/safe_transformer.js~safetransformer#constructor",
+    "class/lib/safe_transformer.js~SafeTransformer.html#instance-constructor-constructor",
+    "lib/safe_transformer.js~SafeTransformer#constructor",
     "method"
   ],
   [
-    "src/safe_transformer.js~safetransformer#transform",
-    "class/src/safe_transformer.js~SafeTransformer.html#instance-method-transform",
-    "src/safe_transformer.js~SafeTransformer#transform",
+    "lib/safe_transformer.js~safetransformer#transform",
+    "class/lib/safe_transformer.js~SafeTransformer.html#instance-method-transform",
+    "lib/safe_transformer.js~SafeTransformer#transform",
     "method"
+  ],
+  [
+    "test/factory_test.js",
+    "test-file/test/factory_test.js.html",
+    "test/factory_test.js",
+    "testFile"
   ],
   [
     "test/fast_transformer_test.js",
     "test-file/test/fast_transformer_test.js.html",
     "test/fast_transformer_test.js",
-    "testFile"
-  ],
-  [
-    "test/index_test.js",
-    "test-file/test/index_test.js.html",
-    "test/index_test.js",
     "testFile"
   ],
   [

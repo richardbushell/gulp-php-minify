@@ -1,24 +1,26 @@
 {
-  "coverage": "100%",
-  "expectCount": 17,
+  "coverage": "94.44%",
+  "expectCount": 18,
   "actualCount": 17,
   "files": {
-    "src/fast_transformer.js": {
+    "lib/fast_transformer.js": {
       "expectCount": 7,
       "actualCount": 7,
       "undocumentLines": []
     },
-    "src/minifier.js": {
-      "expectCount": 6,
+    "lib/minifier.js": {
+      "expectCount": 7,
       "actualCount": 6,
-      "undocumentLines": []
+      "undocumentLines": [
+        3
+      ]
     },
-    "src/safe_transformer.js": {
+    "lib/safe_transformer.js": {
       "expectCount": 3,
       "actualCount": 3,
       "undocumentLines": []
     },
-    "src/index.js": {
+    "lib/factory.js": {
       "expectCount": 1,
       "actualCount": 1,
       "undocumentLines": []

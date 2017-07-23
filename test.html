@@ -32,10 +32,11 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-factory">factory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -52,23 +53,44 @@
 
   <tbody data-ice="tests">
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber10"><p>FastTransformer</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/factory_test.js.html#lineNumber9"><p>factory()</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="class/src/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-factory">factory</a></span></td>
+  <td data-ice="testCount">2</td>
+</tr>
+
+<tr data-ice="testIt" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/factory_test.js.html#lineNumber10"><p>should return a <code>Minifier</code> instance</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+  <td></td>
+</tr>
+<tr data-ice="testIt" style="display: none;" data-test-depth="1">
+  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/factory_test.js.html#lineNumber14"><p>should properly initialize the minifier properties</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target">-</td>
+  <td></td>
+</tr>
+
+
+<tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="0">
+  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber9"><p>FastTransformer</p>
+</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></td>
   <td data-ice="testCount">5</td>
 </tr>
 
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber16"><p>#listening</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber15"><p>#listening</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="class/src/fast_transformer.js~FastTransformer.html#instance-get-listening">FastTransformer#listening</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/lib/fast_transformer.js~FastTransformer.html#instance-get-listening">FastTransformer#listening</a></span></td>
   <td data-ice="testCount">1</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber17"><p>should return whether the server is listening</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber16"><p>should return whether the server is listening</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -76,32 +98,32 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber32"><p>#transform()</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber31"><p>#transform()</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="class/src/fast_transformer.js~FastTransformer.html#instance-method-transform">FastTransformer#transform</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/lib/fast_transformer.js~FastTransformer.html#instance-method-transform">FastTransformer#transform</a></span></td>
   <td data-ice="testCount">4</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber37"><p>should remove the inline comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber36"><p>should remove the inline comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber45"><p>should remove the multi-line comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber44"><p>should remove the multi-line comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber51"><p>should remove the single-line comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber50"><p>should remove the single-line comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber57"><p>should remove the whitespace</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber56"><p>should remove the whitespace</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -109,56 +131,35 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/index_test.js.html#lineNumber10"><p>phpMinify()</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/minifier_test.js.html#lineNumber10"><p>Minifier</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></td>
-  <td data-ice="testCount">2</td>
-</tr>
-
-<tr data-ice="testIt" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/index_test.js.html#lineNumber11"><p>should return a <code>Minifier</code> instance</p>
-</a></span></td>
-  <td data-ice="testTarget" class="test-target">-</td>
-  <td></td>
-</tr>
-<tr data-ice="testIt" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span><a href="test-file/test/index_test.js.html#lineNumber15"><p>should properly initialize the minifier properties</p>
-</a></span></td>
-  <td data-ice="testTarget" class="test-target">-</td>
-  <td></td>
-</tr>
-
-
-<tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/minifier_test.js.html#lineNumber11"><p>Minifier</p>
-</a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></td>
   <td data-ice="testCount">7</td>
 </tr>
 
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/minifier_test.js.html#lineNumber17"><p>#mode</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/minifier_test.js.html#lineNumber16"><p>#mode</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="class/src/minifier.js~Minifier.html#instance-get-mode">Minifier#mode</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/lib/minifier.js~Minifier.html#instance-get-mode">Minifier#mode</a></span></td>
   <td data-ice="testCount">3</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber18"><p>should be <code>safe</code> if the underlying transformer is a <code>SafeTransformer</code> one</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber17"><p>should be <code>safe</code> if the underlying transformer is a <code>SafeTransformer</code> one</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber24"><p>should be <code>fast</code> if the underlying transformer is a <code>FastTransformer</code> one</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber23"><p>should be <code>fast</code> if the underlying transformer is a <code>FastTransformer</code> one</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber30"><p>should change the underlying transformer on value update</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber29"><p>should change the underlying transformer on value update</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -166,32 +167,32 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/minifier_test.js.html#lineNumber44"><p>#_transform()</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/minifier_test.js.html#lineNumber43"><p>#_transform()</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target"><span>Minifier#_transform</span></td>
   <td data-ice="testCount">4</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber51"><p>should remove the inline comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber50"><p>should remove the inline comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber63"><p>should remove the multi-line comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber62"><p>should remove the multi-line comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber73"><p>should remove the single-line comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber72"><p>should remove the single-line comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber83"><p>should remove the whitespace</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/minifier_test.js.html#lineNumber82"><p>should remove the whitespace</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
@@ -199,41 +200,41 @@
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="0">
-  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber10"><p>SafeTransformer</p>
+  <td data-ice="testDescription" style="padding-left: 10px"><span class="toggle closed"></span><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber9"><p>SafeTransformer</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="class/src/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></td>
   <td data-ice="testCount">4</td>
 </tr>
 
 
 
 <tr class="test-describe" data-ice="testDescribe" style="display: none;" data-test-depth="1">
-  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber16"><p>#transform()</p>
+  <td data-ice="testDescription" style="padding-left: 20px"><span class="toggle closed"></span><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber15"><p>#transform()</p>
 </a></span></td>
-  <td data-ice="testTarget" class="test-target"><span><a href="class/src/safe_transformer.js~SafeTransformer.html#instance-method-transform">SafeTransformer#transform</a></span></td>
+  <td data-ice="testTarget" class="test-target"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html#instance-method-transform">SafeTransformer#transform</a></span></td>
   <td data-ice="testCount">4</td>
 </tr>
 
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber20"><p>should remove the inline comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber19"><p>should remove the inline comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber28"><p>should remove the multi-line comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber27"><p>should remove the multi-line comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber34"><p>should remove the single-line comments</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber33"><p>should remove the single-line comments</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>
 </tr>
 <tr data-ice="testIt" style="display: none;" data-test-depth="2">
-  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber40"><p>should remove the whitespace</p>
+  <td data-ice="testDescription" style="padding-left: 30px"><span><a href="test-file/test/safe_transformer_test.js.html#lineNumber39"><p>should remove the whitespace</p>
 </a></span></td>
   <td data-ice="testTarget" class="test-target">-</td>
   <td></td>

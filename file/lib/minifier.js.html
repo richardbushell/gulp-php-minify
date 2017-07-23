@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/minifier.js | Gulp-PHP-Minify API Document</title>
+  <title data-ice="title">lib/minifier.js | Gulp-PHP-Minify API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -32,25 +32,27 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/minifier.js~Minifier.html">Minifier</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-phpMinify">phpMinify</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-factory">factory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/minifier.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Transform} from &apos;stream&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">lib/minifier.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
-import {name as pkgName} from &apos;../package.json&apos;;
-import {FastTransformer} from &apos;./fast_transformer&apos;;
-import {SafeTransformer} from &apos;./safe_transformer&apos;;
+const {Transform} = require(&apos;stream&apos;);
+const {name: pkgName} = require(&apos;../package.json&apos;);
+const {FastTransformer} = require(&apos;./fast_transformer&apos;);
+const {SafeTransformer} = require(&apos;./safe_transformer&apos;);
 
 /**
  * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.
  */
-export class Minifier extends Transform {
+exports.Minifier = class Minifier extends Transform {
 
   /**
    * Initializes a new instance of the class.
@@ -111,7 +113,7 @@ export class Minifier extends Transform {
       }
     });
   }
-}
+};
 </code></pre>
 
 </div>
