@@ -1,29 +1,46 @@
 {
-  "coverage": "94.44%",
-  "expectCount": 18,
-  "actualCount": 17,
+  "coverage": "60.52%",
+  "expectCount": 38,
+  "actualCount": 23,
   "files": {
+    "lib/factory.js": {
+      "expectCount": 3,
+      "actualCount": 1,
+      "undocumentLines": [
+        3,
+        4
+      ]
+    },
     "lib/fast_transformer.js": {
-      "expectCount": 7,
-      "actualCount": 7,
-      "undocumentLines": []
+      "expectCount": 15,
+      "actualCount": 10,
+      "undocumentLines": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
     },
     "lib/minifier.js": {
-      "expectCount": 7,
-      "actualCount": 6,
+      "expectCount": 14,
+      "actualCount": 8,
       "undocumentLines": [
-        3
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
       ]
     },
     "lib/safe_transformer.js": {
-      "expectCount": 3,
-      "actualCount": 3,
-      "undocumentLines": []
-    },
-    "lib/factory.js": {
-      "expectCount": 1,
-      "actualCount": 1,
-      "undocumentLines": []
+      "expectCount": 6,
+      "actualCount": 4,
+      "undocumentLines": [
+        3,
+        4
+      ]
     }
   }
 }
