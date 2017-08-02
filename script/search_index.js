@@ -24,12 +24,6 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "@cedx/gulp-php-minify/lib/factory.js~factory",
-    "function/index.html#static-function-factory",
-    "<span>factory</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/factory.js</span>",
-    "function"
-  ],
-  [
     "fasttransformer lib/fast_transformer.js~fasttransformer,fasttransformer",
     "test-file/test/fast_transformer_test.js.html#lineNumber9",
     "FastTransformer",
@@ -85,56 +79,74 @@ window.esdocSearchIndex = [
   ],
   [
     "minifier#_transform minifier#_transform,minifier#_transform",
-    "test-file/test/minifier_test.js.html#lineNumber43",
+    "test-file/test/minifier_test.js.html#lineNumber64",
     "Minifier #_transform()",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber50",
+    "test-file/test/minifier_test.js.html#lineNumber71",
     "Minifier #_transform() should remove the inline comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber62",
+    "test-file/test/minifier_test.js.html#lineNumber83",
     "Minifier #_transform() should remove the multi-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber72",
+    "test-file/test/minifier_test.js.html#lineNumber93",
     "Minifier #_transform() should remove the single-line comments",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber82",
+    "test-file/test/minifier_test.js.html#lineNumber103",
     "Minifier #_transform() should remove the whitespace",
     "test"
   ],
   [
     "minifier#mode lib/minifier.js~minifier#mode,minifier#mode",
-    "test-file/test/minifier_test.js.html#lineNumber16",
+    "test-file/test/minifier_test.js.html#lineNumber37",
     "Minifier #mode",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber23",
+    "test-file/test/minifier_test.js.html#lineNumber44",
     "Minifier #mode should be `fast` if the underlying transformer is a `FastTransformer` one",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber17",
+    "test-file/test/minifier_test.js.html#lineNumber38",
     "Minifier #mode should be `safe` if the underlying transformer is a `SafeTransformer` one",
     "test"
   ],
   [
     "",
-    "test-file/test/minifier_test.js.html#lineNumber29",
+    "test-file/test/minifier_test.js.html#lineNumber50",
     "Minifier #mode should change the underlying transformer on value update",
+    "test"
+  ],
+  [
+    "minifier.factory lib/minifier.js~minifier.factory,minifier.factory",
+    "test-file/test/minifier_test.js.html#lineNumber16",
+    "Minifier .factory()",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/minifier_test.js.html#lineNumber21",
+    "Minifier .factory() should properly initialize the instance properties",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/minifier_test.js.html#lineNumber17",
+    "Minifier .factory() should return a `Minifier` instance",
     "test"
   ],
   [
@@ -171,24 +183,6 @@ window.esdocSearchIndex = [
     "",
     "test-file/test/safe_transformer_test.js.html#lineNumber39",
     "SafeTransformer #transform() should remove the whitespace",
-    "test"
-  ],
-  [
-    "factory lib/factory.js~factory,factory",
-    "test-file/test/factory_test.js.html#lineNumber9",
-    "factory()",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/factory_test.js.html#lineNumber14",
-    "factory() should properly initialize the minifier properties",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/factory_test.js.html#lineNumber10",
-    "factory() should return a `Minifier` instance",
     "test"
   ],
   [
@@ -474,12 +468,6 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "lib/factory.js",
-    "file/lib/factory.js.html",
-    "lib/factory.js",
-    "file"
-  ],
-  [
     "lib/fast_transformer.js",
     "file/lib/fast_transformer.js.html",
     "lib/fast_transformer.js",
@@ -541,13 +529,13 @@ window.esdocSearchIndex = [
   ],
   [
     "lib/minifier.js~minifier#mode",
-    "class/lib/minifier.js~Minifier.html#instance-set-mode",
+    "class/lib/minifier.js~Minifier.html#instance-get-mode",
     "lib/minifier.js~Minifier#mode",
     "member"
   ],
   [
     "lib/minifier.js~minifier#mode",
-    "class/lib/minifier.js~Minifier.html#instance-get-mode",
+    "class/lib/minifier.js~Minifier.html#instance-set-mode",
     "lib/minifier.js~Minifier#mode",
     "member"
   ],
@@ -556,6 +544,12 @@ window.esdocSearchIndex = [
     "class/lib/minifier.js~Minifier.html#instance-member-silent",
     "lib/minifier.js~Minifier#silent",
     "member"
+  ],
+  [
+    "lib/minifier.js~minifier.factory",
+    "class/lib/minifier.js~Minifier.html#static-method-factory",
+    "lib/minifier.js~Minifier.factory",
+    "method"
   ],
   [
     "lib/safe_transformer.js",
@@ -574,12 +568,6 @@ window.esdocSearchIndex = [
     "class/lib/safe_transformer.js~SafeTransformer.html#instance-method-transform",
     "lib/safe_transformer.js~SafeTransformer#transform",
     "method"
-  ],
-  [
-    "test/factory_test.js",
-    "test-file/test/factory_test.js.html",
-    "test/factory_test.js",
-    "testFile"
   ],
   [
     "test/fast_transformer_test.js",

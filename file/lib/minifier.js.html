@@ -32,7 +32,6 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-factory">factory</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
 </ul>
 </div>
@@ -42,6 +41,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
 const {which} = require(&apos;@cedx/which&apos;);
+const {normalize} = require(&apos;path&apos;);
 const {Observable} = require(&apos;rxjs&apos;);
 const {Transform} = require(&apos;stream&apos;);
 const {name: pkgName} = require(&apos;../package.json&apos;);
@@ -93,6 +93,18 @@ exports.Minifier = class Minifier extends Transform {
    */
   set mode(value) {
     this._transformer = value == &apos;fast&apos; ? new FastTransformer(this) : new SafeTransformer(this);
+  }
+
+  /**
+   * Creates a new minifier.
+   * @param {object} [options] The minifier options.
+   * @return {Minifier} The newly created instance.
+   */
+  static factory(options = {}) {
+    let minifier = new exports.Minifier(typeof options.binary == &apos;string&apos; ? normalize(options.binary) : &apos;&apos;);
+    if (typeof options.mode == &apos;string&apos;) minifier.mode = options.mode;
+    if (typeof options.silent == &apos;boolean&apos;) minifier.silent = options.silent;
+    return minifier;
   }
 
   /**

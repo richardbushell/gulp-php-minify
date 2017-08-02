@@ -1,16 +1,8 @@
 {
-  "coverage": "60.52%",
-  "expectCount": 38,
+  "coverage": "62.16%",
+  "expectCount": 37,
   "actualCount": 23,
   "files": {
-    "lib/factory.js": {
-      "expectCount": 3,
-      "actualCount": 1,
-      "undocumentLines": [
-        3,
-        4
-      ]
-    },
     "lib/fast_transformer.js": {
       "expectCount": 15,
       "actualCount": 10,
@@ -23,15 +15,16 @@
       ]
     },
     "lib/minifier.js": {
-      "expectCount": 14,
-      "actualCount": 8,
+      "expectCount": 16,
+      "actualCount": 9,
       "undocumentLines": [
         3,
         4,
         5,
         6,
         7,
-        8
+        8,
+        9
       ]
     },
     "lib/safe_transformer.js": {
