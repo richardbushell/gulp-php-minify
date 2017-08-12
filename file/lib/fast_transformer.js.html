@@ -40,11 +40,12 @@
 <div class="content" data-ice="content"><h1 data-ice="title">lib/fast_transformer.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
-const {spawn} = require(&apos;child_process&apos;);
+const {ChildProcess, spawn} = require(&apos;child_process&apos;);
 const {createServer} = require(&apos;net&apos;);
+const fetch = require(&apos;node-fetch&apos;);
 const {join} = require(&apos;path&apos;);
 const {Observable} = require(&apos;rxjs&apos;);
-const superagent = require(&apos;superagent&apos;);
+const {URL} = require(&apos;url&apos;);
 
 /**
  * Removes comments and whitespace from a PHP script, by calling a Web service.
@@ -74,10 +75,16 @@ exports.FastTransformer = class FastTransformer {
     this._minifier.on(&apos;end&apos;, handler).on(&apos;error&apos;, handler);
 
     /**
-     * The underlying PHP process.
-     * @type {object}
+     * The port that the PHP process is listening on.
+     * @type {number}
      */
-    this._phpServer = null;
+    this._port = -1;
+
+    /**
+     * The underlying PHP process.
+     * @type {ChildProcess}
+     */
+    this._process = null;
   }
 
   /**
@@ -85,7 +92,7 @@ exports.FastTransformer = class FastTransformer {
    * @type {boolean}
    */
   get listening() {
-    return Boolean(this._phpServer &amp;&amp; typeof this._phpServer == &apos;object&apos;);
+    return this._process instanceof ChildProcess;
   }
 
   /**
@@ -93,9 +100,9 @@ exports.FastTransformer = class FastTransformer {
    * @return {Observable} Completes when the PHP process is finally terminated.
    */
   close() {
-    return !this.listening ? Observable.of(null) : new Observable(observer =&gt; {
-      this._phpServer.process.kill();
-      this._phpServer = null;
+    return !this.listening ? Observable.empty() : new Observable(observer =&gt; {
+      this._process.kill();
+      this._process = null;
       observer.next();
       observer.complete();
     });
@@ -106,13 +113,12 @@ exports.FastTransformer = class FastTransformer {
    * @return {Observable&lt;number&gt;} The port used by the PHP process.
    */
   listen() {
-    if (this.listening) return Observable.of(this._phpServer.port);
+    if (this.listening) return Observable.of(this._port);
 
     return this._getPort().map(port =&gt; {
-      let address = FastTransformer.DEFAULT_ADDRESS;
-      let args = [&apos;-S&apos;, `${address}:${port}`, &apos;-t&apos;, join(__dirname, &apos;../web&apos;)];
-      this._phpServer = {address, port, process: spawn(this._minifier.binary, args)};
-      return port;
+      this._process = spawn(this._minifier.binary, [&apos;-S&apos;, `${FastTransformer.DEFAULT_ADDRESS}:${port}`, &apos;-t&apos;, join(__dirname, &apos;../web&apos;)]);
+      this._port = port;
+      return this._port;
     }).delay(1000);
   }
 
@@ -123,10 +129,12 @@ exports.FastTransformer = class FastTransformer {
    */
   transform(script) {
     return this.listen()
-      .mergeMap(() =&gt; Observable.from(superagent
-        .get(`http://${this._phpServer.address}:${this._phpServer.port}/index.php`)
-        .query({file: script})))
-      .map(res =&gt; res.text);
+      .mergeMap(port =&gt; {
+        let endPoint = new URL(`http://${FastTransformer.DEFAULT_ADDRESS}:${port}/index.php`);
+        endPoint.searchParams.set(&apos;file&apos;, script);
+        return Observable.from(fetch(endPoint.href));
+      })
+      .mergeMap(res =&gt; Observable.from(res.text()));
   }
 
   /**

@@ -1,17 +1,18 @@
 {
-  "coverage": "62.16%",
-  "expectCount": 37,
-  "actualCount": 23,
+  "coverage": "61.53%",
+  "expectCount": 39,
+  "actualCount": 24,
   "files": {
     "lib/fast_transformer.js": {
-      "expectCount": 15,
-      "actualCount": 10,
+      "expectCount": 17,
+      "actualCount": 11,
       "undocumentLines": [
         3,
         4,
         5,
         6,
-        7
+        7,
+        8
       ]
     },
     "lib/minifier.js": {

@@ -37,7 +37,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="gulp-php-minify">Gulp-PHP-Minify</h1><p><img src="https://img.shields.io/badge/node-%3E%3D8.0-brightgreen.svg" alt="Runtime"> <img src="https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg" alt="Release"> <img src="https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg" alt="License"> <img src="https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg" alt="Downloads"> <img src="https://david-dm.org/cedx/gulp-php-minify.svg" alt="Dependencies"> <img src="https://coveralls.io/repos/github/cedx/gulp-php-minify/badge.svg" alt="Coverage"> <img src="https://travis-ci.org/cedx/gulp-php-minify.svg" alt="Build"></p>
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="gulp-php-minify">Gulp-PHP-Minify</h1><p><img src="https://img.shields.io/badge/node-%3E%3D8.3-brightgreen.svg" alt="Runtime"> <img src="https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg" alt="Release"> <img src="https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg" alt="License"> <img src="https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg" alt="Downloads"> <img src="https://david-dm.org/cedx/gulp-php-minify.svg" alt="Dependencies"> <img src="https://coveralls.io/repos/github/cedx/gulp-php-minify/badge.svg" alt="Coverage"> <img src="https://travis-ci.org/cedx/gulp-php-minify.svg" alt="Build"></p>
 <p><a href="http://gulpjs.com">Gulp</a> plug-in minifying <a href="https://secure.php.net">PHP</a> source code by removing comments and whitespace.</p>
 <h2 id="getting-started">Getting started</h2><p>If you haven&apos;t used <a href="http://gulpjs.com">Gulp</a> before, be sure to check out the <a href="https://github.com/gulpjs/gulp/blob/master/docs/README.md">related documentation</a>, as it explains how to create a <code>gulpfile.js</code> as well as install and use plug-ins.
 Once you&apos;re familiar with that process, you may install this plug-in with this command:</p>
@@ -54,13 +54,13 @@ gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**.php&apo
 );</code>
 </code></pre>
 <p>The plug-in only needs the file paths, so you should specify the <code>read</code> option to <code>false</code> when providing the file list, and you should not have any other plug-in before it.</p>
-<h2 id="options">Options</h2><h3 id="-code-binary--code-"><code>binary</code></h3><p>The plug-in relies on the availability of the <a href="https://secure.php.net">PHP</a> executable on the target system. By default, the plug-in will use the <code>php</code> binary found on the system path.</p>
+<h2 id="options">Options</h2><h3 id="-code-binary--string----quot-php-quot---code-"><code>binary: string = &quot;php&quot;</code></h3><p>The plug-in relies on the availability of the <a href="https://secure.php.net">PHP</a> executable on the target system. By default, the plug-in will use the <code>php</code> binary found on the system path.</p>
 <p>If the plug-in cannot find the default <code>php</code> binary, or if you want to use a different one, you can provide the path to the <code>php</code> executable by using the <code>binary</code> option:</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**.php&apos;, {read: false})
   .pipe(phpMinify({binary: &apos;C:\\Program Files\\PHP\\php.exe&apos;}))
   .pipe(gulp.dest(&apos;path/to/out&apos;));</code>
 </code></pre>
-<h3 id="-code-mode--code-"><code>mode</code></h3><p>The plug-in can work in two manners, which can be selected using the <code>mode</code> option:</p>
+<h3 id="-code-mode--string----quot-safe-quot---code-"><code>mode: string = &quot;safe&quot;</code></h3><p>The plug-in can work in two manners, which can be selected using the <code>mode</code> option:</p>
 <ul>
 <li>the <code>safe</code> mode: as its name implies, this mode is very reliable. But it is also very slow as it spawns a new PHP process for every file to be processed. This is the default mode.</li>
 <li>the <code>fast</code> mode: as its name implies, this mode is very fast, but it is not very reliable. It spawns a PHP web server that processes the input files, but on some systems this fails. This mode requires a <a href="https://secure.php.net">PHP</a> runtime version <strong>7.0 or later</strong>.</li>
@@ -69,7 +69,7 @@ gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**.php&apo
   .pipe(phpMinify({mode: &apos;fast&apos;}))
   .pipe(gulp.dest(&apos;path/to/out&apos;));</code>
 </code></pre>
-<h3 id="-code-silent--code-"><code>silent</code></h3><p>By default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the <code>silent</code> option to <code>true</code>.</p>
+<h3 id="-code-silent--boolean---false--code-"><code>silent: boolean = false</code></h3><p>By default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the <code>silent</code> option to <code>true</code>.</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**.php&apos;, {read: false})
   .pipe(phpMinify({silent: true}))
   .pipe(gulp.dest(&apos;path/to/out&apos;));</code>

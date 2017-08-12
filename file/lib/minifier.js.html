@@ -101,7 +101,7 @@ exports.Minifier = class Minifier extends Transform {
    * @return {Minifier} The newly created instance.
    */
   static factory(options = {}) {
-    let minifier = new exports.Minifier(typeof options.binary == &apos;string&apos; ? normalize(options.binary) : &apos;&apos;);
+    let minifier = new Minifier(typeof options.binary == &apos;string&apos; ? normalize(options.binary) : &apos;&apos;);
     if (typeof options.mode == &apos;string&apos;) minifier.mode = options.mode;
     if (typeof options.silent == &apos;boolean&apos;) minifier.silent = options.silent;
     return minifier;
