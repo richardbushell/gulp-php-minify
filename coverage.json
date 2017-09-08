@@ -1,11 +1,22 @@
 {
-  "coverage": "61.53%",
-  "expectCount": 39,
-  "actualCount": 24,
+  "coverage": "67.5%",
+  "expectCount": 40,
+  "actualCount": 27,
   "files": {
     "lib/fast_transformer.js": {
       "expectCount": 17,
-      "actualCount": 11,
+      "actualCount": 12,
+      "undocumentLines": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "lib/minifier.js": {
+      "expectCount": 16,
+      "actualCount": 10,
       "undocumentLines": [
         3,
         4,
@@ -15,22 +26,9 @@
         8
       ]
     },
-    "lib/minifier.js": {
-      "expectCount": 16,
-      "actualCount": 9,
-      "undocumentLines": [
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9
-      ]
-    },
     "lib/safe_transformer.js": {
-      "expectCount": 6,
-      "actualCount": 4,
+      "expectCount": 7,
+      "actualCount": 5,
       "undocumentLines": [
         3,
         4

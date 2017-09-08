@@ -37,7 +37,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="gulp-php-minify">Gulp-PHP-Minify</h1><p><img src="https://img.shields.io/badge/node-%3E%3D8.3-brightgreen.svg" alt="Runtime"> <img src="https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg" alt="Release"> <img src="https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg" alt="License"> <img src="https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg" alt="Downloads"> <img src="https://david-dm.org/cedx/gulp-php-minify.svg" alt="Dependencies"> <img src="https://coveralls.io/repos/github/cedx/gulp-php-minify/badge.svg" alt="Coverage"> <img src="https://travis-ci.org/cedx/gulp-php-minify.svg" alt="Build"></p>
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="gulp-php-minify">Gulp-PHP-Minify</h1><p><img src="https://img.shields.io/badge/node-%3E%3D8.4-brightgreen.svg" alt="Runtime"> <img src="https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg" alt="Release"> <img src="https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg" alt="License"> <img src="https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg" alt="Downloads"> <img src="https://david-dm.org/cedx/gulp-php-minify.svg" alt="Dependencies"> <img src="https://coveralls.io/repos/github/cedx/gulp-php-minify/badge.svg" alt="Coverage"> <img src="https://travis-ci.org/cedx/gulp-php-minify.svg" alt="Build"></p>
 <p><a href="http://gulpjs.com">Gulp</a> plug-in minifying <a href="https://secure.php.net">PHP</a> source code by removing comments and whitespace.</p>
 <h2 id="getting-started">Getting started</h2><p>If you haven&apos;t used <a href="http://gulpjs.com">Gulp</a> before, be sure to check out the <a href="https://github.com/gulpjs/gulp/blob/master/docs/README.md">related documentation</a>, as it explains how to create a <code>gulpfile.js</code> as well as install and use plug-ins.
 Once you&apos;re familiar with that process, you may install this plug-in with this command:</p>
@@ -48,15 +48,17 @@ Once you&apos;re familiar with that process, you may install this plug-in with t
 <pre><code class="lang-javascript"><code class="source-code prettyprint">const {phpMinify} = require(&apos;@cedx/gulp-php-minify&apos;);
 const gulp = require(&apos;gulp&apos;);
 
-gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**.php&apos;, {read: false})
+gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**/*.php&apos;, {read: false})
   .pipe(phpMinify())
   .pipe(gulp.dest(&apos;path/to/out&apos;))
 );</code>
 </code></pre>
+<blockquote>
 <p>The plug-in only needs the file paths, so you should specify the <code>read</code> option to <code>false</code> when providing the file list, and you should not have any other plug-in before it.</p>
+</blockquote>
 <h2 id="options">Options</h2><h3 id="-code-binary--string----quot-php-quot---code-"><code>binary: string = &quot;php&quot;</code></h3><p>The plug-in relies on the availability of the <a href="https://secure.php.net">PHP</a> executable on the target system. By default, the plug-in will use the <code>php</code> binary found on the system path.</p>
 <p>If the plug-in cannot find the default <code>php</code> binary, or if you want to use a different one, you can provide the path to the <code>php</code> executable by using the <code>binary</code> option:</p>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**.php&apos;, {read: false})
+<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**/*.php&apos;, {read: false})
   .pipe(phpMinify({binary: &apos;C:\\Program Files\\PHP\\php.exe&apos;}))
   .pipe(gulp.dest(&apos;path/to/out&apos;));</code>
 </code></pre>
@@ -65,12 +67,12 @@ gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**.php&apo
 <li>the <code>safe</code> mode: as its name implies, this mode is very reliable. But it is also very slow as it spawns a new PHP process for every file to be processed. This is the default mode.</li>
 <li>the <code>fast</code> mode: as its name implies, this mode is very fast, but it is not very reliable. It spawns a PHP web server that processes the input files, but on some systems this fails. This mode requires a <a href="https://secure.php.net">PHP</a> runtime version <strong>7.0 or later</strong>.</li>
 </ul>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**.php&apos;, {read: false})
+<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**/*.php&apos;, {read: false})
   .pipe(phpMinify({mode: &apos;fast&apos;}))
   .pipe(gulp.dest(&apos;path/to/out&apos;));</code>
 </code></pre>
 <h3 id="-code-silent--boolean---false--code-"><code>silent: boolean = false</code></h3><p>By default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the <code>silent</code> option to <code>true</code>.</p>
-<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**.php&apos;, {read: false})
+<pre><code class="lang-javascript"><code class="source-code prettyprint">return gulp.src(&apos;path/to/lib/**/*.php&apos;, {read: false})
   .pipe(phpMinify({silent: true}))
   .pipe(gulp.dest(&apos;path/to/out&apos;));</code>
 </code></pre>
@@ -79,12 +81,12 @@ gulp.task(&apos;minify:php&apos;, () =&gt; gulp.src(&apos;path/to/lib/**.php&apo
 <li><a href="https://coveralls.io/github/cedx/gulp-php-minify">Code coverage</a></li>
 <li><a href="https://travis-ci.org/cedx/gulp-php-minify">Continuous integration</a></li>
 </ul>
-<h2 id="license">License</h2><p><a href="https://github.com/cedx/gulp-php-minify">Gulp-PHP-Minify</a> is distributed under the Apache License, version 2.0.</p>
+<h2 id="license">License</h2><p><a href="https://github.com/cedx/gulp-php-minify">Gulp-PHP-Minify</a> is distributed under the MIT License.</p>
 </div>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.1)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
