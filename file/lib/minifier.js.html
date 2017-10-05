@@ -32,7 +32,9 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/lib/transformer.js~Transformer.html">Transformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transformer">Transformer</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -44,8 +46,7 @@ const {which} = require(&apos;@cedx/which&apos;);
 const {normalize} = require(&apos;path&apos;);
 const {Transform} = require(&apos;stream&apos;);
 const {name: pkgName} = require(&apos;../package.json&apos;);
-const {FastTransformer} = require(&apos;./fast_transformer&apos;);
-const {SafeTransformer} = require(&apos;./safe_transformer&apos;);
+const {Transformer} = require(&apos;./transformer&apos;);
 
 /**
  * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.
@@ -54,28 +55,29 @@ exports.Minifier = class Minifier extends Transform {
 
   /**
    * Initializes a new instance of the class.
-   * @param {string} [binary] The path to the PHP executable.
+   * @param {object} [options] An object specifying values used to initialize this instance.
    */
-  constructor(binary = &apos;&apos;) {
+  constructor({binary = &apos;&apos;, mode = &apos;safe&apos;, silent = false} = {}) {
     super({objectMode: true});
-
-    /**
-     * The path to the PHP executable.
-     * @type {string}
-     */
-    this.binary = binary;
 
     /**
      * Value indicating whether to silent the plug-in output.
      * @type {boolean}
      */
-    this.silent = false;
+    this.silent = silent;
 
     /**
      * The instance used to process the PHP code.
-     * @type {object}
+     * @type {Transformer|string}
      */
-    this._transformer = new SafeTransformer(this);
+    this._transformer = `${mode}:${binary}`;
+
+    // Register the event handlers.
+    let handler = async () =&gt; {
+      if (typeof this._transformer != &apos;string&apos;) await this._transformer.close();
+    };
+
+    this.on(&apos;end&apos;, handler).on(&apos;error&apos;, handler);
   }
 
   /**
@@ -87,31 +89,16 @@ exports.Minifier = class Minifier extends Transform {
   }
 
   /**
-   * The transformation type.
-   * @type {string}
-   */
-  get mode() {
-    return this._transformer instanceof FastTransformer ? &apos;fast&apos; : &apos;safe&apos;;
-  }
-
-  /**
-   * Sets the transformation type.
-   * @param {string} value The new transformation type.
-   */
-  set mode(value) {
-    this._transformer = value == &apos;fast&apos; ? new FastTransformer(this) : new SafeTransformer(this);
-  }
-
-  /**
    * Creates a new minifier.
    * @param {object} [options] The minifier options.
    * @return {Minifier} The newly created instance.
    */
   static factory(options = {}) {
-    let minifier = new Minifier(typeof options.binary == &apos;string&apos; ? normalize(options.binary) : &apos;&apos;);
-    if (typeof options.mode == &apos;string&apos;) minifier.mode = options.mode;
-    if (typeof options.silent == &apos;boolean&apos;) minifier.silent = options.silent;
-    return minifier;
+    return new Minifier({
+      binary: typeof options.binary == &apos;string&apos; ? normalize(options.binary) : &apos;&apos;,
+      mode: typeof options.mode == &apos;string&apos; ? options.mode : &apos;safe&apos;,
+      silent: typeof options.silent == &apos;boolean&apos; ? options.silent : false
+    });
   }
 
   /**
@@ -122,10 +109,13 @@ exports.Minifier = class Minifier extends Transform {
    * @return {Promise&lt;File&gt;} The transformed chunk.
    */
   async _transform(file, encoding = &apos;utf8&apos;, callback = null) {
-    if (!this.silent) console.log(`Minifying: ${file.path}`);
-
     try {
-      if (!this.binary.length) this.binary = await which(&apos;php&apos;);
+      if (typeof this._transformer == &apos;string&apos;) {
+        let parts = this._transformer.split(&apos;:&apos;, 2);
+        this._transformer = Transformer.factory(parts[0], parts[1].length ? parts[1] : await which(&apos;php&apos;));
+      }
+
+      if (!this.silent) console.log(`Minifying: ${file.path}`);
       file.contents = Buffer.from(await this._transformer.transform(file.path), encoding);
       if (callback) callback(null, file);
     }
@@ -143,7 +133,7 @@ exports.Minifier = class Minifier extends Transform {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.3)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

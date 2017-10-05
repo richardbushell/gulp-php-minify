@@ -32,19 +32,21 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/lib/transformer.js~Transformer.html">Transformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transformer">Transformer</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {FastTransformer} from &apos;<span><a href="file/lib/fast_transformer.js.html#lineNumber12">@cedx/gulp-php-minify/lib/fast_transformer.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {FastTransformer} from &apos;<span><a href="file/lib/fast_transformer.js.html#lineNumber13">@cedx/gulp-php-minify/lib/fast_transformer.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/lib/fast_transformer.js.html#lineNumber12">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/lib/fast_transformer.js.html#lineNumber13">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -57,7 +59,7 @@
   
   
   
-  
+  <div class="flat-list" data-ice="implements"><h4>Implements:</h4><ul><li><span><a href="variable/index.html#static-variable-Transformer">Transformer</a></span></li></ul></div>
   
   
   
@@ -76,7 +78,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber9">FastTransformer</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/fast_transformer.test.js.html#lineNumber9">FastTransformer</a></span></li>
 </ul>
   </div>
 
@@ -101,7 +103,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html#static-get-DEFAULT_ADDRESS">DEFAULT_ADDRESS</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html#static-get-defaultAddress">defaultAddress</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
         </p>
       </div>
       <div>
@@ -138,7 +140,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(minifier: <span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(executable: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
         </p>
       </div>
       <div>
@@ -321,18 +323,18 @@
 <div data-ice="staticMemberDetails"><h2 data-ice="title">Static Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-get-DEFAULT_ADDRESS">
+  <h3 data-ice="anchor" id="static-get-defaultAddress">
     <span class="access" data-ice="access">public</span>
     <span data-ice="static">static</span>
     <span class="kind" data-ice="kind">get</span>
     
     
     
-    <span class="code" data-ice="name">DEFAULT_ADDRESS</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="code" data-ice="name">defaultAddress</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber18">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber19">source</a></span></span>
     </span>
   </h3>
 
@@ -376,11 +378,11 @@
     
     
     
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(minifier: <span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span>)</span>
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(executable: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber27">source</a></span></span>
     </span>
   </h3>
 
@@ -401,10 +403,10 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">minifier</td>
-      <td data-ice="type" class="code"><span><a href="class/lib/minifier.js~Minifier.html">Minifier</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The instance providing access to the minifier settings.</p>
+      <td data-ice="name" class="code" data-depth="0">executable</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>The path to the PHP executable.</p>
 </td>
     </tr>
 </tbody>
@@ -444,7 +446,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber53">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber52">source</a></span></span>
     </span>
   </h3>
 
@@ -488,7 +490,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber61">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber60">source</a></span></span>
     </span>
   </h3>
 
@@ -519,7 +521,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber16">FastTransformer #listening</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/fast_transformer.test.js.html#lineNumber53">FastTransformer #listening</a></span></li>
 </ul>
   </div>
 
@@ -541,7 +543,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber68">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber67">source</a></span></span>
     </span>
   </h3>
 
@@ -568,7 +570,13 @@
 
   
 
-  
+  <div data-ice="tests">
+    <h4>Test:</h4>
+    <ul>
+      
+    <li data-ice="test"><span><a href="test-file/test/fast_transformer.test.js.html#lineNumber16">FastTransformer #close()</a></span></li>
+</ul>
+  </div>
 
   
   
@@ -585,7 +593,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber78">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber77">source</a></span></span>
     </span>
   </h3>
 
@@ -625,7 +633,13 @@
 
   
 
-  
+  <div data-ice="tests">
+    <h4>Test:</h4>
+    <ul>
+      
+    <li data-ice="test"><span><a href="test-file/test/fast_transformer.test.js.html#lineNumber34">FastTransformer #listen()</a></span></li>
+</ul>
+  </div>
 
   
   
@@ -642,7 +656,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber94">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/fast_transformer.js.html#lineNumber93">source</a></span></span>
     </span>
   </h3>
 
@@ -703,7 +717,7 @@
     <h4>Test:</h4>
     <ul>
       
-    <li data-ice="test"><span><a href="test-file/test/fast_transformer_test.js.html#lineNumber32">FastTransformer #transform()</a></span></li>
+    <li data-ice="test"><span><a href="test-file/test/fast_transformer.test.js.html#lineNumber70">FastTransformer #transform()</a></span></li>
 </ul>
   </div>
 
@@ -714,7 +728,7 @@
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.3)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
