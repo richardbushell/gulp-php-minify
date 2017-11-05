@@ -24,6 +24,12 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "@cedx/gulp-php-minify/lib/transform_mode.js~transformmode",
+    "variable/index.html#static-variable-TransformMode",
+    "<span>TransformMode</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/transform_mode.js</span>",
+    "variable"
+  ],
+  [
     "@cedx/gulp-php-minify/lib/minifier.js~transformer",
     "variable/index.html#static-variable-Transformer",
     "<span>Transformer</span> <span class=\"search-result-import-path\">@cedx/gulp-php-minify/lib/minifier.js</span>",
@@ -598,6 +604,12 @@ window.esdocSearchIndex = [
     "class/lib/safe_transformer.js~SafeTransformer.html#instance-method-transform",
     "lib/safe_transformer.js~SafeTransformer#transform",
     "method"
+  ],
+  [
+    "lib/transform_mode.js",
+    "file/lib/transform_mode.js.html",
+    "lib/transform_mode.js",
+    "file"
   ],
   [
     "lib/transformer.js",

@@ -567,9 +567,9 @@
     "__docId__": 48,
     "kind": "file",
     "name": "lib/fast_transformer.js",
-    "content": "'use strict';\r\n\r\nconst {ChildProcess, spawn} = require('child_process');\r\nconst {createServer} = require('net');\r\nconst fetch = require('node-fetch');\r\nconst {join} = require('path');\r\nconst {URL} = require('url');\r\n\r\n/**\r\n * Removes comments and whitespace from a PHP script, by calling a Web service.\r\n * @implements {Transformer}\r\n */\r\nexports.FastTransformer = class FastTransformer {\r\n\r\n  /**\r\n   * The default address that the server is listening on.\r\n   * @type {string}\r\n   */\r\n  static get defaultAddress() {\r\n    return '127.0.0.1';\r\n  }\r\n\r\n  /**\r\n   * Initializes a new instance of the class.\r\n   * @param {string} [executable] The path to the PHP executable.\r\n   */\r\n  constructor(executable = 'php') {\r\n\r\n    /**\r\n     * The path to the PHP executable.\r\n     * @type {string}\r\n     */\r\n    this._executable = executable;\r\n\r\n    /**\r\n     * The port that the PHP process is listening on.\r\n     * @type {number}\r\n     */\r\n    this._port = -1;\r\n\r\n    /**\r\n     * The underlying PHP process.\r\n     * @type {ChildProcess}\r\n     */\r\n    this._process = null;\r\n  }\r\n\r\n  /**\r\n   * The class name.\r\n   * @type {string}\r\n   */\r\n  get [Symbol.toStringTag]() {\r\n    return 'FastTransformer';\r\n  }\r\n\r\n  /**\r\n   * Value indicating whether the PHP process is currently listening.\r\n   * @type {boolean}\r\n   */\r\n  get listening() {\r\n    return this._process instanceof ChildProcess;\r\n  }\r\n\r\n  /**\r\n   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.\r\n   */\r\n  async close() {\r\n    if (!this.listening) return;\r\n    this._process.kill();\r\n    this._process = null;\r\n  }\r\n\r\n  /**\r\n   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.\r\n   * @return {Promise<number>} The port used by the PHP process.\r\n   */\r\n  async listen() {\r\n    if (this.listening) return this._port;\r\n\r\n    this._port = await this._getPort();\r\n    return new Promise((resolve, reject) => {\r\n      this._process = spawn(this._executable, ['-S', `${FastTransformer.defaultAddress}:${this._port}`, '-t', join(__dirname, '../www')]);\r\n      this._process.on('error', err => reject(err));\r\n      setTimeout(() => resolve(this._port), 1000);\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Processes a PHP script.\r\n   * @param {string} script The path to the PHP script.\r\n   * @return {Promise<string>} The transformed script.\r\n   */\r\n  async transform(script) {\r\n    let port = await this.listen();\r\n    let endPoint = new URL(`http://${FastTransformer.defaultAddress}:${port}/index.php`);\r\n    endPoint.searchParams.set('file', script);\r\n\r\n    let res = await fetch(endPoint.href);\r\n    if (!res.ok) throw new Error('An error occurred while transforming the script.');\r\n    return res.text();\r\n  }\r\n\r\n  /**\r\n   * Gets an ephemeral port chosen by the system.\r\n   * @return {Promise<number>} A port that the server can listen on.\r\n   */\r\n  async _getPort() {\r\n    return new Promise((resolve, reject) => {\r\n      let server = createServer().unref();\r\n      server.on('error', err => reject(err));\r\n      server.listen(0, FastTransformer.defaultAddress, () => {\r\n        let port = server.address().port;\r\n        server.close(() => resolve(port));\r\n      });\r\n    });\r\n  }\r\n};\r\n",
+    "content": "'use strict';\n\nconst {ChildProcess, spawn} = require('child_process');\nconst {createServer} = require('net');\nconst fetch = require('node-fetch');\nconst {join, resolve} = require('path');\nconst {URL} = require('url');\n\n/**\n * Removes comments and whitespace from a PHP script, by calling a Web service.\n * @implements {Transformer}\n */\nexports.FastTransformer = class FastTransformer {\n\n  /**\n   * The default address that the server is listening on.\n   * @type {string}\n   */\n  static get defaultAddress() {\n    return '127.0.0.1';\n  }\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {string} [executable] The path to the PHP executable.\n   */\n  constructor(executable = 'php') {\n\n    /**\n     * The path to the PHP executable.\n     * @type {string}\n     */\n    this._executable = executable;\n\n    /**\n     * The port that the PHP process is listening on.\n     * @type {number}\n     */\n    this._port = -1;\n\n    /**\n     * The underlying PHP process.\n     * @type {ChildProcess}\n     */\n    this._process = null;\n  }\n\n  /**\n   * The class name.\n   * @type {string}\n   */\n  get [Symbol.toStringTag]() {\n    return 'FastTransformer';\n  }\n\n  /**\n   * Value indicating whether the PHP process is currently listening.\n   * @type {boolean}\n   */\n  get listening() {\n    return this._process instanceof ChildProcess;\n  }\n\n  /**\n   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.\n   */\n  async close() {\n    if (!this.listening) return;\n    this._process.kill();\n    this._process = null;\n  }\n\n  /**\n   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.\n   * @return {Promise<number>} The port used by the PHP process.\n   */\n  async listen() {\n    if (this.listening) return this._port;\n\n    this._port = await this._getPort();\n    return new Promise((resolve, reject) => {\n      this._process = spawn(this._executable, ['-S', `${FastTransformer.defaultAddress}:${this._port}`, '-t', join(__dirname, 'php')]);\n      this._process.on('error', err => reject(err));\n      setTimeout(() => resolve(this._port), 1000);\n    });\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    let port = await this.listen();\n    let endPoint = new URL(`http://${FastTransformer.defaultAddress}:${port}/server.php`);\n    endPoint.searchParams.set('file', resolve(script));\n\n    let res = await fetch(endPoint.href);\n    if (!res.ok) throw new Error('An error occurred while transforming the script.');\n    return res.text();\n  }\n\n  /**\n   * Gets an ephemeral port chosen by the system.\n   * @return {Promise<number>} A port that the server can listen on.\n   */\n  async _getPort() {\n    return new Promise((resolve, reject) => {\n      let server = createServer().unref();\n      server.on('error', err => reject(err));\n      server.listen(0, FastTransformer.defaultAddress, () => {\n        let port = server.address().port;\n        server.close(() => resolve(port));\n      });\n    });\n  }\n};\n",
     "static": true,
-    "longname": "C:/repo/gulp-php-minify/lib/fast_transformer.js",
+    "longname": "/repo/gulp-php-minify/lib/fast_transformer.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -942,9 +942,9 @@
     "__docId__": 69,
     "kind": "file",
     "name": "lib/minifier.js",
-    "content": "'use strict';\r\n\r\nconst {which} = require('@cedx/which');\r\nconst {normalize} = require('path');\r\nconst {Transform} = require('stream');\r\nconst {name: pkgName} = require('../package.json');\r\nconst {Transformer} = require('./transformer');\r\n\r\n/**\r\n * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.\r\n */\r\nexports.Minifier = class Minifier extends Transform {\r\n\r\n  /**\r\n   * Initializes a new instance of the class.\r\n   * @param {object} [options] An object specifying values used to initialize this instance.\r\n   */\r\n  constructor({binary = '', mode = 'safe', silent = false} = {}) {\r\n    super({objectMode: true});\r\n\r\n    /**\r\n     * Value indicating whether to silent the plug-in output.\r\n     * @type {boolean}\r\n     */\r\n    this.silent = silent;\r\n\r\n    /**\r\n     * The instance used to process the PHP code.\r\n     * @type {Transformer|string}\r\n     */\r\n    this._transformer = `${mode}:${binary}`;\r\n\r\n    // Register the event handlers.\r\n    let handler = async () => {\r\n      if (typeof this._transformer != 'string') await this._transformer.close();\r\n    };\r\n\r\n    this.on('end', handler).on('error', handler);\r\n  }\r\n\r\n  /**\r\n   * The class name.\r\n   * @type {string}\r\n   */\r\n  get [Symbol.toStringTag]() {\r\n    return 'Minifier';\r\n  }\r\n\r\n  /**\r\n   * Creates a new minifier.\r\n   * @param {object} [options] The minifier options.\r\n   * @return {Minifier} The newly created instance.\r\n   */\r\n  static factory(options = {}) {\r\n    return new Minifier({\r\n      binary: typeof options.binary == 'string' ? normalize(options.binary) : '',\r\n      mode: typeof options.mode == 'string' ? options.mode : 'safe',\r\n      silent: typeof options.silent == 'boolean' ? options.silent : false\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Transforms input and produces output.\r\n   * @param {File} file The chunk to transform.\r\n   * @param {string} [encoding] The encoding type if the chunk is a string.\r\n   * @param {function} [callback] The function to invoke when the supplied chunk has been processed.\r\n   * @return {Promise<File>} The transformed chunk.\r\n   */\r\n  async _transform(file, encoding = 'utf8', callback = null) {\r\n    try {\r\n      if (typeof this._transformer == 'string') {\r\n        let parts = this._transformer.split(':', 2);\r\n        this._transformer = Transformer.factory(parts[0], parts[1].length ? parts[1] : await which('php'));\r\n      }\r\n\r\n      if (!this.silent) console.log(`Minifying: ${file.path}`);\r\n      file.contents = Buffer.from(await this._transformer.transform(file.path), encoding);\r\n      if (callback) callback(null, file);\r\n    }\r\n\r\n    catch (err) {\r\n      if (callback) callback(new Error(`[${pkgName}] ${err.message}`));\r\n      else throw err;\r\n    }\r\n\r\n    return file;\r\n  }\r\n};\r\n",
+    "content": "'use strict';\n\nconst {which} = require('@cedx/which');\nconst {normalize} = require('path');\nconst {Transform} = require('stream');\nconst {name: pkgName} = require('../package.json');\nconst {TransformMode} = require('./transform_mode');\nconst {Transformer} = require('./transformer');\n\n/**\n * Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.\n */\nexports.Minifier = class Minifier extends Transform {\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {object} [options] An object specifying values used to initialize this instance.\n   */\n  constructor({binary = '', mode = TransformMode.safe, silent = false} = {}) {\n    super({objectMode: true});\n\n    /**\n     * Value indicating whether to silent the plug-in output.\n     * @type {boolean}\n     */\n    this.silent = silent;\n\n    /**\n     * The instance used to process the PHP code.\n     * @type {Transformer|string}\n     */\n    this._transformer = `${mode}:${binary}`;\n\n    // Register the event handlers.\n    let handler = async () => {\n      if (typeof this._transformer != 'string') await this._transformer.close();\n    };\n\n    this.on('end', handler).on('error', handler);\n  }\n\n  /**\n   * The class name.\n   * @type {string}\n   */\n  get [Symbol.toStringTag]() {\n    return 'Minifier';\n  }\n\n  /**\n   * Creates a new minifier.\n   * @param {object} [options] The minifier options.\n   * @return {Minifier} The newly created instance.\n   */\n  static factory(options = {}) {\n    return new Minifier({\n      binary: typeof options.binary == 'string' ? normalize(options.binary) : '',\n      mode: TransformMode.coerce(options.mode, TransformMode.safe),\n      silent: typeof options.silent == 'boolean' ? options.silent : false\n    });\n  }\n\n  /**\n   * Transforms input and produces output.\n   * @param {File} file The chunk to transform.\n   * @param {string} [encoding] The encoding type if the chunk is a string.\n   * @param {function} [callback] The function to invoke when the supplied chunk has been processed.\n   * @return {Promise<File>} The transformed chunk.\n   */\n  async _transform(file, encoding = 'utf8', callback = null) {\n    try {\n      if (typeof this._transformer == 'string') {\n        let parts = this._transformer.split(':', 2);\n        this._transformer = Transformer.factory(parts[0], parts[1].length ? parts[1] : await which('php'));\n      }\n\n      if (!this.silent) console.log(`Minifying: ${file.path}`);\n      file.contents = Buffer.from(await this._transformer.transform(file.path), encoding);\n      if (callback) callback(null, file);\n    }\n\n    catch (err) {\n      if (callback) callback(new Error(`[${pkgName}] ${err.message}`));\n      else throw err;\n    }\n\n    return file;\n  }\n};\n",
     "static": true,
-    "longname": "C:/repo/gulp-php-minify/lib/minifier.js",
+    "longname": "/repo/gulp-php-minify/lib/minifier.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -1036,10 +1036,10 @@
   {
     "__docId__": 74,
     "kind": "variable",
-    "name": "Transformer",
+    "name": "TransformMode",
     "memberof": "lib/minifier.js",
     "static": true,
-    "longname": "lib/minifier.js~Transformer",
+    "longname": "lib/minifier.js~TransformMode",
     "access": "public",
     "export": false,
     "importPath": "@cedx/gulp-php-minify/lib/minifier.js",
@@ -1056,6 +1056,27 @@
   },
   {
     "__docId__": 75,
+    "kind": "variable",
+    "name": "Transformer",
+    "memberof": "lib/minifier.js",
+    "static": true,
+    "longname": "lib/minifier.js~Transformer",
+    "access": "public",
+    "export": false,
+    "importPath": "@cedx/gulp-php-minify/lib/minifier.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 76,
     "kind": "class",
     "name": "Minifier",
     "memberof": "lib/minifier.js",
@@ -1066,14 +1087,14 @@
     "importPath": "@cedx/gulp-php-minify/lib/minifier.js",
     "importStyle": "{Minifier}",
     "description": "Removes PHP comments and whitespace by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function.",
-    "lineNumber": 12,
+    "lineNumber": 13,
     "interface": false,
     "extends": [
       "Transform"
     ]
   },
   {
-    "__docId__": 76,
+    "__docId__": 77,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/minifier.js~Minifier",
@@ -1083,7 +1104,7 @@
     "longname": "lib/minifier.js~Minifier#constructor",
     "access": "public",
     "description": "Initializes a new instance of the class.",
-    "lineNumber": 18,
+    "lineNumber": 19,
     "params": [
       {
         "nullable": null,
@@ -1098,7 +1119,7 @@
     ]
   },
   {
-    "__docId__": 77,
+    "__docId__": 78,
     "kind": "member",
     "name": "silent",
     "memberof": "lib/minifier.js~Minifier",
@@ -1106,7 +1127,7 @@
     "longname": "lib/minifier.js~Minifier#silent",
     "access": "public",
     "description": "Value indicating whether to silent the plug-in output.",
-    "lineNumber": 25,
+    "lineNumber": 26,
     "type": {
       "nullable": null,
       "types": [
@@ -1117,7 +1138,7 @@
     }
   },
   {
-    "__docId__": 78,
+    "__docId__": 79,
     "kind": "member",
     "name": "_transformer",
     "memberof": "lib/minifier.js~Minifier",
@@ -1125,7 +1146,7 @@
     "longname": "lib/minifier.js~Minifier#_transformer",
     "access": "private",
     "description": "The instance used to process the PHP code.",
-    "lineNumber": 31,
+    "lineNumber": 32,
     "type": {
       "nullable": null,
       "types": [
@@ -1138,7 +1159,7 @@
     "ignore": true
   },
   {
-    "__docId__": 79,
+    "__docId__": 80,
     "kind": "get",
     "name": "[Symbol.toStringTag]",
     "memberof": "lib/minifier.js~Minifier",
@@ -1148,7 +1169,7 @@
     "longname": "lib/minifier.js~Minifier#[Symbol.toStringTag]",
     "access": "public",
     "description": "The class name.",
-    "lineNumber": 45,
+    "lineNumber": 46,
     "type": {
       "nullable": null,
       "types": [
@@ -1159,7 +1180,7 @@
     }
   },
   {
-    "__docId__": 80,
+    "__docId__": 81,
     "kind": "method",
     "name": "factory",
     "memberof": "lib/minifier.js~Minifier",
@@ -1169,7 +1190,7 @@
     "longname": "lib/minifier.js~Minifier.factory",
     "access": "public",
     "description": "Creates a new minifier.",
-    "lineNumber": 54,
+    "lineNumber": 55,
     "params": [
       {
         "nullable": null,
@@ -1192,7 +1213,7 @@
     }
   },
   {
-    "__docId__": 81,
+    "__docId__": 82,
     "kind": "method",
     "name": "_transform",
     "memberof": "lib/minifier.js~Minifier",
@@ -1202,7 +1223,7 @@
     "longname": "lib/minifier.js~Minifier#_transform",
     "access": "private",
     "description": "Transforms input and produces output.",
-    "lineNumber": 69,
+    "lineNumber": 70,
     "params": [
       {
         "nullable": null,
@@ -1246,18 +1267,18 @@
     "ignore": true
   },
   {
-    "__docId__": 83,
+    "__docId__": 84,
     "kind": "file",
     "name": "lib/safe_transformer.js",
-    "content": "'use strict';\r\n\r\nconst {execFile} = require('child_process');\r\nconst {promisify} = require('util');\r\n\r\n/**\r\n * Removes comments and whitespace from a PHP script, by calling a PHP process.\r\n * @implements {Transformer}\r\n */\r\nexports.SafeTransformer = class SafeTransformer {\r\n\r\n  /**\r\n   * Initializes a new instance of the class.\r\n   * @param {string} [executable] The path to the PHP executable.\r\n   */\r\n  constructor(executable = 'php') {\r\n\r\n    /**\r\n     * The path to the PHP executable.\r\n     * @type {string}\r\n     */\r\n    this._executable = executable;\r\n  }\r\n\r\n  /**\r\n   * The class name.\r\n   * @type {string}\r\n   */\r\n  get [Symbol.toStringTag]() {\r\n    return 'SafeTransformer';\r\n  }\r\n\r\n  /**\r\n   * Closes this transformer and releases any resources associated with it.\r\n   * @return {Promise} Completes when the transformer is finally disposed.\r\n  */\r\n  async close() {\r\n    return null;\r\n  }\r\n\r\n  /**\r\n   * Processes a PHP script.\r\n   * @param {string} script The path to the PHP script.\r\n   * @return {Promise<string>} The transformed script.\r\n   */\r\n  async transform(script) {\r\n    const exec = promisify(execFile);\r\n    let {stdout} = await exec(this._executable, ['-w', script], {maxBuffer: 10 * 1024 * 1024});\r\n    return stdout;\r\n  }\r\n};\r\n",
+    "content": "'use strict';\n\nconst {execFile} = require('child_process');\nconst {resolve} = require('path');\nconst {promisify} = require('util');\n\n/**\n * Removes comments and whitespace from a PHP script, by calling a PHP process.\n * @implements {Transformer}\n */\nexports.SafeTransformer = class SafeTransformer {\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {string} [executable] The path to the PHP executable.\n   */\n  constructor(executable = 'php') {\n\n    /**\n     * The path to the PHP executable.\n     * @type {string}\n     */\n    this._executable = executable;\n  }\n\n  /**\n   * The class name.\n   * @type {string}\n   */\n  get [Symbol.toStringTag]() {\n    return 'SafeTransformer';\n  }\n\n  /**\n   * Closes this transformer and releases any resources associated with it.\n   * @return {Promise} Completes when the transformer is finally disposed.\n  */\n  async close() {\n    return null;\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    const exec = promisify(execFile);\n    let {stdout} = await exec(this._executable, ['-w', resolve(script)], {maxBuffer: 10 * 1024 * 1024});\n    return stdout;\n  }\n};\n",
     "static": true,
-    "longname": "C:/repo/gulp-php-minify/lib/safe_transformer.js",
+    "longname": "/repo/gulp-php-minify/lib/safe_transformer.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 84,
+    "__docId__": 85,
     "kind": "variable",
     "name": "execFile",
     "memberof": "lib/safe_transformer.js",
@@ -1278,12 +1299,12 @@
     "ignore": true
   },
   {
-    "__docId__": 85,
+    "__docId__": 86,
     "kind": "variable",
-    "name": "promisify",
+    "name": "resolve",
     "memberof": "lib/safe_transformer.js",
     "static": true,
-    "longname": "lib/safe_transformer.js~promisify",
+    "longname": "lib/safe_transformer.js~resolve",
     "access": "public",
     "export": false,
     "importPath": "@cedx/gulp-php-minify/lib/safe_transformer.js",
@@ -1299,7 +1320,28 @@
     "ignore": true
   },
   {
-    "__docId__": 86,
+    "__docId__": 87,
+    "kind": "variable",
+    "name": "promisify",
+    "memberof": "lib/safe_transformer.js",
+    "static": true,
+    "longname": "lib/safe_transformer.js~promisify",
+    "access": "public",
+    "export": false,
+    "importPath": "@cedx/gulp-php-minify/lib/safe_transformer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 88,
     "kind": "class",
     "name": "SafeTransformer",
     "memberof": "lib/safe_transformer.js",
@@ -1310,14 +1352,14 @@
     "importPath": "@cedx/gulp-php-minify/lib/safe_transformer.js",
     "importStyle": "{SafeTransformer}",
     "description": "Removes comments and whitespace from a PHP script, by calling a PHP process.",
-    "lineNumber": 10,
+    "lineNumber": 11,
     "interface": false,
     "implements": [
       "Transformer"
     ]
   },
   {
-    "__docId__": 87,
+    "__docId__": 89,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/safe_transformer.js~SafeTransformer",
@@ -1327,7 +1369,7 @@
     "longname": "lib/safe_transformer.js~SafeTransformer#constructor",
     "access": "public",
     "description": "Initializes a new instance of the class.",
-    "lineNumber": 16,
+    "lineNumber": 17,
     "params": [
       {
         "nullable": null,
@@ -1342,7 +1384,7 @@
     ]
   },
   {
-    "__docId__": 88,
+    "__docId__": 90,
     "kind": "member",
     "name": "_executable",
     "memberof": "lib/safe_transformer.js~SafeTransformer",
@@ -1350,7 +1392,7 @@
     "longname": "lib/safe_transformer.js~SafeTransformer#_executable",
     "access": "private",
     "description": "The path to the PHP executable.",
-    "lineNumber": 22,
+    "lineNumber": 23,
     "type": {
       "nullable": null,
       "types": [
@@ -1362,7 +1404,7 @@
     "ignore": true
   },
   {
-    "__docId__": 89,
+    "__docId__": 91,
     "kind": "get",
     "name": "[Symbol.toStringTag]",
     "memberof": "lib/safe_transformer.js~SafeTransformer",
@@ -1372,7 +1414,7 @@
     "longname": "lib/safe_transformer.js~SafeTransformer#[Symbol.toStringTag]",
     "access": "public",
     "description": "The class name.",
-    "lineNumber": 29,
+    "lineNumber": 30,
     "type": {
       "nullable": null,
       "types": [
@@ -1383,7 +1425,7 @@
     }
   },
   {
-    "__docId__": 90,
+    "__docId__": 92,
     "kind": "method",
     "name": "close",
     "memberof": "lib/safe_transformer.js~SafeTransformer",
@@ -1393,7 +1435,7 @@
     "longname": "lib/safe_transformer.js~SafeTransformer#close",
     "access": "public",
     "description": "Closes this transformer and releases any resources associated with it.",
-    "lineNumber": 37,
+    "lineNumber": 38,
     "return": {
       "nullable": null,
       "types": [
@@ -1405,7 +1447,7 @@
     "params": []
   },
   {
-    "__docId__": 91,
+    "__docId__": 93,
     "kind": "method",
     "name": "transform",
     "memberof": "lib/safe_transformer.js~SafeTransformer",
@@ -1415,7 +1457,7 @@
     "longname": "lib/safe_transformer.js~SafeTransformer#transform",
     "access": "public",
     "description": "Processes a PHP script.",
-    "lineNumber": 46,
+    "lineNumber": 47,
     "params": [
       {
         "nullable": null,
@@ -1438,18 +1480,94 @@
     }
   },
   {
-    "__docId__": 92,
+    "__docId__": 94,
     "kind": "file",
-    "name": "lib/transformer.js",
-    "content": "'use strict';\r\n\r\nconst {FastTransformer} = require('./fast_transformer');\r\nconst {SafeTransformer} = require('./safe_transformer');\r\n\r\n/**\r\n * Interface providing a mechanism for transforming input and producing output.\r\n * @interface\r\n */\r\nexports.Transformer = class Transformer {\r\n\r\n  /**\r\n   * Creates a new transformer.\r\n   * @param {string} mode The transformation type.\r\n   * @param {string} [executable] The path to the PHP executable.\r\n   * @return {Transformer} The newly created instance.\r\n   */\r\n  static factory(mode, executable = 'php') {\r\n    return mode.toLowerCase() == 'fast' ? new FastTransformer(executable) : new SafeTransformer(executable);\r\n  }\r\n\r\n  /**\r\n   * Initializes a new instance of the class.\r\n   * @throws {TypeError} This class is not instantiable.\r\n   */\r\n  constructor() {\r\n    throw new TypeError('This type is not instantiable.');\r\n  }\r\n\r\n  /* eslint-disable no-unused-vars, valid-jsdoc */\r\n\r\n  /**\r\n   * Closes this transformer and releases any resources associated with it.\r\n   * @return {Promise} Completes when the transformer is finally disposed.\r\n   */\r\n  async close() {\r\n    throw new Error('Not implemented.');\r\n  }\r\n\r\n  /**\r\n   * Processes a PHP script.\r\n   * @param {string} script The path to the PHP script.\r\n   * @return {Promise<string>} The transformed script.\r\n   */\r\n  async transform(script) {\r\n    throw new Error('Not implemented.');\r\n  }\r\n\r\n  /* eslint-enable no-unused-vars, valid-jsdoc */\r\n};\r\n",
+    "name": "lib/transform_mode.js",
+    "content": "'use strict';\nconst {Enum} = require('@cedx/enum');\n\n/**\n * Defines the type of transformation applied by a minifier.\n * @type {object}\n *\n * @property {string} fast Applies a fast transformation.\n * @property {string} safe Applies a safe transformation.\n */\nexports.TransformMode = Enum.create({\n  fast: 'fast',\n  safe: 'safe'\n});\n",
     "static": true,
-    "longname": "C:/repo/gulp-php-minify/lib/transformer.js",
+    "longname": "/repo/gulp-php-minify/lib/transform_mode.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 93,
+    "__docId__": 95,
+    "kind": "variable",
+    "name": "Enum",
+    "memberof": "lib/transform_mode.js",
+    "static": true,
+    "longname": "lib/transform_mode.js~Enum",
+    "access": "public",
+    "export": false,
+    "importPath": "@cedx/gulp-php-minify/lib/transform_mode.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "variable",
+    "name": "TransformMode",
+    "memberof": "lib/transform_mode.js",
+    "static": true,
+    "longname": "lib/transform_mode.js~TransformMode",
+    "access": "public",
+    "export": true,
+    "importPath": "@cedx/gulp-php-minify/lib/transform_mode.js",
+    "importStyle": "{TransformMode}",
+    "description": "Defines the type of transformation applied by a minifier.",
+    "lineNumber": 11,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fast",
+        "description": "Applies a fast transformation."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "safe",
+        "description": "Applies a safe transformation."
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 97,
+    "kind": "file",
+    "name": "lib/transformer.js",
+    "content": "'use strict';\n\nconst {FastTransformer} = require('./fast_transformer');\nconst {TransformMode} = require('./transform_mode');\nconst {SafeTransformer} = require('./safe_transformer');\n\n/**\n * Interface providing a mechanism for transforming input and producing output.\n * @interface\n */\nexports.Transformer = class Transformer {\n\n  /**\n   * Creates a new transformer.\n   * @param {string} mode The transformation type.\n   * @param {string} [executable] The path to the PHP executable.\n   * @return {Transformer} The newly created instance.\n   */\n  static factory(mode, executable = 'php') {\n    return mode == TransformMode.fast ? new FastTransformer(executable) : new SafeTransformer(executable);\n  }\n\n  /**\n   * Initializes a new instance of the class.\n   * @throws {TypeError} This class is not instantiable.\n   */\n  constructor() {\n    throw new TypeError('This type is not instantiable.');\n  }\n\n  /* eslint-disable no-unused-vars, valid-jsdoc */\n\n  /**\n   * Closes this transformer and releases any resources associated with it.\n   * @return {Promise} Completes when the transformer is finally disposed.\n   */\n  async close() {\n    throw new Error('Not implemented.');\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    throw new Error('Not implemented.');\n  }\n\n  /* eslint-enable no-unused-vars, valid-jsdoc */\n};\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/lib/transformer.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 98,
     "kind": "variable",
     "name": "FastTransformer",
     "memberof": "lib/transformer.js",
@@ -1470,12 +1588,12 @@
     "ignore": true
   },
   {
-    "__docId__": 94,
+    "__docId__": 99,
     "kind": "variable",
-    "name": "SafeTransformer",
+    "name": "TransformMode",
     "memberof": "lib/transformer.js",
     "static": true,
-    "longname": "lib/transformer.js~SafeTransformer",
+    "longname": "lib/transformer.js~TransformMode",
     "access": "public",
     "export": false,
     "importPath": "@cedx/gulp-php-minify/lib/transformer.js",
@@ -1491,7 +1609,28 @@
     "ignore": true
   },
   {
-    "__docId__": 95,
+    "__docId__": 100,
+    "kind": "variable",
+    "name": "SafeTransformer",
+    "memberof": "lib/transformer.js",
+    "static": true,
+    "longname": "lib/transformer.js~SafeTransformer",
+    "access": "public",
+    "export": false,
+    "importPath": "@cedx/gulp-php-minify/lib/transformer.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 101,
     "kind": "class",
     "name": "Transformer",
     "memberof": "lib/transformer.js",
@@ -1502,11 +1641,11 @@
     "importPath": "@cedx/gulp-php-minify/lib/transformer.js",
     "importStyle": "{Transformer}",
     "description": "Interface providing a mechanism for transforming input and producing output.",
-    "lineNumber": 10,
+    "lineNumber": 11,
     "interface": true
   },
   {
-    "__docId__": 96,
+    "__docId__": 102,
     "kind": "method",
     "name": "factory",
     "memberof": "lib/transformer.js~Transformer",
@@ -1516,7 +1655,7 @@
     "longname": "lib/transformer.js~Transformer.factory",
     "access": "public",
     "description": "Creates a new transformer.",
-    "lineNumber": 18,
+    "lineNumber": 19,
     "params": [
       {
         "nullable": null,
@@ -1549,7 +1688,7 @@
     }
   },
   {
-    "__docId__": 97,
+    "__docId__": 103,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/transformer.js~Transformer",
@@ -1559,7 +1698,7 @@
     "longname": "lib/transformer.js~Transformer#constructor",
     "access": "public",
     "description": "Initializes a new instance of the class.",
-    "lineNumber": 26,
+    "lineNumber": 27,
     "throws": [
       {
         "types": [
@@ -1570,7 +1709,7 @@
     ]
   },
   {
-    "__docId__": 98,
+    "__docId__": 104,
     "kind": "method",
     "name": "close",
     "memberof": "lib/transformer.js~Transformer",
@@ -1580,7 +1719,7 @@
     "longname": "lib/transformer.js~Transformer#close",
     "access": "public",
     "description": "Closes this transformer and releases any resources associated with it.",
-    "lineNumber": 36,
+    "lineNumber": 37,
     "return": {
       "nullable": null,
       "types": [
@@ -1592,7 +1731,7 @@
     "params": []
   },
   {
-    "__docId__": 99,
+    "__docId__": 105,
     "kind": "method",
     "name": "transform",
     "memberof": "lib/transformer.js~Transformer",
@@ -1602,7 +1741,7 @@
     "longname": "lib/transformer.js~Transformer#transform",
     "access": "public",
     "description": "Processes a PHP script.",
-    "lineNumber": 45,
+    "lineNumber": 46,
     "params": [
       {
         "nullable": null,
@@ -1626,16 +1765,16 @@
   },
   {
     "kind": "index",
-    "content": "# Gulp-PHP-Minify\r\n![Runtime](https://img.shields.io/badge/node-%3E%3D8.6-brightgreen.svg) ![Release](https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg) ![License](https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg) ![Downloads](https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg) ![Dependencies](https://david-dm.org/cedx/gulp-php-minify.svg) ![Coverage](https://coveralls.io/repos/github/cedx/gulp-php-minify/badge.svg) ![Build](https://travis-ci.org/cedx/gulp-php-minify.svg)\r\n\r\n[Gulp](http://gulpjs.com) plug-in minifying [PHP](https://secure.php.net) source code by removing comments and whitespace.\r\n\r\n## Getting started\r\nIf you haven't used [Gulp](http://gulpjs.com) before, be sure to check out the [related documentation](https://github.com/gulpjs/gulp/blob/master/docs/README.md), as it explains how to create a `gulpfile.js` as well as install and use plug-ins.\r\nOnce you're familiar with that process, you may install this plug-in with this command:\r\n\r\n```shell\r\n$ npm install --save-dev @cedx/gulp-php-minify\r\n```\r\n\r\nOnce the plug-in has been installed, it may be enabled inside your `gulpfile.js` file.\r\n\r\n## Usage\r\nThe plug-in takes a list of [PHP](https://secure.php.net) scripts as input, and removes the comments and whitespace in these files by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function on their contents:\r\n\r\n```javascript\r\nconst {phpMinify} = require('@cedx/gulp-php-minify');\r\nconst gulp = require('gulp');\r\n\r\ngulp.task('minify:php', () => gulp.src('path/to/lib/**/*.php', {read: false})\r\n  .pipe(phpMinify())\r\n  .pipe(gulp.dest('path/to/out'))\r\n);\r\n```\r\n\r\n> The plug-in only needs the file paths, so you should specify the `read` option to `false` when providing the file list, and you should not have any other plug-in before it.\r\n\r\n## Options\r\n\r\n### `binary: string = \"php\"`\r\nThe plug-in relies on the availability of the [PHP](https://secure.php.net) executable on the target system. By default, the plug-in will use the `php` binary found on the system path.\r\n\r\nIf the plug-in cannot find the default `php` binary, or if you want to use a different one, you can provide the path to the `php` executable by using the `binary` option:\r\n\r\n```javascript\r\nreturn gulp.src('path/to/lib/**/*.php', {read: false})\r\n  .pipe(phpMinify({binary: 'C:\\\\Program Files\\\\PHP\\\\php.exe'}))\r\n  .pipe(gulp.dest('path/to/out'));\r\n```\r\n\r\n### `mode: string = \"safe\"`\r\nThe plug-in can work in two manners, which can be selected using the `mode` option:\r\n\r\n- the `safe` mode: as its name implies, this mode is very reliable. But it is also very slow as it spawns a new PHP process for every file to be processed. This is the default mode.\r\n- the `fast` mode: as its name implies, this mode is very fast, but it is not very reliable. It spawns a PHP web server that processes the input files, but on some systems this fails. This mode requires a [PHP](https://secure.php.net) runtime version **7.0 or later**.\r\n\r\n```javascript\r\nreturn gulp.src('path/to/lib/**/*.php', {read: false})\r\n  .pipe(phpMinify({mode: 'fast'}))\r\n  .pipe(gulp.dest('path/to/out'));\r\n```\r\n\r\n### `silent: boolean = false`\r\nBy default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the `silent` option to `true`.\r\n\r\n```javascript\r\nreturn gulp.src('path/to/lib/**/*.php', {read: false})\r\n  .pipe(phpMinify({silent: true}))\r\n  .pipe(gulp.dest('path/to/out'));\r\n```\r\n\r\n## See also\r\n- [API reference](https://cedx.github.io/gulp-php-minify)\r\n- [Code coverage](https://coveralls.io/github/cedx/gulp-php-minify)\r\n- [Continuous integration](https://travis-ci.org/cedx/gulp-php-minify)\r\n\r\n## License\r\n[Gulp-PHP-Minify](https://github.com/cedx/gulp-php-minify) is distributed under the MIT License.\r\n",
-    "longname": "C:\\repo\\gulp-php-minify\\README.md",
+    "content": "# Gulp-PHP-Minify\n![Runtime](https://img.shields.io/badge/node-%3E%3D8.9-brightgreen.svg) ![Release](https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg) ![License](https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg) ![Downloads](https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg) ![Dependencies](https://david-dm.org/cedx/gulp-php-minify.svg) ![Coverage](https://coveralls.io/repos/github/cedx/gulp-php-minify/badge.svg) ![Build](https://travis-ci.org/cedx/gulp-php-minify.svg)\n\n[Gulp](http://gulpjs.com) plug-in minifying [PHP](https://secure.php.net) source code by removing comments and whitespace.\n\n## Getting started\nIf you haven't used [Gulp](http://gulpjs.com) before, be sure to check out the [related documentation](https://github.com/gulpjs/gulp/blob/master/docs/README.md), as it explains how to create a `gulpfile.js` as well as install and use plug-ins.\nOnce you're familiar with that process, you may install this plug-in with this command:\n\n```shell\n$ npm install --save-dev @cedx/gulp-php-minify\n```\n\nOnce the plug-in has been installed, it may be enabled inside your `gulpfile.js` file.\n\n## Usage\nThe plug-in takes a list of [PHP](https://secure.php.net) scripts as input, and removes the comments and whitespace in these files by applying the [`php_strip_whitespace()`](https://secure.php.net/manual/en/function.php-strip-whitespace.php) function on their contents:\n\n```javascript\nconst {phpMinify} = require('@cedx/gulp-php-minify');\nconst gulp = require('gulp');\n\ngulp.task('minify:php', () => gulp.src('path/to/lib/**/*.php', {read: false})\n  .pipe(phpMinify())\n  .pipe(gulp.dest('path/to/out'))\n);\n```\n\n> The plug-in only needs the file paths, so you should specify the `read` option to `false` when providing the file list, and you should not have any other plug-in before it.\n\n## Options\n\n### `binary: string = \"php\"`\nThe plug-in relies on the availability of the [PHP](https://secure.php.net) executable on the target system. By default, the plug-in will use the `php` binary found on the system path.\n\nIf the plug-in cannot find the default `php` binary, or if you want to use a different one, you can provide the path to the `php` executable by using the `binary` option:\n\n```javascript\nreturn gulp.src('path/to/lib/**/*.php', {read: false})\n  .pipe(phpMinify({binary: 'C:\\\\Program Files\\\\PHP\\\\php.exe'}))\n  .pipe(gulp.dest('path/to/out'));\n```\n\n### `mode: string = TransformMode.safe`\nThe plug-in can work in two manners, which can be selected using the `mode` option:\n\n- the `safe` mode: as its name implies, this mode is very reliable. But it is also very slow as it spawns a new PHP process for every file to be processed. This is the default mode.\n- the `fast` mode: as its name implies, this mode is very fast, but it is not very reliable. It spawns a PHP web server that processes the input files, but on some systems this fails. This mode requires a [PHP](https://secure.php.net) runtime version **7.0 or later**.\n\n```javascript\nconst {TransformMode} = require('@cedx/gulp-php-minify');\n\nreturn gulp.src('path/to/lib/**/*.php', {read: false})\n  .pipe(phpMinify({mode: TransformMode.fast}))\n  .pipe(gulp.dest('path/to/out'));\n```\n\n### `silent: boolean = false`\nBy default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the `silent` option to `true`.\n\n```javascript\nreturn gulp.src('path/to/lib/**/*.php', {read: false})\n  .pipe(phpMinify({silent: true}))\n  .pipe(gulp.dest('path/to/out'));\n```\n\n## See also\n- [API reference](https://cedx.github.io/gulp-php-minify)\n- [Code coverage](https://coveralls.io/github/cedx/gulp-php-minify)\n- [Continuous integration](https://travis-ci.org/cedx/gulp-php-minify)\n\n## License\n[Gulp-PHP-Minify](https://github.com/cedx/gulp-php-minify) is distributed under the MIT License.\n",
+    "longname": "/repo/gulp-php-minify/README.md",
     "name": "./README.md",
     "static": true,
     "access": "public"
   },
   {
     "kind": "packageJSON",
-    "content": "{\r\n  \"author\": \"Cédric Belin <cedric@belin.io>\",\r\n  \"bugs\": \"https://github.com/cedx/gulp-php-minify/issues\",\r\n  \"description\": \"Gulp plug-in minifying PHP source code by removing comments and whitespace.\",\r\n  \"homepage\": \"https://github.com/cedx/gulp-php-minify\",\r\n  \"license\": \"MIT\",\r\n  \"main\": \"./lib/index\",\r\n  \"name\": \"@cedx/gulp-php-minify\",\r\n  \"repository\": \"cedx/gulp-php-minify\",\r\n  \"version\": \"7.0.0\",\r\n  \"dependencies\": {\r\n    \"@cedx/which\": \"^3.0.0\",\r\n    \"node-fetch\": \"^1.7.3\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"@cedx/coveralls\": \"^5.0.0\",\r\n    \"@cedx/gulp-david\": \"^11.0.0\",\r\n    \"chai\": \"^4.1.2\",\r\n    \"del\": \"^3.0.0\",\r\n    \"esdoc\": \"^1.0.3\",\r\n    \"esdoc-node\": \"^1.0.2\",\r\n    \"esdoc-standard-plugin\": \"^1.0.0\",\r\n    \"gulp\": \"^3.9.1\",\r\n    \"gulp-eslint\": \"^4.0.0\",\r\n    \"mocha\": \"^4.0.0\",\r\n    \"nsp\": \"^2.8.1\",\r\n    \"nyc\": \"^11.2.1\",\r\n    \"vinyl\": \"^2.1.0\"\r\n  },\r\n  \"engines\": {\r\n    \"node\": \">=8.6.0\"\r\n  },\r\n  \"keywords\": [\r\n    \"compress\",\r\n    \"gulp\",\r\n    \"gulpplugin\",\r\n    \"minify\",\r\n    \"php\"\r\n  ],\r\n  \"peerDependencies\": {\r\n    \"gulp\": \">=3.9.0\"\r\n  },\r\n  \"scripts\": {\r\n    \"coverage\": \"coveralls var/lcov.info\",\r\n    \"test\": \"nyc mocha\"\r\n  }\r\n}\r\n",
-    "longname": "C:\\repo\\gulp-php-minify\\package.json",
+    "content": "{\n  \"author\": \"Cédric Belin <cedric@belin.io>\",\n  \"bugs\": \"https://github.com/cedx/gulp-php-minify/issues\",\n  \"description\": \"Gulp plug-in minifying PHP source code by removing comments and whitespace.\",\n  \"homepage\": \"https://github.com/cedx/gulp-php-minify\",\n  \"license\": \"MIT\",\n  \"main\": \"./lib/index.js\",\n  \"name\": \"@cedx/gulp-php-minify\",\n  \"repository\": \"cedx/gulp-php-minify\",\n  \"version\": \"7.1.0\",\n  \"dependencies\": {\n    \"@cedx/which\": \"^3.1.0\",\n    \"node-fetch\": \"^1.7.3\"\n  },\n  \"devDependencies\": {\n    \"@cedx/coveralls\": \"^5.0.0\",\n    \"@cedx/enum\": \"^3.2.0\",\n    \"@cedx/gulp-david\": \"^11.0.0\",\n    \"chai\": \"^4.1.2\",\n    \"del\": \"^3.0.0\",\n    \"esdoc\": \"^1.0.3\",\n    \"esdoc-node\": \"^1.0.2\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"gulp\": \"^3.9.1\",\n    \"gulp-eslint\": \"^4.0.0\",\n    \"mocha\": \"^4.0.1\",\n    \"nsp\": \"^3.0.0\",\n    \"nyc\": \"^11.3.0\",\n    \"vinyl\": \"^2.1.0\"\n  },\n  \"engines\": {\n    \"node\": \">=8.9.0\"\n  },\n  \"keywords\": [\n    \"compress\",\n    \"gulp\",\n    \"gulpplugin\",\n    \"minify\",\n    \"php\"\n  ],\n  \"peerDependencies\": {\n    \"gulp\": \">=3.9.0\"\n  },\n  \"scripts\": {\n    \"coverage\": \"coveralls var/lcov.info\",\n    \"test\": \"nyc mocha\"\n  }\n}\n",
+    "longname": "/repo/gulp-php-minify/package.json",
     "name": "package.json",
     "static": true,
     "access": "public"
@@ -1650,25 +1789,25 @@
   },
   {
     "kind": "manual",
-    "longname": "C:\\repo\\gulp-php-minify\\CHANGELOG.md",
+    "longname": "/repo/gulp-php-minify/CHANGELOG.md",
     "name": "CHANGELOG.md",
-    "content": "# Changelog\r\nThis file contains highlights of what changes on each version of the [Gulp-PHP-Minify](https://github.com/cedx/gulp-php-minify) package.\r\n\r\n## Version [7.0.0](https://github.com/cedx/gulp-php-minify/compare/v6.0.0...v7.0.0)\r\n- Breaking change: changed the signature of most class constructors.\r\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\r\n- Breaking change: removed the `binary` and `mode` properties from the `Minifier` class.\r\n- Breaking change: renamed the `FastTransformer.DEFAULT_ADDRESS` constant to `defaultAddress`.\r\n- Added new unit tests.\r\n- Added the `Transformer` abstract class.\r\n- Updated the package dependencies.\r\n\r\n## Version [6.0.0](https://github.com/cedx/gulp-php-minify/compare/v5.1.0...v6.0.0)\r\n- Breaking change: converted the [`Observable`](http://reactivex.io/intro.html)-based API to an `async/await`-based one.\r\n- Added the [`#[Symbol.toStringTag]`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag) property to all classes.\r\n- Changed licensing for the [MIT License](https://opensource.org/licenses/MIT).\r\n\r\n## Version [5.1.0](https://github.com/cedx/gulp-php-minify/compare/v5.0.0...v5.1.0)\r\n- Replaced the [SuperAgent](https://visionmedia.github.io/superagent) HTTP client by `node-fetch`.\r\n- Updated the package dependencies.\r\n\r\n## Version [5.0.0](https://github.com/cedx/gulp-php-minify/compare/v4.2.0...v5.0.0)\r\n- Breaking change: changed the `factory()` function to the `Minifier.factory` method.\r\n- Updated the package dependencies.\r\n\r\n## Version [4.2.0](https://github.com/cedx/gulp-php-minify/compare/v4.1.0...v4.2.0)\r\n- Replaced the `which` module by an `Observable`-based one.\r\n- Updated the package dependencies.\r\n\r\n## Version [4.1.0](https://github.com/cedx/gulp-php-minify/compare/v4.0.0...v4.1.0)\r\n- Removed the dependency on [Babel](https://babeljs.io) compiler.\r\n- Updated the package dependencies.\r\n\r\n## Version [4.0.0](https://github.com/cedx/gulp-php-minify/compare/v3.1.1...v4.0.0)\r\n- Breaking change: restored the [Observable](http://reactivex.io/intro.html) APIs.\r\n- Updated the package dependencies.\r\n\r\n## Version [3.1.1](https://github.com/cedx/gulp-php-minify/compare/v3.1.0...v3.1.1)\r\n- Fixed a code generation bug.\r\n- Updated the package dependencies.\r\n\r\n## Version [3.1.0](https://github.com/cedx/gulp-php-minify/compare/v3.0.0...v3.1.0)\r\n- Added support for the [Node Security Platform](https://nodesecurity.io) reports.\r\n- Updated the package dependencies.\r\n\r\n## Version [3.0.0](https://github.com/cedx/gulp-php-minify/compare/v2.0.0...v3.0.0)\r\n- Breaking change: changed the signature of the `Minifier` constructor.\r\n- Added new unit tests.\r\n- Updated the package dependencies.\r\n\r\n## Version [2.0.0](https://github.com/cedx/gulp-php-minify/compare/v1.1.0...v2.0.0)\r\n- Breaking change: dropped the dependency on [Observables](http://reactivex.io/intro.html).\r\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\r\n- Breaking change: raised the required [PHP](https://secure.php.net) version.\r\n- Breaking change: using ES2017 features, like async/await functions.\r\n- Added a `mode` option allowing to select the underlying transformer.\r\n- Improved the build system.\r\n- Ported the unit test assertions from [TDD](https://en.wikipedia.org/wiki/Test-driven_development) to [BDD](https://en.wikipedia.org/wiki/Behavior-driven_development).\r\n- Restored the legacy transformer from version 0.2.0.\r\n- Updated the package dependencies.\r\n\r\n## Version [1.1.0](https://github.com/cedx/gulp-php-minify/compare/v1.0.1...v1.1.0)\r\n- Properly handle the stream events: added support for the `error` event, remove the registered listeners on stream close.\r\n- Replaced the [Codacy](https://www.codacy.com) code coverage service by the [Coveralls](https://coveralls.io) one.\r\n- Updated the package dependencies.\r\n\r\n## Version [1.0.1](https://github.com/cedx/gulp-php-minify/compare/v1.0.0...v1.0.1)\r\n- Fixed [GitHub issue #1](https://github.com/cedx/gulp-php-minify/issues/1).\r\n\r\n## Version [1.0.0](https://github.com/cedx/gulp-php-minify/compare/v0.3.1...v1.0.0)\r\n- Breaking change: the plug-in is not anymore a default export. The use of destructuring assignment is advised to access it.\r\n- Breaking change: ported the [CommonJS](https://nodejs.org/api/modules.html) modules to ES2015 format.\r\n- Breaking change: ported the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based APIs to [Observables](http://reactivex.io/intro.html).\r\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\r\n- Breaking change: replaced the test classes by plain tests.\r\n- Added the `listening` property.\r\n- Added a build task for fixing the coding standards issues.\r\n- Replaced [JSDoc](http://usejsdoc.org) documentation generator by [ESDoc](https://esdoc.org).\r\n- Replaced [JSHint](http://jshint.com) linter by [ESLint](http://eslint.org).\r\n- Updated the package dependencies.\r\n\r\n## Version [0.3.1](https://github.com/cedx/gulp-php-minify/compare/v0.3.0...v0.3.1)\r\n- Added support for code coverage.\r\n- Added support for [Travis CI](https://travis-ci.org) continuous integration.\r\n\r\n## Version [0.3.0](https://github.com/cedx/gulp-php-minify/compare/v0.2.0...v0.3.0)\r\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\r\n- Added the `silent` option: conditionally displaying the path of the minified scripts to the standard output.\r\n- Drastically improved the performance (up to a 30x factor).\r\n- Updated the package dependencies.\r\n\r\n## Version [0.2.0](https://github.com/cedx/gulp-php-minify/compare/v0.1.2...v0.2.0)\r\n- Breaking change: renamed the `PHPMinifier` class to `Minifier`.\r\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\r\n- Breaking change: using ES2015 features, like default parameters and destructuring assignment.\r\n- Turned the package into a [scoped one](https://docs.npmjs.com/getting-started/scoped-packages).\r\n\r\n## Version [0.1.2](https://github.com/cedx/gulp-php-minify/compare/v0.1.1...v0.1.2)\r\n- Added support for [Codacy](https://www.codacy.com) code analyzer.\r\n- Renamed the project according to its [npm](https://www.npmjs.com) package name.\r\n- Updated the package dependencies.\r\n\r\n## Version [0.1.1](https://github.com/cedx/gulp-php-minify/compare/v0.1.0...v0.1.1)\r\n- Fixed some bugs.\r\n- Updated the package dependencies.\r\n\r\n## Version 0.1.0\r\n- Initial release.\r\n",
+    "content": "# Changelog\nThis file contains highlights of what changes on each version of the [Gulp-PHP-Minify](https://github.com/cedx/gulp-php-minify) package.\n\n## Version [7.1.0](https://github.com/cedx/gulp-php-minify/compare/v7.0.1...v7.1.0)\n- Added the `TransformMode` enumeration.\n- Updated the package dependencies.\n\n## Version [7.0.1](https://github.com/cedx/gulp-php-minify/compare/v7.0.0...v7.0.1)\n- Fixed a bug with relative file paths.\n\n## Version [7.0.0](https://github.com/cedx/gulp-php-minify/compare/v6.0.0...v7.0.0)\n- Breaking change: changed the signature of most class constructors.\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: removed the `binary` and `mode` properties from the `Minifier` class.\n- Breaking change: renamed the `FastTransformer.DEFAULT_ADDRESS` constant to `defaultAddress`.\n- Added new unit tests.\n- Added the `Transformer` abstract class.\n- Updated the package dependencies.\n\n## Version [6.0.0](https://github.com/cedx/gulp-php-minify/compare/v5.1.0...v6.0.0)\n- Breaking change: converted the [`Observable`](http://reactivex.io/intro.html)-based API to an `async/await`-based one.\n- Added the [`#[Symbol.toStringTag]`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag) property to all classes.\n- Changed licensing for the [MIT License](https://opensource.org/licenses/MIT).\n\n## Version [5.1.0](https://github.com/cedx/gulp-php-minify/compare/v5.0.0...v5.1.0)\n- Replaced the [SuperAgent](https://visionmedia.github.io/superagent) HTTP client by `node-fetch`.\n- Updated the package dependencies.\n\n## Version [5.0.0](https://github.com/cedx/gulp-php-minify/compare/v4.2.0...v5.0.0)\n- Breaking change: changed the `factory()` function to the `Minifier.factory` method.\n- Updated the package dependencies.\n\n## Version [4.2.0](https://github.com/cedx/gulp-php-minify/compare/v4.1.0...v4.2.0)\n- Replaced the `which` module by an `Observable`-based one.\n- Updated the package dependencies.\n\n## Version [4.1.0](https://github.com/cedx/gulp-php-minify/compare/v4.0.0...v4.1.0)\n- Removed the dependency on [Babel](https://babeljs.io) compiler.\n- Updated the package dependencies.\n\n## Version [4.0.0](https://github.com/cedx/gulp-php-minify/compare/v3.1.1...v4.0.0)\n- Breaking change: restored the [Observable](http://reactivex.io/intro.html) APIs.\n- Updated the package dependencies.\n\n## Version [3.1.1](https://github.com/cedx/gulp-php-minify/compare/v3.1.0...v3.1.1)\n- Fixed a code generation bug.\n- Updated the package dependencies.\n\n## Version [3.1.0](https://github.com/cedx/gulp-php-minify/compare/v3.0.0...v3.1.0)\n- Added support for the [Node Security Platform](https://nodesecurity.io) reports.\n- Updated the package dependencies.\n\n## Version [3.0.0](https://github.com/cedx/gulp-php-minify/compare/v2.0.0...v3.0.0)\n- Breaking change: changed the signature of the `Minifier` constructor.\n- Added new unit tests.\n- Updated the package dependencies.\n\n## Version [2.0.0](https://github.com/cedx/gulp-php-minify/compare/v1.1.0...v2.0.0)\n- Breaking change: dropped the dependency on [Observables](http://reactivex.io/intro.html).\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: raised the required [PHP](https://secure.php.net) version.\n- Breaking change: using ES2017 features, like async/await functions.\n- Added a `mode` option allowing to select the underlying transformer.\n- Improved the build system.\n- Ported the unit test assertions from [TDD](https://en.wikipedia.org/wiki/Test-driven_development) to [BDD](https://en.wikipedia.org/wiki/Behavior-driven_development).\n- Restored the legacy transformer from version 0.2.0.\n- Updated the package dependencies.\n\n## Version [1.1.0](https://github.com/cedx/gulp-php-minify/compare/v1.0.1...v1.1.0)\n- Properly handle the stream events: added support for the `error` event, remove the registered listeners on stream close.\n- Replaced the [Codacy](https://www.codacy.com) code coverage service by the [Coveralls](https://coveralls.io) one.\n- Updated the package dependencies.\n\n## Version [1.0.1](https://github.com/cedx/gulp-php-minify/compare/v1.0.0...v1.0.1)\n- Fixed [GitHub issue #1](https://github.com/cedx/gulp-php-minify/issues/1).\n\n## Version [1.0.0](https://github.com/cedx/gulp-php-minify/compare/v0.3.1...v1.0.0)\n- Breaking change: the plug-in is not anymore a default export. The use of destructuring assignment is advised to access it.\n- Breaking change: ported the [CommonJS](https://nodejs.org/api/modules.html) modules to ES2015 format.\n- Breaking change: ported the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based APIs to [Observables](http://reactivex.io/intro.html).\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: replaced the test classes by plain tests.\n- Added the `listening` property.\n- Added a build task for fixing the coding standards issues.\n- Replaced [JSDoc](http://usejsdoc.org) documentation generator by [ESDoc](https://esdoc.org).\n- Replaced [JSHint](http://jshint.com) linter by [ESLint](http://eslint.org).\n- Updated the package dependencies.\n\n## Version [0.3.1](https://github.com/cedx/gulp-php-minify/compare/v0.3.0...v0.3.1)\n- Added support for code coverage.\n- Added support for [Travis CI](https://travis-ci.org) continuous integration.\n\n## Version [0.3.0](https://github.com/cedx/gulp-php-minify/compare/v0.2.0...v0.3.0)\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Added the `silent` option: conditionally displaying the path of the minified scripts to the standard output.\n- Drastically improved the performance (up to a 30x factor).\n- Updated the package dependencies.\n\n## Version [0.2.0](https://github.com/cedx/gulp-php-minify/compare/v0.1.2...v0.2.0)\n- Breaking change: renamed the `PHPMinifier` class to `Minifier`.\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: using ES2015 features, like default parameters and destructuring assignment.\n- Turned the package into a [scoped one](https://docs.npmjs.com/getting-started/scoped-packages).\n\n## Version [0.1.2](https://github.com/cedx/gulp-php-minify/compare/v0.1.1...v0.1.2)\n- Added support for [Codacy](https://www.codacy.com) code analyzer.\n- Renamed the project according to its [npm](https://www.npmjs.com) package name.\n- Updated the package dependencies.\n\n## Version [0.1.1](https://github.com/cedx/gulp-php-minify/compare/v0.1.0...v0.1.1)\n- Fixed some bugs.\n- Updated the package dependencies.\n\n## Version 0.1.0\n- Initial release.\n",
     "static": true,
     "access": "public"
   },
   {
-    "__docId__": 100,
+    "__docId__": 106,
     "kind": "testFile",
     "name": "test/fast_transformer.test.js",
-    "content": "'use strict';\r\n\r\nconst {expect} = require('chai');\r\nconst {FastTransformer} = require('../lib');\r\n\r\n/**\r\n * @test {FastTransformer}\r\n */\r\ndescribe('FastTransformer', function() {\r\n  this.retries(2);\r\n  this.timeout(30000);\r\n\r\n  /**\r\n   * @test {FastTransformer#close}\r\n   */\r\n  describe('#close()', () => {\r\n    let transformer = new FastTransformer;\r\n\r\n    it('should complete without any error', async () => {\r\n      await transformer.close();\r\n      expect(true).to.be.ok;\r\n    });\r\n\r\n    it('should be callable multiple times', async () => {\r\n      await transformer.close();\r\n      await transformer.close();\r\n      expect(true).to.be.ok;\r\n    });\r\n  });\r\n\r\n  /**\r\n   * @test {FastTransformer#listen}\r\n   */\r\n  describe('#listen()', () => {\r\n    let transformer = new FastTransformer;\r\n    after(async () => await transformer.close());\r\n\r\n    it('should complete without any error', async () => {\r\n      await transformer.listen();\r\n      expect(true).to.be.ok;\r\n    });\r\n\r\n    it('should be callable multiple times', async () => {\r\n      await transformer.listen();\r\n      await transformer.listen();\r\n      expect(true).to.be.ok;\r\n    });\r\n  });\r\n\r\n  /**\r\n   * @test {FastTransformer#listening}\r\n   */\r\n  describe('#listening', () => {\r\n    let transformer = new FastTransformer;\r\n\r\n    it('should return whether the server is listening', async () => {\r\n      expect(transformer.listening).to.be.false;\r\n\r\n      await transformer.listen();\r\n      expect(transformer.listening).to.be.true;\r\n\r\n      await transformer.close();\r\n      expect(transformer.listening).to.be.false;\r\n    });\r\n  });\r\n\r\n  /**\r\n   * @test {FastTransformer#transform}\r\n   */\r\n  describe('#transform()', () => {\r\n    let script = 'test/fixtures/sample.php';\r\n    let transformer = new FastTransformer;\r\n    after(async () => await transformer.close());\r\n\r\n    it('should remove the inline comments', async () => {\r\n      expect(await transformer.transform(script)).to.contain(\"<?= 'Hello World!' ?>\");\r\n    });\r\n\r\n    it('should remove the multi-line comments', async () => {\r\n      expect(await transformer.transform(script)).to.contain('namespace dummy; class Dummy');\r\n    });\r\n\r\n    it('should remove the single-line comments', async () => {\r\n      expect(await transformer.transform(script)).to.contain('$className = get_class($this); return $className;');\r\n    });\r\n\r\n    it('should remove the whitespace', async () => {\r\n      expect(await transformer.transform(script)).to.contain('__construct() { }');\r\n    });\r\n  });\r\n});\r\n",
+    "content": "'use strict';\n\nconst {expect} = require('chai');\nconst {FastTransformer} = require('../lib');\n\n/**\n * @test {FastTransformer}\n */\ndescribe('FastTransformer', function() {\n  this.retries(2);\n  this.timeout(30000);\n\n  /**\n   * @test {FastTransformer#close}\n   */\n  describe('#close()', () => {\n    let transformer = new FastTransformer;\n\n    it('should complete without any error', async () => {\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n\n    it('should be callable multiple times', async () => {\n      await transformer.close();\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n  });\n\n  /**\n   * @test {FastTransformer#listen}\n   */\n  describe('#listen()', () => {\n    let transformer = new FastTransformer;\n    after(async () => await transformer.close());\n\n    it('should complete without any error', async () => {\n      await transformer.listen();\n      expect(true).to.be.ok;\n    });\n\n    it('should be callable multiple times', async () => {\n      await transformer.listen();\n      await transformer.listen();\n      expect(true).to.be.ok;\n    });\n  });\n\n  /**\n   * @test {FastTransformer#listening}\n   */\n  describe('#listening', () => {\n    let transformer = new FastTransformer;\n\n    it('should return whether the server is listening', async () => {\n      expect(transformer.listening).to.be.false;\n\n      await transformer.listen();\n      expect(transformer.listening).to.be.true;\n\n      await transformer.close();\n      expect(transformer.listening).to.be.false;\n    });\n  });\n\n  /**\n   * @test {FastTransformer#transform}\n   */\n  describe('#transform()', () => {\n    let script = 'test/fixtures/sample.php';\n    let transformer = new FastTransformer;\n    after(async () => await transformer.close());\n\n    it('should remove the inline comments', async () => {\n      expect(await transformer.transform(script)).to.contain(\"<?= 'Hello World!' ?>\");\n    });\n\n    it('should remove the multi-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('namespace dummy; class Dummy');\n    });\n\n    it('should remove the single-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('$className = get_class($this); return $className;');\n    });\n\n    it('should remove the whitespace', async () => {\n      expect(await transformer.transform(script)).to.contain('__construct() { }');\n    });\n  });\n});\n",
     "static": true,
-    "longname": "C:/repo/gulp-php-minify/test/fast_transformer.test.js",
+    "longname": "/repo/gulp-php-minify/test/fast_transformer.test.js",
     "access": null,
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 101,
+    "__docId__": 107,
     "kind": "test",
     "name": "describe0",
     "testId": 0,
@@ -1684,7 +1823,7 @@
     ]
   },
   {
-    "__docId__": 102,
+    "__docId__": 108,
     "kind": "test",
     "name": "describe1",
     "testId": 1,
@@ -1700,7 +1839,7 @@
     ]
   },
   {
-    "__docId__": 103,
+    "__docId__": 109,
     "kind": "test",
     "name": "it2",
     "testId": 2,
@@ -1713,7 +1852,7 @@
     "lineNumber": 19
   },
   {
-    "__docId__": 104,
+    "__docId__": 110,
     "kind": "test",
     "name": "it3",
     "testId": 3,
@@ -1726,7 +1865,7 @@
     "lineNumber": 24
   },
   {
-    "__docId__": 105,
+    "__docId__": 111,
     "kind": "test",
     "name": "describe4",
     "testId": 4,
@@ -1742,7 +1881,7 @@
     ]
   },
   {
-    "__docId__": 106,
+    "__docId__": 112,
     "kind": "test",
     "name": "it5",
     "testId": 5,
@@ -1755,7 +1894,7 @@
     "lineNumber": 38
   },
   {
-    "__docId__": 107,
+    "__docId__": 113,
     "kind": "test",
     "name": "it6",
     "testId": 6,
@@ -1768,7 +1907,7 @@
     "lineNumber": 43
   },
   {
-    "__docId__": 108,
+    "__docId__": 114,
     "kind": "test",
     "name": "describe7",
     "testId": 7,
@@ -1784,7 +1923,7 @@
     ]
   },
   {
-    "__docId__": 109,
+    "__docId__": 115,
     "kind": "test",
     "name": "it8",
     "testId": 8,
@@ -1797,7 +1936,7 @@
     "lineNumber": 56
   },
   {
-    "__docId__": 110,
+    "__docId__": 116,
     "kind": "test",
     "name": "describe9",
     "testId": 9,
@@ -1813,7 +1952,7 @@
     ]
   },
   {
-    "__docId__": 111,
+    "__docId__": 117,
     "kind": "test",
     "name": "it10",
     "testId": 10,
@@ -1826,7 +1965,7 @@
     "lineNumber": 75
   },
   {
-    "__docId__": 112,
+    "__docId__": 118,
     "kind": "test",
     "name": "it11",
     "testId": 11,
@@ -1839,7 +1978,7 @@
     "lineNumber": 79
   },
   {
-    "__docId__": 113,
+    "__docId__": 119,
     "kind": "test",
     "name": "it12",
     "testId": 12,
@@ -1852,7 +1991,7 @@
     "lineNumber": 83
   },
   {
-    "__docId__": 114,
+    "__docId__": 120,
     "kind": "test",
     "name": "it13",
     "testId": 13,
@@ -1865,18 +2004,18 @@
     "lineNumber": 87
   },
   {
-    "__docId__": 115,
+    "__docId__": 121,
     "kind": "testFile",
     "name": "test/minifier.test.js",
-    "content": "'use strict';\r\n\r\nconst {expect} = require('chai');\r\nconst File = require('vinyl');\r\nconst {Minifier} = require('../lib');\r\n\r\n/**\r\n * @test {Minifier}\r\n */\r\ndescribe('Minifier', function() {\r\n  this.retries(3);\r\n  this.timeout(60000);\r\n\r\n  /**\r\n   * @test {Minifier.factory}\r\n   */\r\n  describe('.factory()', () => {\r\n    it('should return a `Minifier` instance', () => {\r\n      expect(Minifier.factory()).to.be.instanceof(Minifier);\r\n    });\r\n\r\n    it('should properly initialize the instance properties', () => {\r\n      let minifier = Minifier.factory({\r\n        binary: '/usr/local/bin/php',\r\n        mode: 'fast',\r\n        silent: true\r\n      });\r\n\r\n      let executable = process.platform == 'win32' ? '\\\\usr\\\\local\\\\bin\\\\php' : '/usr/local/bin/php';\r\n      expect(minifier.silent).to.be.true;\r\n      expect(minifier._transformer).to.equal(`fast:${executable}`);\r\n    });\r\n  });\r\n\r\n  /**\r\n   * @test {Minifier#_transform}\r\n   */\r\n  describe('#_transform()', () => {\r\n    let minifier = new Minifier({silent: true});\r\n    after(() => minifier.emit('end'));\r\n\r\n    it('should remove the comments and whitespace', async () => {\r\n      let file = new File({path: 'test/fixtures/sample.php'});\r\n      await minifier._transform(file);\r\n      expect(file.contents.toString()).to.contain(\"<?= 'Hello World!' ?>\")\r\n        .and.contain('namespace dummy; class Dummy')\r\n        .and.contain('$className = get_class($this); return $className;')\r\n        .and.contain('__construct() { }');\r\n    });\r\n  });\r\n});\r\n",
+    "content": "'use strict';\n\nconst {expect} = require('chai');\nconst File = require('vinyl');\nconst {Minifier} = require('../lib');\n\n/**\n * @test {Minifier}\n */\ndescribe('Minifier', function() {\n  this.retries(3);\n  this.timeout(60000);\n\n  /**\n   * @test {Minifier.factory}\n   */\n  describe('.factory()', () => {\n    it('should return a `Minifier` instance', () => {\n      expect(Minifier.factory()).to.be.instanceof(Minifier);\n    });\n\n    it('should properly initialize the instance properties', () => {\n      let minifier = Minifier.factory({\n        binary: '/usr/local/bin/php',\n        mode: 'fast',\n        silent: true\n      });\n\n      let executable = process.platform == 'win32' ? '\\\\usr\\\\local\\\\bin\\\\php' : '/usr/local/bin/php';\n      expect(minifier.silent).to.be.true;\n      expect(minifier._transformer).to.equal(`fast:${executable}`);\n    });\n  });\n\n  /**\n   * @test {Minifier#_transform}\n   */\n  describe('#_transform()', () => {\n    let minifier = new Minifier({silent: true});\n    after(() => minifier.emit('end'));\n\n    it('should remove the comments and whitespace', async () => {\n      let file = new File({path: 'test/fixtures/sample.php'});\n      await minifier._transform(file);\n      expect(file.contents.toString()).to.contain(\"<?= 'Hello World!' ?>\")\n        .and.contain('namespace dummy; class Dummy')\n        .and.contain('$className = get_class($this); return $className;')\n        .and.contain('__construct() { }');\n    });\n  });\n});\n",
     "static": true,
-    "longname": "C:/repo/gulp-php-minify/test/minifier.test.js",
+    "longname": "/repo/gulp-php-minify/test/minifier.test.js",
     "access": null,
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 116,
+    "__docId__": 122,
     "kind": "test",
     "name": "describe14",
     "testId": 14,
@@ -1892,7 +2031,7 @@
     ]
   },
   {
-    "__docId__": 117,
+    "__docId__": 123,
     "kind": "test",
     "name": "describe15",
     "testId": 15,
@@ -1908,7 +2047,7 @@
     ]
   },
   {
-    "__docId__": 118,
+    "__docId__": 124,
     "kind": "test",
     "name": "it16",
     "testId": 16,
@@ -1921,7 +2060,7 @@
     "lineNumber": 18
   },
   {
-    "__docId__": 119,
+    "__docId__": 125,
     "kind": "test",
     "name": "it17",
     "testId": 17,
@@ -1934,7 +2073,7 @@
     "lineNumber": 22
   },
   {
-    "__docId__": 120,
+    "__docId__": 126,
     "kind": "test",
     "name": "describe18",
     "testId": 18,
@@ -1950,7 +2089,7 @@
     ]
   },
   {
-    "__docId__": 121,
+    "__docId__": 127,
     "kind": "test",
     "name": "it19",
     "testId": 19,
@@ -1963,18 +2102,18 @@
     "lineNumber": 42
   },
   {
-    "__docId__": 122,
+    "__docId__": 128,
     "kind": "testFile",
     "name": "test/safe_transformer.test.js",
-    "content": "'use strict';\r\n\r\nconst {expect} = require('chai');\r\nconst {SafeTransformer} = require('../lib');\r\n\r\n/**\r\n * @test {SafeTransformer}\r\n */\r\ndescribe('SafeTransformer', function() {\r\n  this.retries(2);\r\n  this.timeout(30000);\r\n\r\n  /**\r\n   * @test {SafeTransformer#close}\r\n   */\r\n  describe('#close()', () => {\r\n    let transformer = new SafeTransformer;\r\n\r\n    it('should complete without any error', async () => {\r\n      await transformer.close();\r\n      expect(true).to.be.ok;\r\n    });\r\n\r\n    it('should be callable multiple times', async () => {\r\n      await transformer.close();\r\n      await transformer.close();\r\n      expect(true).to.be.ok;\r\n    });\r\n  });\r\n\r\n  /**\r\n   * @test {SafeTransformer#transform}\r\n   */\r\n  describe('#transform()', () => {\r\n    let script = 'test/fixtures/sample.php';\r\n    let transformer = new SafeTransformer;\r\n    after(async () => await transformer.close());\r\n\r\n    it('should remove the inline comments', async () => {\r\n      expect(await transformer.transform(script)).to.contain(\"<?= 'Hello World!' ?>\");\r\n    });\r\n\r\n    it('should remove the multi-line comments', async () => {\r\n      expect(await transformer.transform(script)).to.contain('namespace dummy; class Dummy');\r\n    });\r\n\r\n    it('should remove the single-line comments', async () => {\r\n      expect(await transformer.transform(script)).to.contain('$className = get_class($this); return $className;');\r\n    });\r\n\r\n    it('should remove the whitespace', async () => {\r\n      expect(await transformer.transform(script)).to.contain('__construct() { }');\r\n    });\r\n  });\r\n});\r\n",
+    "content": "'use strict';\n\nconst {expect} = require('chai');\nconst {SafeTransformer} = require('../lib');\n\n/**\n * @test {SafeTransformer}\n */\ndescribe('SafeTransformer', function() {\n  this.retries(2);\n  this.timeout(30000);\n\n  /**\n   * @test {SafeTransformer#close}\n   */\n  describe('#close()', () => {\n    let transformer = new SafeTransformer;\n\n    it('should complete without any error', async () => {\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n\n    it('should be callable multiple times', async () => {\n      await transformer.close();\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n  });\n\n  /**\n   * @test {SafeTransformer#transform}\n   */\n  describe('#transform()', () => {\n    let script = 'test/fixtures/sample.php';\n    let transformer = new SafeTransformer;\n    after(async () => await transformer.close());\n\n    it('should remove the inline comments', async () => {\n      expect(await transformer.transform(script)).to.contain(\"<?= 'Hello World!' ?>\");\n    });\n\n    it('should remove the multi-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('namespace dummy; class Dummy');\n    });\n\n    it('should remove the single-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('$className = get_class($this); return $className;');\n    });\n\n    it('should remove the whitespace', async () => {\n      expect(await transformer.transform(script)).to.contain('__construct() { }');\n    });\n  });\n});\n",
     "static": true,
-    "longname": "C:/repo/gulp-php-minify/test/safe_transformer.test.js",
+    "longname": "/repo/gulp-php-minify/test/safe_transformer.test.js",
     "access": null,
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 123,
+    "__docId__": 129,
     "kind": "test",
     "name": "describe20",
     "testId": 20,
@@ -1990,7 +2129,7 @@
     ]
   },
   {
-    "__docId__": 124,
+    "__docId__": 130,
     "kind": "test",
     "name": "describe21",
     "testId": 21,
@@ -2006,7 +2145,7 @@
     ]
   },
   {
-    "__docId__": 125,
+    "__docId__": 131,
     "kind": "test",
     "name": "it22",
     "testId": 22,
@@ -2019,7 +2158,7 @@
     "lineNumber": 19
   },
   {
-    "__docId__": 126,
+    "__docId__": 132,
     "kind": "test",
     "name": "it23",
     "testId": 23,
@@ -2032,7 +2171,7 @@
     "lineNumber": 24
   },
   {
-    "__docId__": 127,
+    "__docId__": 133,
     "kind": "test",
     "name": "describe24",
     "testId": 24,
@@ -2048,7 +2187,7 @@
     ]
   },
   {
-    "__docId__": 128,
+    "__docId__": 134,
     "kind": "test",
     "name": "it25",
     "testId": 25,
@@ -2061,7 +2200,7 @@
     "lineNumber": 39
   },
   {
-    "__docId__": 129,
+    "__docId__": 135,
     "kind": "test",
     "name": "it26",
     "testId": 26,
@@ -2074,7 +2213,7 @@
     "lineNumber": 43
   },
   {
-    "__docId__": 130,
+    "__docId__": 136,
     "kind": "test",
     "name": "it27",
     "testId": 27,
@@ -2087,7 +2226,7 @@
     "lineNumber": 47
   },
   {
-    "__docId__": 131,
+    "__docId__": 137,
     "kind": "test",
     "name": "it28",
     "testId": 28,

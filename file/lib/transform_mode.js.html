@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/fast_transformer.js | Gulp-PHP-Minify</title>
+  <title data-ice="title">lib/transform_mode.js | Gulp-PHP-Minify</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -40,124 +40,21 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/fast_transformer.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">lib/transform_mode.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
-
-const {ChildProcess, spawn} = require(&apos;child_process&apos;);
-const {createServer} = require(&apos;net&apos;);
-const fetch = require(&apos;node-fetch&apos;);
-const {join, resolve} = require(&apos;path&apos;);
-const {URL} = require(&apos;url&apos;);
+const {Enum} = require(&apos;@cedx/enum&apos;);
 
 /**
- * Removes comments and whitespace from a PHP script, by calling a Web service.
- * @implements {Transformer}
+ * Defines the type of transformation applied by a minifier.
+ * @type {object}
+ *
+ * @property {string} fast Applies a fast transformation.
+ * @property {string} safe Applies a safe transformation.
  */
-exports.FastTransformer = class FastTransformer {
-
-  /**
-   * The default address that the server is listening on.
-   * @type {string}
-   */
-  static get defaultAddress() {
-    return &apos;127.0.0.1&apos;;
-  }
-
-  /**
-   * Initializes a new instance of the class.
-   * @param {string} [executable] The path to the PHP executable.
-   */
-  constructor(executable = &apos;php&apos;) {
-
-    /**
-     * The path to the PHP executable.
-     * @type {string}
-     */
-    this._executable = executable;
-
-    /**
-     * The port that the PHP process is listening on.
-     * @type {number}
-     */
-    this._port = -1;
-
-    /**
-     * The underlying PHP process.
-     * @type {ChildProcess}
-     */
-    this._process = null;
-  }
-
-  /**
-   * The class name.
-   * @type {string}
-   */
-  get [Symbol.toStringTag]() {
-    return &apos;FastTransformer&apos;;
-  }
-
-  /**
-   * Value indicating whether the PHP process is currently listening.
-   * @type {boolean}
-   */
-  get listening() {
-    return this._process instanceof ChildProcess;
-  }
-
-  /**
-   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.
-   */
-  async close() {
-    if (!this.listening) return;
-    this._process.kill();
-    this._process = null;
-  }
-
-  /**
-   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.
-   * @return {Promise&lt;number&gt;} The port used by the PHP process.
-   */
-  async listen() {
-    if (this.listening) return this._port;
-
-    this._port = await this._getPort();
-    return new Promise((resolve, reject) =&gt; {
-      this._process = spawn(this._executable, [&apos;-S&apos;, `${FastTransformer.defaultAddress}:${this._port}`, &apos;-t&apos;, join(__dirname, &apos;php&apos;)]);
-      this._process.on(&apos;error&apos;, err =&gt; reject(err));
-      setTimeout(() =&gt; resolve(this._port), 1000);
-    });
-  }
-
-  /**
-   * Processes a PHP script.
-   * @param {string} script The path to the PHP script.
-   * @return {Promise&lt;string&gt;} The transformed script.
-   */
-  async transform(script) {
-    let port = await this.listen();
-    let endPoint = new URL(`http://${FastTransformer.defaultAddress}:${port}/server.php`);
-    endPoint.searchParams.set(&apos;file&apos;, resolve(script));
-
-    let res = await fetch(endPoint.href);
-    if (!res.ok) throw new Error(&apos;An error occurred while transforming the script.&apos;);
-    return res.text();
-  }
-
-  /**
-   * Gets an ephemeral port chosen by the system.
-   * @return {Promise&lt;number&gt;} A port that the server can listen on.
-   */
-  async _getPort() {
-    return new Promise((resolve, reject) =&gt; {
-      let server = createServer().unref();
-      server.on(&apos;error&apos;, err =&gt; reject(err));
-      server.listen(0, FastTransformer.defaultAddress, () =&gt; {
-        let port = server.address().port;
-        server.close(() =&gt; resolve(port));
-      });
-    });
-  }
-};
+exports.TransformMode = Enum.create({
+  fast: &apos;fast&apos;,
+  safe: &apos;safe&apos;
+});
 </code></pre>
 
 </div>

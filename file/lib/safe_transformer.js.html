@@ -35,6 +35,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/lib/transformer.js~Transformer.html">Transformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transformer">Transformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TransformMode">TransformMode</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -43,6 +44,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
 const {execFile} = require(&apos;child_process&apos;);
+const {resolve} = require(&apos;path&apos;);
 const {promisify} = require(&apos;util&apos;);
 
 /**
@@ -87,7 +89,7 @@ exports.SafeTransformer = class SafeTransformer {
    */
   async transform(script) {
     const exec = promisify(execFile);
-    let {stdout} = await exec(this._executable, [&apos;-w&apos;, script], {maxBuffer: 10 * 1024 * 1024});
+    let {stdout} = await exec(this._executable, [&apos;-w&apos;, resolve(script)], {maxBuffer: 10 * 1024 * 1024});
     return stdout;
   }
 };

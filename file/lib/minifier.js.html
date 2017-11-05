@@ -35,6 +35,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/lib/transformer.js~Transformer.html">Transformer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transform">Transform</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Transformer">Transformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TransformMode">TransformMode</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -46,6 +47,7 @@ const {which} = require(&apos;@cedx/which&apos;);
 const {normalize} = require(&apos;path&apos;);
 const {Transform} = require(&apos;stream&apos;);
 const {name: pkgName} = require(&apos;../package.json&apos;);
+const {TransformMode} = require(&apos;./transform_mode&apos;);
 const {Transformer} = require(&apos;./transformer&apos;);
 
 /**
@@ -57,7 +59,7 @@ exports.Minifier = class Minifier extends Transform {
    * Initializes a new instance of the class.
    * @param {object} [options] An object specifying values used to initialize this instance.
    */
-  constructor({binary = &apos;&apos;, mode = &apos;safe&apos;, silent = false} = {}) {
+  constructor({binary = &apos;&apos;, mode = TransformMode.safe, silent = false} = {}) {
     super({objectMode: true});
 
     /**
@@ -96,7 +98,7 @@ exports.Minifier = class Minifier extends Transform {
   static factory(options = {}) {
     return new Minifier({
       binary: typeof options.binary == &apos;string&apos; ? normalize(options.binary) : &apos;&apos;,
-      mode: typeof options.mode == &apos;string&apos; ? options.mode : &apos;safe&apos;,
+      mode: TransformMode.coerce(options.mode, TransformMode.safe),
       silent: typeof options.silent == &apos;boolean&apos; ? options.silent : false
     });
   }
