@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">lib/fast_transformer.js | Gulp-PHP-Minify</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Gulp plug-in minifying PHP source code by removing comments and whitespace."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Gulp-PHP-Minify"><meta property="twitter:description" content="Gulp plug-in minifying PHP source code by removing comments and whitespace."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.ico" style="width:34px;"></a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/cedx/gulp-php-minify"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/fast_transformer.js~FastTransformer.html">FastTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/safe_transformer.js~SafeTransformer.html">SafeTransformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/lib/transformer.js~Transformer.html">Transformer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TransformMode">TransformMode</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/fast_transformer.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
+
+const {ChildProcess, spawn} = require(&apos;child_process&apos;);
+const {createServer} = require(&apos;net&apos;);
+const fetch = require(&apos;node-fetch&apos;);
+const {join, resolve} = require(&apos;path&apos;);
+
+/**
+ * Removes comments and whitespace from a PHP script, by calling a Web service.
+ * @implements {Transformer}
+ */
+class FastTransformer {
+
+  /**
+   * The default address that the server is listening on.
+   * @type {string}
+   */
+  static get defaultAddress() {
+    return &apos;127.0.0.1&apos;;
+  }
+
+  /**
+   * Initializes a new instance of the class.
+   * @param {string} [executable] The path to the PHP executable.
+   */
+  constructor(executable = &apos;php&apos;) {
+
+    /**
+     * The path to the PHP executable.
+     * @type {string}
+     */
+    this._executable = executable;
+
+    /**
+     * The port that the PHP process is listening on.
+     * @type {number}
+     */
+    this._port = -1;
+
+    /**
+     * The underlying PHP process.
+     * @type {ChildProcess}
+     */
+    this._process = null;
+  }
+
+  /**
+   * The class name.
+   * @type {string}
+   */
+  get [Symbol.toStringTag]() {
+    return &apos;FastTransformer&apos;;
+  }
+
+  /**
+   * Value indicating whether the PHP process is currently listening.
+   * @type {boolean}
+   */
+  get listening() {
+    return this._process instanceof ChildProcess;
+  }
+
+  /**
+   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.
+   */
+  async close() {
+    if (!this.listening) return;
+    this._process.kill();
+    this._process = null;
+  }
+
+  /**
+   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.
+   * @return {Promise&lt;number&gt;} The port used by the PHP process.
+   */
+  async listen() {
+    if (this.listening) return this._port;
+
+    this._port = await this._getPort();
+    return new Promise((resolve, reject) =&gt; {
+      this._process = spawn(this._executable, [&apos;-S&apos;, `${FastTransformer.defaultAddress}:${this._port}`, &apos;-t&apos;, join(__dirname, &apos;php&apos;)]);
+      this._process.on(&apos;error&apos;, err =&gt; reject(err));
+      setTimeout(() =&gt; resolve(this._port), 1000);
+    });
+  }
+
+  /**
+   * Processes a PHP script.
+   * @param {string} script The path to the PHP script.
+   * @return {Promise&lt;string&gt;} The transformed script.
+   */
+  async transform(script) {
+    let port = await this.listen();
+    let endPoint = new URL(`http://${FastTransformer.defaultAddress}:${port}/server.php`);
+    endPoint.searchParams.set(&apos;file&apos;, resolve(script));
+
+    let res = await fetch(endPoint.href);
+    if (!res.ok) throw new Error(&apos;An error occurred while transforming the script.&apos;);
+    return res.text();
+  }
+
+  /**
+   * Gets an ephemeral port chosen by the system.
+   * @return {Promise&lt;number&gt;} A port that the server can listen on.
+   */
+  async _getPort() {
+    return new Promise((resolve, reject) =&gt; {
+      let server = createServer().unref();
+      server.on(&apos;error&apos;, err =&gt; reject(err));
+      server.listen(0, FastTransformer.defaultAddress, () =&gt; {
+        let port = server.address().port;
+        server.close(() =&gt; resolve(port));
+      });
+    });
+  }
+}
+
+// Module exports.
+exports.FastTransformer = FastTransformer;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

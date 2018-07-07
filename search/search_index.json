@@ -1,0 +1,249 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Gulp-PHP-Minify\n\n\nGulp\n plug-in minifying \nPHP\n source code by removing comments and whitespace.\n\n\nQuick start\n\n\nInstall the latest version of \nGulp-PHP-Minify\n with \nnpm\n:\n\n\nnpm install @cedx/gulp-php-minify\n\n\n\n\n\nFor detailed instructions, see the \ninstallation guide\n.", 
+            "title": "Overview"
+        }, 
+        {
+            "location": "/#gulp-php-minify", 
+            "text": "Gulp  plug-in minifying  PHP  source code by removing comments and whitespace.", 
+            "title": "Gulp-PHP-Minify"
+        }, 
+        {
+            "location": "/#quick-start", 
+            "text": "Install the latest version of  Gulp-PHP-Minify  with  npm :  npm install @cedx/gulp-php-minify  For detailed instructions, see the  installation guide .", 
+            "title": "Quick start"
+        }, 
+        {
+            "location": "/installation/", 
+            "text": "Installation\n\n\nRequirements\n\n\nBefore installing \nGulp-PHP-Minify\n, you need to make sure you have \nNode.js\n\nand \nnpm\n, the Node.js package manager, up and running.\n\n\n\n\nWarning\n\n\nGulp-PHP-Minify requires Node.js \n= \n10.6.0\n.\n\n\n\n\nYou can verify if you're already good to go with the following commands:\n\n\nnode --version\n\n# v10.6.0\n\n\nnpm --version\n\n# 6.1.0\n\n\n\n\n\n\n\n\nInfo\n\n\nIf you plan to play with the package sources, you will also need\n\nGulp\n and \nMaterial for MkDocs\n.\n\n\n\n\nInstalling with npm package manager\n\n\n1. Install it\n\n\nFrom a command prompt, run:\n\n\nnpm install @cedx/gulp-php-minify\n\n\n\n\n\n2. Import it\n\n\nNow in your \nJavaScript\n code, you can use:\n\n\nconst\n \nphpMinify\n \n=\n \nrequire\n(\n@cedx/gulp-php-minify\n);", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/installation/#installation", 
+            "text": "", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/installation/#requirements", 
+            "text": "Before installing  Gulp-PHP-Minify , you need to make sure you have  Node.js \nand  npm , the Node.js package manager, up and running.   Warning  Gulp-PHP-Minify requires Node.js  =  10.6.0 .   You can verify if you're already good to go with the following commands:  node --version # v10.6.0 \n\nnpm --version # 6.1.0    Info  If you plan to play with the package sources, you will also need Gulp  and  Material for MkDocs .", 
+            "title": "Requirements"
+        }, 
+        {
+            "location": "/installation/#installing-with-npm-package-manager", 
+            "text": "", 
+            "title": "Installing with npm package manager"
+        }, 
+        {
+            "location": "/installation/#1-install-it", 
+            "text": "From a command prompt, run:  npm install @cedx/gulp-php-minify", 
+            "title": "1. Install it"
+        }, 
+        {
+            "location": "/installation/#2-import-it", 
+            "text": "Now in your  JavaScript  code, you can use:  const   phpMinify   =   require ( @cedx/gulp-php-minify );", 
+            "title": "2. Import it"
+        }, 
+        {
+            "location": "/usage/", 
+            "text": "Usage\n\n\nIf you haven't used \nGulp\n before, be sure to check out the \nrelated documentation\n, as it explains how to create a \ngulpfile.js\n as well as install and use plug-ins.\nOnce you're familiar with that process, you may install the plug-in.\n\n\nProgramming interface\n\n\nThe plug-in takes a list of \nPHP\n scripts as input, and removes the comments and whitespace in these files by applying the \nphp_strip_whitespace()\n function on their contents:\n\n\nconst\n \n{\nphpMinify\n}\n \n=\n \nrequire\n(\n@cedx/gulp-php-minify\n);\n\n\nconst\n \ngulp\n \n=\n \nrequire\n(\ngulp\n);\n\n\n\ngulp\n.\ntask\n(\nminify:php\n,\n \n()\n \n=\n \ngulp\n.\nsrc\n(\npath/to/lib/**/*.php\n,\n \n{\nread\n:\n \nfalse\n})\n\n  \n.\npipe\n(\nphpMinify\n())\n\n  \n.\npipe\n(\ngulp\n.\ndest\n(\npath/to/out\n))\n\n\n);\n\n\n\n\n\n\n\n\nTip\n\n\nThe plug-in only needs the file paths, so you should specify\nthe \nread\n option to \nfalse\n when providing the file list,\nand you should not have any other plug-in before it.\n\n\n\n\nOptions\n\n\nbinary\n: string = \n\"php\"\n\n\nThe plug-in relies on the availability of the \nPHP\n executable on the target system. By default, the plug-in will use the \nphp\n binary found on the system path.\n\n\nIf the plug-in cannot find the default \nphp\n binary, or if you want to use a different one, you can provide the path to the \nphp\n executable by using the \nbinary\n option:\n\n\nreturn\n \ngulp\n.\nsrc\n(\npath/to/lib/**/*.php\n,\n \n{\nread\n:\n \nfalse\n})\n\n  \n.\npipe\n(\nphpMinify\n({\nbinary\n:\n \nC:\\\\Program Files\\\\PHP\\\\php.exe\n}))\n\n  \n.\npipe\n(\ngulp\n.\ndest\n(\npath/to/out\n));\n\n\n\n\n\n\nmode\n: string = \nTransformMode.safe\n\n\nThe plug-in can work in two manners, which can be selected using the \nmode\n option:\n\n\n\n\nthe \nsafe\n mode: as its name implies, this mode is very reliable. But it is also very slow as it spawns a new PHP process for every file to be processed. This is the default mode.\n\n\nthe \nfast\n mode: as its name implies, this mode is very fast, but it is not very reliable. It spawns a PHP web server that processes the input files, but on some systems this fails. This mode requires a \nPHP\n runtime version \n7.2 or later\n.\n\n\n\n\nconst\n \n{\nTransformMode\n}\n \n=\n \nrequire\n(\n@cedx/gulp-php-minify\n);\n\n\n\nreturn\n \ngulp\n.\nsrc\n(\npath/to/lib/**/*.php\n,\n \n{\nread\n:\n \nfalse\n})\n\n  \n.\npipe\n(\nphpMinify\n({\nmode\n:\n \nTransformMode\n.\nfast\n}))\n\n  \n.\npipe\n(\ngulp\n.\ndest\n(\npath/to/out\n));\n\n\n\n\n\n\nsilent\n: boolean = \nfalse\n\n\nBy default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the \nsilent\n option to \ntrue\n.\n\n\nreturn\n \ngulp\n.\nsrc\n(\npath/to/lib/**/*.php\n,\n \n{\nread\n:\n \nfalse\n})\n\n  \n.\npipe\n(\nphpMinify\n({\nsilent\n:\n \ntrue\n}))\n\n  \n.\npipe\n(\ngulp\n.\ndest\n(\npath/to/out\n));", 
+            "title": "Usage"
+        }, 
+        {
+            "location": "/usage/#usage", 
+            "text": "If you haven't used  Gulp  before, be sure to check out the  related documentation , as it explains how to create a  gulpfile.js  as well as install and use plug-ins.\nOnce you're familiar with that process, you may install the plug-in.", 
+            "title": "Usage"
+        }, 
+        {
+            "location": "/usage/#programming-interface", 
+            "text": "The plug-in takes a list of  PHP  scripts as input, and removes the comments and whitespace in these files by applying the  php_strip_whitespace()  function on their contents:  const   { phpMinify }   =   require ( @cedx/gulp-php-minify );  const   gulp   =   require ( gulp );  gulp . task ( minify:php ,   ()   =   gulp . src ( path/to/lib/**/*.php ,   { read :   false }) \n   . pipe ( phpMinify ()) \n   . pipe ( gulp . dest ( path/to/out ))  );    Tip  The plug-in only needs the file paths, so you should specify\nthe  read  option to  false  when providing the file list,\nand you should not have any other plug-in before it.", 
+            "title": "Programming interface"
+        }, 
+        {
+            "location": "/usage/#options", 
+            "text": "", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/usage/#binary-string-php", 
+            "text": "The plug-in relies on the availability of the  PHP  executable on the target system. By default, the plug-in will use the  php  binary found on the system path.  If the plug-in cannot find the default  php  binary, or if you want to use a different one, you can provide the path to the  php  executable by using the  binary  option:  return   gulp . src ( path/to/lib/**/*.php ,   { read :   false }) \n   . pipe ( phpMinify ({ binary :   C:\\\\Program Files\\\\PHP\\\\php.exe })) \n   . pipe ( gulp . dest ( path/to/out ));", 
+            "title": "binary: string = \"php\""
+        }, 
+        {
+            "location": "/usage/#mode-string-transformmodesafe", 
+            "text": "The plug-in can work in two manners, which can be selected using the  mode  option:   the  safe  mode: as its name implies, this mode is very reliable. But it is also very slow as it spawns a new PHP process for every file to be processed. This is the default mode.  the  fast  mode: as its name implies, this mode is very fast, but it is not very reliable. It spawns a PHP web server that processes the input files, but on some systems this fails. This mode requires a  PHP  runtime version  7.2 or later .   const   { TransformMode }   =   require ( @cedx/gulp-php-minify );  return   gulp . src ( path/to/lib/**/*.php ,   { read :   false }) \n   . pipe ( phpMinify ({ mode :   TransformMode . fast })) \n   . pipe ( gulp . dest ( path/to/out ));", 
+            "title": "mode: string = TransformMode.safe"
+        }, 
+        {
+            "location": "/usage/#silent-boolean-false", 
+            "text": "By default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the  silent  option to  true .  return   gulp . src ( path/to/lib/**/*.php ,   { read :   false }) \n   . pipe ( phpMinify ({ silent :   true })) \n   . pipe ( gulp . dest ( path/to/out ));", 
+            "title": "silent: boolean = false"
+        }, 
+        {
+            "location": "/about/changelog/", 
+            "text": "Changelog\n\n\nVersion \n8.0.0\n\n\n\n\nBreaking change: raised the required \nNode.js\n version.\n\n\nBreaking change: raised the required \nPHP\n version.\n\n\nAdded a user guide based on \nMkDocs\n.\n\n\nUsing PHP 7.1 features, like void functions.\n\n\nUsing the global \nURL\n class.\n\n\nUpdated the build system to \nGulp\n version 4.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n7.1.1\n\n\n\n\nFixed the \nissue #6\n: a required dependency was declared in the wrong section of the \npackage.json\n file.\n\n\n\n\nVersion \n7.1.0\n\n\n\n\nAdded the \nTransformMode\n enumeration.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n7.0.1\n\n\n\n\nFixed a bug with relative file paths.\n\n\n\n\nVersion \n7.0.0\n\n\n\n\nBreaking change: changed the signature of most class constructors.\n\n\nBreaking change: raised the required \nNode.js\n version.\n\n\nBreaking change: removed the \nbinary\n and \nmode\n properties from the \nMinifier\n class.\n\n\nBreaking change: renamed the \nFastTransformer.DEFAULT_ADDRESS\n constant to \ndefaultAddress\n.\n\n\nAdded new unit tests.\n\n\nAdded the \nTransformer\n abstract class.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n6.0.0\n\n\n\n\nBreaking change: converted the \nObservable\n-based API to an \nasync/await\n-based one.\n\n\nAdded the \n#[Symbol.toStringTag]\n property to all classes.\n\n\nChanged licensing for the \nMIT License\n.\n\n\n\n\nVersion \n5.1.0\n\n\n\n\nReplaced the \nSuperAgent\n HTTP client by \nnode-fetch\n.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n5.0.0\n\n\n\n\nBreaking change: changed the \nfactory()\n function to the \nMinifier.factory\n method.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n4.2.0\n\n\n\n\nReplaced the \nwhich\n module by an \nObservable\n-based one.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n4.1.0\n\n\n\n\nRemoved the dependency on \nBabel\n compiler.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n4.0.0\n\n\n\n\nBreaking change: restored the \nObservable\n APIs.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n3.1.1\n\n\n\n\nFixed a code generation bug.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n3.1.0\n\n\n\n\nAdded support for the \nNode Security Platform\n reports.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n3.0.0\n\n\n\n\nBreaking change: changed the signature of the \nMinifier\n constructor.\n\n\nAdded new unit tests.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n2.0.0\n\n\n\n\nBreaking change: dropped the dependency on \nObservables\n.\n\n\nBreaking change: raised the required \nNode.js\n version.\n\n\nBreaking change: raised the required \nPHP\n version.\n\n\nBreaking change: using ES2017 features, like async/await functions.\n\n\nAdded a \nmode\n option allowing to select the underlying transformer.\n\n\nImproved the build system.\n\n\nPorted the unit test assertions from \nTDD\n to \nBDD\n.\n\n\nRestored the legacy transformer from version 0.2.0.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n1.1.0\n\n\n\n\nProperly handle the stream events: added support for the \nerror\n event, remove the registered listeners on stream close.\n\n\nReplaced the \nCodacy\n code coverage service by the \nCoveralls\n one.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n1.0.1\n\n\n\n\nFixed \nGitHub issue #1\n.\n\n\n\n\nVersion \n1.0.0\n\n\n\n\nBreaking change: the plug-in is not anymore a default export. The use of destructuring assignment is advised to access it.\n\n\nBreaking change: ported the \nCommonJS\n modules to ES2015 format.\n\n\nBreaking change: ported the \nPromise\n-based APIs to \nObservables\n.\n\n\nBreaking change: raised the required \nNode.js\n version.\n\n\nBreaking change: replaced the test classes by plain tests.\n\n\nAdded the \nlistening\n property.\n\n\nAdded a build task for fixing the coding standards issues.\n\n\nReplaced \nJSDoc\n documentation generator by \nESDoc\n.\n\n\nReplaced \nJSHint\n linter by \nESLint\n.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n0.3.1\n\n\n\n\nAdded support for code coverage.\n\n\nAdded support for \nTravis CI\n continuous integration.\n\n\n\n\nVersion \n0.3.0\n\n\n\n\nBreaking change: raised the required \nNode.js\n version.\n\n\nAdded the \nsilent\n option: conditionally displaying the path of the minified scripts to the standard output.\n\n\nDrastically improved the performance (up to a 30x factor).\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n0.2.0\n\n\n\n\nBreaking change: renamed the \nPHPMinifier\n class to \nMinifier\n.\n\n\nBreaking change: raised the required \nNode.js\n version.\n\n\nBreaking change: using ES2015 features, like default parameters and destructuring assignment.\n\n\nTurned the package into a \nscoped one\n.\n\n\n\n\nVersion \n0.1.2\n\n\n\n\nAdded support for \nCodacy\n code analyzer.\n\n\nRenamed the project according to its \nnpm\n package name.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion \n0.1.1\n\n\n\n\nFixed some bugs.\n\n\nUpdated the package dependencies.\n\n\n\n\nVersion 0.1.0\n\n\n\n\nInitial release.", 
+            "title": "Changelog"
+        }, 
+        {
+            "location": "/about/changelog/#changelog", 
+            "text": "", 
+            "title": "Changelog"
+        }, 
+        {
+            "location": "/about/changelog/#version-800", 
+            "text": "Breaking change: raised the required  Node.js  version.  Breaking change: raised the required  PHP  version.  Added a user guide based on  MkDocs .  Using PHP 7.1 features, like void functions.  Using the global  URL  class.  Updated the build system to  Gulp  version 4.  Updated the package dependencies.", 
+            "title": "Version 8.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-711", 
+            "text": "Fixed the  issue #6 : a required dependency was declared in the wrong section of the  package.json  file.", 
+            "title": "Version 7.1.1"
+        }, 
+        {
+            "location": "/about/changelog/#version-710", 
+            "text": "Added the  TransformMode  enumeration.  Updated the package dependencies.", 
+            "title": "Version 7.1.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-701", 
+            "text": "Fixed a bug with relative file paths.", 
+            "title": "Version 7.0.1"
+        }, 
+        {
+            "location": "/about/changelog/#version-700", 
+            "text": "Breaking change: changed the signature of most class constructors.  Breaking change: raised the required  Node.js  version.  Breaking change: removed the  binary  and  mode  properties from the  Minifier  class.  Breaking change: renamed the  FastTransformer.DEFAULT_ADDRESS  constant to  defaultAddress .  Added new unit tests.  Added the  Transformer  abstract class.  Updated the package dependencies.", 
+            "title": "Version 7.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-600", 
+            "text": "Breaking change: converted the  Observable -based API to an  async/await -based one.  Added the  #[Symbol.toStringTag]  property to all classes.  Changed licensing for the  MIT License .", 
+            "title": "Version 6.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-510", 
+            "text": "Replaced the  SuperAgent  HTTP client by  node-fetch .  Updated the package dependencies.", 
+            "title": "Version 5.1.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-500", 
+            "text": "Breaking change: changed the  factory()  function to the  Minifier.factory  method.  Updated the package dependencies.", 
+            "title": "Version 5.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-420", 
+            "text": "Replaced the  which  module by an  Observable -based one.  Updated the package dependencies.", 
+            "title": "Version 4.2.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-410", 
+            "text": "Removed the dependency on  Babel  compiler.  Updated the package dependencies.", 
+            "title": "Version 4.1.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-400", 
+            "text": "Breaking change: restored the  Observable  APIs.  Updated the package dependencies.", 
+            "title": "Version 4.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-311", 
+            "text": "Fixed a code generation bug.  Updated the package dependencies.", 
+            "title": "Version 3.1.1"
+        }, 
+        {
+            "location": "/about/changelog/#version-310", 
+            "text": "Added support for the  Node Security Platform  reports.  Updated the package dependencies.", 
+            "title": "Version 3.1.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-300", 
+            "text": "Breaking change: changed the signature of the  Minifier  constructor.  Added new unit tests.  Updated the package dependencies.", 
+            "title": "Version 3.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-200", 
+            "text": "Breaking change: dropped the dependency on  Observables .  Breaking change: raised the required  Node.js  version.  Breaking change: raised the required  PHP  version.  Breaking change: using ES2017 features, like async/await functions.  Added a  mode  option allowing to select the underlying transformer.  Improved the build system.  Ported the unit test assertions from  TDD  to  BDD .  Restored the legacy transformer from version 0.2.0.  Updated the package dependencies.", 
+            "title": "Version 2.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-110", 
+            "text": "Properly handle the stream events: added support for the  error  event, remove the registered listeners on stream close.  Replaced the  Codacy  code coverage service by the  Coveralls  one.  Updated the package dependencies.", 
+            "title": "Version 1.1.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-101", 
+            "text": "Fixed  GitHub issue #1 .", 
+            "title": "Version 1.0.1"
+        }, 
+        {
+            "location": "/about/changelog/#version-100", 
+            "text": "Breaking change: the plug-in is not anymore a default export. The use of destructuring assignment is advised to access it.  Breaking change: ported the  CommonJS  modules to ES2015 format.  Breaking change: ported the  Promise -based APIs to  Observables .  Breaking change: raised the required  Node.js  version.  Breaking change: replaced the test classes by plain tests.  Added the  listening  property.  Added a build task for fixing the coding standards issues.  Replaced  JSDoc  documentation generator by  ESDoc .  Replaced  JSHint  linter by  ESLint .  Updated the package dependencies.", 
+            "title": "Version 1.0.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-031", 
+            "text": "Added support for code coverage.  Added support for  Travis CI  continuous integration.", 
+            "title": "Version 0.3.1"
+        }, 
+        {
+            "location": "/about/changelog/#version-030", 
+            "text": "Breaking change: raised the required  Node.js  version.  Added the  silent  option: conditionally displaying the path of the minified scripts to the standard output.  Drastically improved the performance (up to a 30x factor).  Updated the package dependencies.", 
+            "title": "Version 0.3.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-020", 
+            "text": "Breaking change: renamed the  PHPMinifier  class to  Minifier .  Breaking change: raised the required  Node.js  version.  Breaking change: using ES2015 features, like default parameters and destructuring assignment.  Turned the package into a  scoped one .", 
+            "title": "Version 0.2.0"
+        }, 
+        {
+            "location": "/about/changelog/#version-012", 
+            "text": "Added support for  Codacy  code analyzer.  Renamed the project according to its  npm  package name.  Updated the package dependencies.", 
+            "title": "Version 0.1.2"
+        }, 
+        {
+            "location": "/about/changelog/#version-011", 
+            "text": "Fixed some bugs.  Updated the package dependencies.", 
+            "title": "Version 0.1.1"
+        }, 
+        {
+            "location": "/about/changelog/#version-010", 
+            "text": "Initial release.", 
+            "title": "Version 0.1.0"
+        }, 
+        {
+            "location": "/about/license/", 
+            "text": "MIT License\n\n\nCopyright \n 2016 - 2018 C\u00e9dric Belin\n\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.", 
+            "title": "License"
+        }, 
+        {
+            "location": "/about/license/#mit-license", 
+            "text": "Copyright   2016 - 2018 C\u00e9dric Belin  Permission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:  The above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.  THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.", 
+            "title": "MIT License"
+        }, 
+        {
+            "location": "/about/see_also/", 
+            "text": "See also\n\n\nDevelopment\n\n\n\n\nAPI reference\n\n\nnpm package\n\n\n\n\nTesting\n\n\n\n\nContinuous integration\n\n\nCode coverage\n\n\n\n\nOther implementations\n\n\n\n\nDart: \nGrinder-PHP-Minify", 
+            "title": "See also"
+        }, 
+        {
+            "location": "/about/see_also/#see-also", 
+            "text": "", 
+            "title": "See also"
+        }, 
+        {
+            "location": "/about/see_also/#development", 
+            "text": "API reference  npm package", 
+            "title": "Development"
+        }, 
+        {
+            "location": "/about/see_also/#testing", 
+            "text": "Continuous integration  Code coverage", 
+            "title": "Testing"
+        }, 
+        {
+            "location": "/about/see_also/#other-implementations", 
+            "text": "Dart:  Grinder-PHP-Minify", 
+            "title": "Other implementations"
+        }
+    ]
+}

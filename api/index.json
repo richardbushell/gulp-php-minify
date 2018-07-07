@@ -1,0 +1,1661 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "lib/.external-ecmascript.js",
+    "static": true,
+    "longname": "lib/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "lib/fast_transformer.js",
+    "content": "'use strict';\n\nconst {ChildProcess, spawn} = require('child_process');\nconst {createServer} = require('net');\nconst fetch = require('node-fetch');\nconst {join, resolve} = require('path');\n\n/**\n * Removes comments and whitespace from a PHP script, by calling a Web service.\n * @implements {Transformer}\n */\nclass FastTransformer {\n\n  /**\n   * The default address that the server is listening on.\n   * @type {string}\n   */\n  static get defaultAddress() {\n    return '127.0.0.1';\n  }\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {string} [executable] The path to the PHP executable.\n   */\n  constructor(executable = 'php') {\n\n    /**\n     * The path to the PHP executable.\n     * @type {string}\n     */\n    this._executable = executable;\n\n    /**\n     * The port that the PHP process is listening on.\n     * @type {number}\n     */\n    this._port = -1;\n\n    /**\n     * The underlying PHP process.\n     * @type {ChildProcess}\n     */\n    this._process = null;\n  }\n\n  /**\n   * The class name.\n   * @type {string}\n   */\n  get [Symbol.toStringTag]() {\n    return 'FastTransformer';\n  }\n\n  /**\n   * Value indicating whether the PHP process is currently listening.\n   * @type {boolean}\n   */\n  get listening() {\n    return this._process instanceof ChildProcess;\n  }\n\n  /**\n   * Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.\n   */\n  async close() {\n    if (!this.listening) return;\n    this._process.kill();\n    this._process = null;\n  }\n\n  /**\n   * Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.\n   * @return {Promise<number>} The port used by the PHP process.\n   */\n  async listen() {\n    if (this.listening) return this._port;\n\n    this._port = await this._getPort();\n    return new Promise((resolve, reject) => {\n      this._process = spawn(this._executable, ['-S', `${FastTransformer.defaultAddress}:${this._port}`, '-t', join(__dirname, 'php')]);\n      this._process.on('error', err => reject(err));\n      setTimeout(() => resolve(this._port), 1000);\n    });\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    let port = await this.listen();\n    let endPoint = new URL(`http://${FastTransformer.defaultAddress}:${port}/server.php`);\n    endPoint.searchParams.set('file', resolve(script));\n\n    let res = await fetch(endPoint.href);\n    if (!res.ok) throw new Error('An error occurred while transforming the script.');\n    return res.text();\n  }\n\n  /**\n   * Gets an ephemeral port chosen by the system.\n   * @return {Promise<number>} A port that the server can listen on.\n   */\n  async _getPort() {\n    return new Promise((resolve, reject) => {\n      let server = createServer().unref();\n      server.on('error', err => reject(err));\n      server.listen(0, FastTransformer.defaultAddress, () => {\n        let port = server.address().port;\n        server.close(() => resolve(port));\n      });\n    });\n  }\n}\n\n// Module exports.\nexports.FastTransformer = FastTransformer;\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/lib/fast_transformer.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "class",
+    "name": "FastTransformer",
+    "memberof": "lib/fast_transformer.js",
+    "static": true,
+    "longname": "lib/fast_transformer.js~FastTransformer",
+    "access": "public",
+    "export": true,
+    "importPath": "@cedx/gulp-php-minify/lib/fast_transformer.js",
+    "importStyle": "{FastTransformer}",
+    "description": "Removes comments and whitespace from a PHP script, by calling a Web service.",
+    "lineNumber": 12,
+    "interface": false,
+    "implements": [
+      "Transformer"
+    ]
+  },
+  {
+    "__docId__": 50,
+    "kind": "get",
+    "name": "defaultAddress",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/fast_transformer.js~FastTransformer.defaultAddress",
+    "access": "public",
+    "description": "The default address that the server is listening on.",
+    "lineNumber": 18,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 51,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#constructor",
+    "access": "public",
+    "description": "Initializes a new instance of the class.",
+    "lineNumber": 26,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "executable",
+        "description": "The path to the PHP executable."
+      }
+    ]
+  },
+  {
+    "__docId__": 52,
+    "kind": "member",
+    "name": "_executable",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#_executable",
+    "access": "private",
+    "description": "The path to the PHP executable.",
+    "lineNumber": 32,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 53,
+    "kind": "member",
+    "name": "_port",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#_port",
+    "access": "private",
+    "description": "The port that the PHP process is listening on.",
+    "lineNumber": 38,
+    "type": {
+      "nullable": null,
+      "types": [
+        "number"
+      ],
+      "spread": false,
+      "description": null
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 54,
+    "kind": "member",
+    "name": "_process",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#_process",
+    "access": "private",
+    "description": "The underlying PHP process.",
+    "lineNumber": 44,
+    "type": {
+      "nullable": null,
+      "types": [
+        "ChildProcess"
+      ],
+      "spread": false,
+      "description": null
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 55,
+    "kind": "get",
+    "name": "[Symbol.toStringTag]",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#[Symbol.toStringTag]",
+    "access": "public",
+    "description": "The class name.",
+    "lineNumber": 51,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "get",
+    "name": "listening",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#listening",
+    "access": "public",
+    "description": "Value indicating whether the PHP process is currently listening.",
+    "lineNumber": 59,
+    "type": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "method",
+    "name": "close",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#close",
+    "access": "public",
+    "description": "Terminates the underlying PHP process: stops the server from accepting new connections. It does nothing if the server is already closed.",
+    "lineNumber": 66,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 59,
+    "kind": "method",
+    "name": "listen",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#listen",
+    "access": "public",
+    "description": "Starts the underlying PHP process: begins accepting connections. It does nothing if the server is already started.",
+    "lineNumber": 76,
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<number>"
+      ],
+      "spread": false,
+      "description": "The port used by the PHP process."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "name": "transform",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#transform",
+    "access": "public",
+    "description": "Processes a PHP script.",
+    "lineNumber": 92,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "script",
+        "description": "The path to the PHP script."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<string>"
+      ],
+      "spread": false,
+      "description": "The transformed script."
+    }
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "name": "_getPort",
+    "memberof": "lib/fast_transformer.js~FastTransformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/fast_transformer.js~FastTransformer#_getPort",
+    "access": "private",
+    "description": "Gets an ephemeral port chosen by the system.",
+    "lineNumber": 106,
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<number>"
+      ],
+      "spread": false,
+      "description": "A port that the server can listen on."
+    },
+    "ignore": true,
+    "params": []
+  },
+  {
+    "__docId__": 64,
+    "kind": "file",
+    "name": "lib/safe_transformer.js",
+    "content": "'use strict';\n\nconst {execFile} = require('child_process');\nconst {resolve} = require('path');\nconst {promisify} = require('util');\n\n/**\n * Removes comments and whitespace from a PHP script, by calling a PHP process.\n * @implements {Transformer}\n */\nclass SafeTransformer {\n\n  /**\n   * Initializes a new instance of the class.\n   * @param {string} [executable] The path to the PHP executable.\n   */\n  constructor(executable = 'php') {\n\n    /**\n     * The path to the PHP executable.\n     * @type {string}\n     */\n    this._executable = executable;\n  }\n\n  /**\n   * The class name.\n   * @type {string}\n   */\n  get [Symbol.toStringTag]() {\n    return 'SafeTransformer';\n  }\n\n  /**\n   * Closes this transformer and releases any resources associated with it.\n   * @return {Promise} Completes when the transformer is finally disposed.\n  */\n  async close() {\n    return null;\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    const exec = promisify(execFile);\n    let {stdout} = await exec(this._executable, ['-w', resolve(script)], {maxBuffer: 10 * 1024 * 1024});\n    return stdout;\n  }\n}\n\n// Module exports.\nexports.SafeTransformer = SafeTransformer;\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/lib/safe_transformer.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 65,
+    "kind": "class",
+    "name": "SafeTransformer",
+    "memberof": "lib/safe_transformer.js",
+    "static": true,
+    "longname": "lib/safe_transformer.js~SafeTransformer",
+    "access": "public",
+    "export": true,
+    "importPath": "@cedx/gulp-php-minify/lib/safe_transformer.js",
+    "importStyle": "{SafeTransformer}",
+    "description": "Removes comments and whitespace from a PHP script, by calling a PHP process.",
+    "lineNumber": 11,
+    "interface": false,
+    "implements": [
+      "Transformer"
+    ]
+  },
+  {
+    "__docId__": 66,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/safe_transformer.js~SafeTransformer",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/safe_transformer.js~SafeTransformer#constructor",
+    "access": "public",
+    "description": "Initializes a new instance of the class.",
+    "lineNumber": 17,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "executable",
+        "description": "The path to the PHP executable."
+      }
+    ]
+  },
+  {
+    "__docId__": 67,
+    "kind": "member",
+    "name": "_executable",
+    "memberof": "lib/safe_transformer.js~SafeTransformer",
+    "static": false,
+    "longname": "lib/safe_transformer.js~SafeTransformer#_executable",
+    "access": "private",
+    "description": "The path to the PHP executable.",
+    "lineNumber": 23,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "get",
+    "name": "[Symbol.toStringTag]",
+    "memberof": "lib/safe_transformer.js~SafeTransformer",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/safe_transformer.js~SafeTransformer#[Symbol.toStringTag]",
+    "access": "public",
+    "description": "The class name.",
+    "lineNumber": 30,
+    "type": {
+      "nullable": null,
+      "types": [
+        "string"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 69,
+    "kind": "method",
+    "name": "close",
+    "memberof": "lib/safe_transformer.js~SafeTransformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/safe_transformer.js~SafeTransformer#close",
+    "access": "public",
+    "description": "Closes this transformer and releases any resources associated with it.",
+    "lineNumber": 38,
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise"
+      ],
+      "spread": false,
+      "description": "Completes when the transformer is finally disposed."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 70,
+    "kind": "method",
+    "name": "transform",
+    "memberof": "lib/safe_transformer.js~SafeTransformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/safe_transformer.js~SafeTransformer#transform",
+    "access": "public",
+    "description": "Processes a PHP script.",
+    "lineNumber": 47,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "script",
+        "description": "The path to the PHP script."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<string>"
+      ],
+      "spread": false,
+      "description": "The transformed script."
+    }
+  },
+  {
+    "__docId__": 71,
+    "kind": "file",
+    "name": "lib/transform_mode.js",
+    "content": "'use strict';\nconst {Enum} = require('@cedx/enum');\n\n/**\n * Defines the type of transformation applied by a minifier.\n * @type {Object}\n *\n * @property {string} fast Applies a fast transformation.\n * @property {string} safe Applies a safe transformation.\n */\nconst TransformMode = Enum.create({\n  fast: 'fast',\n  safe: 'safe'\n});\n\n// Module exports.\nexports.TransformMode = TransformMode;\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/lib/transform_mode.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 72,
+    "kind": "variable",
+    "name": "TransformMode",
+    "memberof": "lib/transform_mode.js",
+    "static": true,
+    "longname": "lib/transform_mode.js~TransformMode",
+    "access": "public",
+    "export": true,
+    "importPath": "@cedx/gulp-php-minify/lib/transform_mode.js",
+    "importStyle": "{TransformMode}",
+    "description": "Defines the type of transformation applied by a minifier.",
+    "lineNumber": 11,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fast",
+        "description": "Applies a fast transformation."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "safe",
+        "description": "Applies a safe transformation."
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 73,
+    "kind": "file",
+    "name": "lib/transformer.js",
+    "content": "'use strict';\n\nconst {FastTransformer} = require('./fast_transformer.js');\nconst {TransformMode} = require('./transform_mode.js');\nconst {SafeTransformer} = require('./safe_transformer.js');\n\n/**\n * Interface providing a mechanism for transforming input and producing output.\n * @interface\n */\nclass Transformer {\n\n  /**\n   * Creates a new transformer.\n   * @param {string} mode The transformation type.\n   * @param {string} [executable] The path to the PHP executable.\n   * @return {Transformer} The newly created instance.\n   */\n  static factory(mode, executable = 'php') {\n    return mode == TransformMode.fast ? new FastTransformer(executable) : new SafeTransformer(executable);\n  }\n\n  /**\n   * Initializes a new instance of the class.\n   * @throws {TypeError} This class is not instantiable.\n   */\n  constructor() {\n    throw new TypeError('This type is not instantiable.');\n  }\n\n  /* eslint-disable no-unused-vars, valid-jsdoc */\n\n  /**\n   * Closes this transformer and releases any resources associated with it.\n   * @return {Promise} Completes when the transformer is finally disposed.\n   */\n  async close() {\n    throw new Error('Not implemented.');\n  }\n\n  /**\n   * Processes a PHP script.\n   * @param {string} script The path to the PHP script.\n   * @return {Promise<string>} The transformed script.\n   */\n  async transform(script) {\n    throw new Error('Not implemented.');\n  }\n\n  /* eslint-enable no-unused-vars, valid-jsdoc */\n}\n\n// Module exports.\nexports.Transformer = Transformer;\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/lib/transformer.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 74,
+    "kind": "class",
+    "name": "Transformer",
+    "memberof": "lib/transformer.js",
+    "static": true,
+    "longname": "lib/transformer.js~Transformer",
+    "access": "public",
+    "export": true,
+    "importPath": "@cedx/gulp-php-minify/lib/transformer.js",
+    "importStyle": "{Transformer}",
+    "description": "Interface providing a mechanism for transforming input and producing output.",
+    "lineNumber": 11,
+    "interface": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "method",
+    "name": "factory",
+    "memberof": "lib/transformer.js~Transformer",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/transformer.js~Transformer.factory",
+    "access": "public",
+    "description": "Creates a new transformer.",
+    "lineNumber": 19,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "mode",
+        "description": "The transformation type."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "executable",
+        "description": "The path to the PHP executable."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Transformer"
+      ],
+      "spread": false,
+      "description": "The newly created instance."
+    }
+  },
+  {
+    "__docId__": 76,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/transformer.js~Transformer",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/transformer.js~Transformer#constructor",
+    "access": "public",
+    "description": "Initializes a new instance of the class.",
+    "lineNumber": 27,
+    "throws": [
+      {
+        "types": [
+          "TypeError"
+        ],
+        "description": "This class is not instantiable."
+      }
+    ]
+  },
+  {
+    "__docId__": 77,
+    "kind": "method",
+    "name": "close",
+    "memberof": "lib/transformer.js~Transformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/transformer.js~Transformer#close",
+    "access": "public",
+    "description": "Closes this transformer and releases any resources associated with it.",
+    "lineNumber": 37,
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise"
+      ],
+      "spread": false,
+      "description": "Completes when the transformer is finally disposed."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 78,
+    "kind": "method",
+    "name": "transform",
+    "memberof": "lib/transformer.js~Transformer",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "lib/transformer.js~Transformer#transform",
+    "access": "public",
+    "description": "Processes a PHP script.",
+    "lineNumber": 46,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "script",
+        "description": "The path to the PHP script."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Promise<string>"
+      ],
+      "spread": false,
+      "description": "The transformed script."
+    }
+  },
+  {
+    "kind": "index",
+    "content": "# Gulp-PHP-Minify\n![Runtime](https://img.shields.io/badge/node-%3E%3D10.6-brightgreen.svg) ![Release](https://img.shields.io/npm/v/@cedx/gulp-php-minify.svg) ![License](https://img.shields.io/npm/l/@cedx/gulp-php-minify.svg) ![Downloads](https://img.shields.io/npm/dt/@cedx/gulp-php-minify.svg) ![Dependencies](https://david-dm.org/cedx/gulp-php-minify.svg) ![Coverage](https://coveralls.io/repos/github/cedx/gulp-php-minify/badge.svg) ![Build](https://travis-ci.com/cedx/gulp-php-minify.svg)\n\n[Gulp](http://gulpjs.com) plug-in minifying [PHP](https://secure.php.net) source code by removing comments and whitespace.\n\n## Resources\n- [Documentation](https://dev.belin.io/gulp-php-minify)\n- [API reference](https://dev.belin.io/gulp-php-minify/api)\n- [npm package](https://www.npmjs.com/package/@cedx/gulp-php-minify)\n- [GitHub repository](https://github.com/cedx/gulp-php-minify)\n\n## License\n[Gulp-PHP-Minify](https://dev.belin.io/gulp-php-minify) is distributed under the MIT License.\n",
+    "longname": "/repo/gulp-php-minify/README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\n  \"author\": \"Cédric Belin <cedric@belin.io>\",\n  \"bugs\": \"https://github.com/cedx/gulp-php-minify/issues\",\n  \"description\": \"Gulp plug-in minifying PHP source code by removing comments and whitespace.\",\n  \"homepage\": \"https://dev.belin.io/gulp-php-minify\",\n  \"license\": \"MIT\",\n  \"main\": \"./lib/index.js\",\n  \"name\": \"@cedx/gulp-php-minify\",\n  \"repository\": \"cedx/gulp-php-minify\",\n  \"version\": \"8.0.0\",\n  \"dependencies\": {\n    \"@cedx/enum\": \"^4.1.0\",\n    \"@cedx/which\": \"^4.0.1\",\n    \"node-fetch\": \"^2.1.2\"\n  },\n  \"devDependencies\": {\n    \"@cedx/coveralls\": \"^6.0.0\",\n    \"@cedx/gulp-david\": \"^11.0.0\",\n    \"chai\": \"^4.1.2\",\n    \"del\": \"^3.0.0\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-node\": \"^1.0.3\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"gulp\": \"^4.0.0\",\n    \"gulp-eslint\": \"^4.0.2\",\n    \"mocha\": \"^5.2.0\",\n    \"nsp\": \"^3.2.1\",\n    \"nyc\": \"^13.0.0\",\n    \"vinyl\": \"^2.2.0\"\n  },\n  \"engines\": {\n    \"node\": \">=10.6.0\"\n  },\n  \"keywords\": [\n    \"compress\",\n    \"gulp\",\n    \"gulpplugin\",\n    \"minify\",\n    \"php\"\n  ],\n  \"peerDependencies\": {\n    \"gulp\": \">=4.0.0\"\n  },\n  \"scripts\": {\n    \"coverage\": \"coveralls var/lcov.info\",\n    \"test\": \"nyc mocha\"\n  }\n}\n",
+    "longname": "/repo/gulp-php-minify/package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "manualIndex",
+    "globalIndex": false,
+    "content": null,
+    "longname": "",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "manual",
+    "longname": "/repo/gulp-php-minify/CHANGELOG.md",
+    "name": "CHANGELOG.md",
+    "content": "# Changelog\n\n## Version [8.0.0](https://github.com/cedx/gulp-php-minify/compare/v7.1.1...v8.0.0)\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: raised the required [PHP](https://secure.php.net) version.\n- Added a user guide based on [MkDocs](http://www.mkdocs.org).\n- Using PHP 7.1 features, like void functions.\n- Using the global `URL` class.\n- Updated the build system to [Gulp](https://gulpjs.com) version 4.\n- Updated the package dependencies.\n\n## Version [7.1.1](https://github.com/cedx/gulp-php-minify/compare/v7.1.0...v7.1.1)\n- Fixed the [issue #6](https://github.com/cedx/gulp-php-minify/issues/6): a required dependency was declared in the wrong section of the `package.json` file.\n\n## Version [7.1.0](https://github.com/cedx/gulp-php-minify/compare/v7.0.1...v7.1.0)\n- Added the `TransformMode` enumeration.\n- Updated the package dependencies.\n\n## Version [7.0.1](https://github.com/cedx/gulp-php-minify/compare/v7.0.0...v7.0.1)\n- Fixed a bug with relative file paths.\n\n## Version [7.0.0](https://github.com/cedx/gulp-php-minify/compare/v6.0.0...v7.0.0)\n- Breaking change: changed the signature of most class constructors.\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: removed the `binary` and `mode` properties from the `Minifier` class.\n- Breaking change: renamed the `FastTransformer.DEFAULT_ADDRESS` constant to `defaultAddress`.\n- Added new unit tests.\n- Added the `Transformer` abstract class.\n- Updated the package dependencies.\n\n## Version [6.0.0](https://github.com/cedx/gulp-php-minify/compare/v5.1.0...v6.0.0)\n- Breaking change: converted the [`Observable`](http://reactivex.io/intro.html)-based API to an `async/await`-based one.\n- Added the [`#[Symbol.toStringTag]`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag) property to all classes.\n- Changed licensing for the [MIT License](https://opensource.org/licenses/MIT).\n\n## Version [5.1.0](https://github.com/cedx/gulp-php-minify/compare/v5.0.0...v5.1.0)\n- Replaced the [SuperAgent](https://visionmedia.github.io/superagent) HTTP client by `node-fetch`.\n- Updated the package dependencies.\n\n## Version [5.0.0](https://github.com/cedx/gulp-php-minify/compare/v4.2.0...v5.0.0)\n- Breaking change: changed the `factory()` function to the `Minifier.factory` method.\n- Updated the package dependencies.\n\n## Version [4.2.0](https://github.com/cedx/gulp-php-minify/compare/v4.1.0...v4.2.0)\n- Replaced the `which` module by an `Observable`-based one.\n- Updated the package dependencies.\n\n## Version [4.1.0](https://github.com/cedx/gulp-php-minify/compare/v4.0.0...v4.1.0)\n- Removed the dependency on [Babel](https://babeljs.io) compiler.\n- Updated the package dependencies.\n\n## Version [4.0.0](https://github.com/cedx/gulp-php-minify/compare/v3.1.1...v4.0.0)\n- Breaking change: restored the [Observable](http://reactivex.io/intro.html) APIs.\n- Updated the package dependencies.\n\n## Version [3.1.1](https://github.com/cedx/gulp-php-minify/compare/v3.1.0...v3.1.1)\n- Fixed a code generation bug.\n- Updated the package dependencies.\n\n## Version [3.1.0](https://github.com/cedx/gulp-php-minify/compare/v3.0.0...v3.1.0)\n- Added support for the [Node Security Platform](https://nodesecurity.io) reports.\n- Updated the package dependencies.\n\n## Version [3.0.0](https://github.com/cedx/gulp-php-minify/compare/v2.0.0...v3.0.0)\n- Breaking change: changed the signature of the `Minifier` constructor.\n- Added new unit tests.\n- Updated the package dependencies.\n\n## Version [2.0.0](https://github.com/cedx/gulp-php-minify/compare/v1.1.0...v2.0.0)\n- Breaking change: dropped the dependency on [Observables](http://reactivex.io/intro.html).\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: raised the required [PHP](https://secure.php.net) version.\n- Breaking change: using ES2017 features, like async/await functions.\n- Added a `mode` option allowing to select the underlying transformer.\n- Improved the build system.\n- Ported the unit test assertions from [TDD](https://en.wikipedia.org/wiki/Test-driven_development) to [BDD](https://en.wikipedia.org/wiki/Behavior-driven_development).\n- Restored the legacy transformer from version 0.2.0.\n- Updated the package dependencies.\n\n## Version [1.1.0](https://github.com/cedx/gulp-php-minify/compare/v1.0.1...v1.1.0)\n- Properly handle the stream events: added support for the `error` event, remove the registered listeners on stream close.\n- Replaced the [Codacy](https://www.codacy.com) code coverage service by the [Coveralls](https://coveralls.io) one.\n- Updated the package dependencies.\n\n## Version [1.0.1](https://github.com/cedx/gulp-php-minify/compare/v1.0.0...v1.0.1)\n- Fixed [GitHub issue #1](https://github.com/cedx/gulp-php-minify/issues/1).\n\n## Version [1.0.0](https://github.com/cedx/gulp-php-minify/compare/v0.3.1...v1.0.0)\n- Breaking change: the plug-in is not anymore a default export. The use of destructuring assignment is advised to access it.\n- Breaking change: ported the [CommonJS](https://nodejs.org/api/modules.html) modules to ES2015 format.\n- Breaking change: ported the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based APIs to [Observables](http://reactivex.io/intro.html).\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: replaced the test classes by plain tests.\n- Added the `listening` property.\n- Added a build task for fixing the coding standards issues.\n- Replaced [JSDoc](http://usejsdoc.org) documentation generator by [ESDoc](https://esdoc.org).\n- Replaced [JSHint](http://jshint.com) linter by [ESLint](http://eslint.org).\n- Updated the package dependencies.\n\n## Version [0.3.1](https://github.com/cedx/gulp-php-minify/compare/v0.3.0...v0.3.1)\n- Added support for code coverage.\n- Added support for [Travis CI](https://travis-ci.com) continuous integration.\n\n## Version [0.3.0](https://github.com/cedx/gulp-php-minify/compare/v0.2.0...v0.3.0)\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Added the `silent` option: conditionally displaying the path of the minified scripts to the standard output.\n- Drastically improved the performance (up to a 30x factor).\n- Updated the package dependencies.\n\n## Version [0.2.0](https://github.com/cedx/gulp-php-minify/compare/v0.1.2...v0.2.0)\n- Breaking change: renamed the `PHPMinifier` class to `Minifier`.\n- Breaking change: raised the required [Node.js](https://nodejs.org) version.\n- Breaking change: using ES2015 features, like default parameters and destructuring assignment.\n- Turned the package into a [scoped one](https://docs.npmjs.com/getting-started/scoped-packages).\n\n## Version [0.1.2](https://github.com/cedx/gulp-php-minify/compare/v0.1.1...v0.1.2)\n- Added support for [Codacy](https://www.codacy.com) code analyzer.\n- Renamed the project according to its [npm](https://www.npmjs.com) package name.\n- Updated the package dependencies.\n\n## Version [0.1.1](https://github.com/cedx/gulp-php-minify/compare/v0.1.0...v0.1.1)\n- Fixed some bugs.\n- Updated the package dependencies.\n\n## Version 0.1.0\n- Initial release.\n",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "__docId__": 79,
+    "kind": "testFile",
+    "name": "test/fast_transformer_test.js",
+    "content": "'use strict';\n\nconst {expect} = require('chai');\nconst {FastTransformer} = require('../lib/index.js');\n\n/**\n * @test {FastTransformer}\n */\ndescribe('FastTransformer', function() {\n  this.retries(2);\n  this.timeout(30000);\n\n  /**\n   * @test {FastTransformer#close}\n   */\n  describe('#close()', () => {\n    let transformer = new FastTransformer;\n\n    it('should complete without any error', async () => {\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n\n    it('should be callable multiple times', async () => {\n      await transformer.close();\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n  });\n\n  /**\n   * @test {FastTransformer#listen}\n   */\n  describe('#listen()', () => {\n    let transformer = new FastTransformer;\n    after(async () => await transformer.close());\n\n    it('should complete without any error', async () => {\n      await transformer.listen();\n      expect(true).to.be.ok;\n    });\n\n    it('should be callable multiple times', async () => {\n      await transformer.listen();\n      await transformer.listen();\n      expect(true).to.be.ok;\n    });\n  });\n\n  /**\n   * @test {FastTransformer#listening}\n   */\n  describe('#listening', () => {\n    let transformer = new FastTransformer;\n\n    it('should return whether the server is listening', async () => {\n      expect(transformer.listening).to.be.false;\n\n      await transformer.listen();\n      expect(transformer.listening).to.be.true;\n\n      await transformer.close();\n      expect(transformer.listening).to.be.false;\n    });\n  });\n\n  /**\n   * @test {FastTransformer#transform}\n   */\n  describe('#transform()', () => {\n    let script = 'test/fixtures/sample.php';\n    let transformer = new FastTransformer;\n    after(async () => await transformer.close());\n\n    it('should remove the inline comments', async () => {\n      expect(await transformer.transform(script)).to.contain(\"<?= 'Hello World!' ?>\");\n    });\n\n    it('should remove the multi-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('namespace dummy; class Dummy');\n    });\n\n    it('should remove the single-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('$className = get_class($this); return $className;');\n    });\n\n    it('should remove the whitespace', async () => {\n      expect(await transformer.transform(script)).to.contain('__construct() { }');\n    });\n  });\n});\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/test/fast_transformer_test.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 80,
+    "kind": "test",
+    "name": "describe0",
+    "testId": 0,
+    "memberof": "test/fast_transformer_test.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0",
+    "access": null,
+    "description": "FastTransformer",
+    "lineNumber": 9,
+    "testTargets": [
+      "FastTransformer"
+    ]
+  },
+  {
+    "__docId__": 81,
+    "kind": "test",
+    "name": "describe1",
+    "testId": 1,
+    "memberof": "test/fast_transformer_test.js~describe0",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe1",
+    "access": null,
+    "description": "#close()",
+    "lineNumber": 16,
+    "testTargets": [
+      "FastTransformer#close"
+    ]
+  },
+  {
+    "__docId__": 82,
+    "kind": "test",
+    "name": "it2",
+    "testId": 2,
+    "memberof": "test/fast_transformer_test.js~describe0.describe1",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe1.it2",
+    "access": null,
+    "description": "should complete without any error",
+    "lineNumber": 19
+  },
+  {
+    "__docId__": 83,
+    "kind": "test",
+    "name": "it3",
+    "testId": 3,
+    "memberof": "test/fast_transformer_test.js~describe0.describe1",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe1.it3",
+    "access": null,
+    "description": "should be callable multiple times",
+    "lineNumber": 24
+  },
+  {
+    "__docId__": 84,
+    "kind": "test",
+    "name": "describe4",
+    "testId": 4,
+    "memberof": "test/fast_transformer_test.js~describe0",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe4",
+    "access": null,
+    "description": "#listen()",
+    "lineNumber": 34,
+    "testTargets": [
+      "FastTransformer#listen"
+    ]
+  },
+  {
+    "__docId__": 85,
+    "kind": "test",
+    "name": "it5",
+    "testId": 5,
+    "memberof": "test/fast_transformer_test.js~describe0.describe4",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe4.it5",
+    "access": null,
+    "description": "should complete without any error",
+    "lineNumber": 38
+  },
+  {
+    "__docId__": 86,
+    "kind": "test",
+    "name": "it6",
+    "testId": 6,
+    "memberof": "test/fast_transformer_test.js~describe0.describe4",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe4.it6",
+    "access": null,
+    "description": "should be callable multiple times",
+    "lineNumber": 43
+  },
+  {
+    "__docId__": 87,
+    "kind": "test",
+    "name": "describe7",
+    "testId": 7,
+    "memberof": "test/fast_transformer_test.js~describe0",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe7",
+    "access": null,
+    "description": "#listening",
+    "lineNumber": 53,
+    "testTargets": [
+      "FastTransformer#listening"
+    ]
+  },
+  {
+    "__docId__": 88,
+    "kind": "test",
+    "name": "it8",
+    "testId": 8,
+    "memberof": "test/fast_transformer_test.js~describe0.describe7",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe7.it8",
+    "access": null,
+    "description": "should return whether the server is listening",
+    "lineNumber": 56
+  },
+  {
+    "__docId__": 89,
+    "kind": "test",
+    "name": "describe9",
+    "testId": 9,
+    "memberof": "test/fast_transformer_test.js~describe0",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe9",
+    "access": null,
+    "description": "#transform()",
+    "lineNumber": 70,
+    "testTargets": [
+      "FastTransformer#transform"
+    ]
+  },
+  {
+    "__docId__": 90,
+    "kind": "test",
+    "name": "it10",
+    "testId": 10,
+    "memberof": "test/fast_transformer_test.js~describe0.describe9",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe9.it10",
+    "access": null,
+    "description": "should remove the inline comments",
+    "lineNumber": 75
+  },
+  {
+    "__docId__": 91,
+    "kind": "test",
+    "name": "it11",
+    "testId": 11,
+    "memberof": "test/fast_transformer_test.js~describe0.describe9",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe9.it11",
+    "access": null,
+    "description": "should remove the multi-line comments",
+    "lineNumber": 79
+  },
+  {
+    "__docId__": 92,
+    "kind": "test",
+    "name": "it12",
+    "testId": 12,
+    "memberof": "test/fast_transformer_test.js~describe0.describe9",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe9.it12",
+    "access": null,
+    "description": "should remove the single-line comments",
+    "lineNumber": 83
+  },
+  {
+    "__docId__": 93,
+    "kind": "test",
+    "name": "it13",
+    "testId": 13,
+    "memberof": "test/fast_transformer_test.js~describe0.describe9",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/fast_transformer_test.js~describe0.describe9.it13",
+    "access": null,
+    "description": "should remove the whitespace",
+    "lineNumber": 87
+  },
+  {
+    "__docId__": 94,
+    "kind": "testFile",
+    "name": "test/minifier_test.js",
+    "content": "'use strict';\n\nconst {expect} = require('chai');\nconst File = require('vinyl');\nconst {Minifier, TransformMode} = require('../lib/index.js');\n\n/**\n * @test {Minifier}\n */\ndescribe('Minifier', function() {\n  this.retries(3);\n  this.timeout(60000);\n\n  /**\n   * @test {Minifier.factory}\n   */\n  describe('.factory()', () => {\n    it('should return a `Minifier` instance', () => {\n      expect(Minifier.factory()).to.be.instanceof(Minifier);\n    });\n\n    it('should properly initialize the instance properties', () => {\n      let minifier = Minifier.factory({\n        binary: '/usr/local/bin/php',\n        mode: TransformMode.fast,\n        silent: true\n      });\n\n      let executable = process.platform == 'win32' ? '\\\\usr\\\\local\\\\bin\\\\php' : '/usr/local/bin/php';\n      expect(minifier.silent).to.be.true;\n      expect(minifier._transformer).to.equal(`fast:${executable}`);\n    });\n  });\n\n  /**\n   * @test {Minifier#_transform}\n   */\n  describe('#_transform()', () => {\n    let minifier = new Minifier({silent: true});\n    after(() => minifier.emit('end'));\n\n    it('should remove the comments and whitespace', async () => {\n      let file = new File({path: 'test/fixtures/sample.php'});\n      await minifier._transform(file);\n      expect(file.contents.toString()).to.contain(\"<?= 'Hello World!' ?>\")\n        .and.contain('namespace dummy; class Dummy')\n        .and.contain('$className = get_class($this); return $className;')\n        .and.contain('__construct() { }');\n    });\n  });\n});\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/test/minifier_test.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 95,
+    "kind": "test",
+    "name": "describe14",
+    "testId": 14,
+    "memberof": "test/minifier_test.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "test/minifier_test.js~describe14",
+    "access": null,
+    "description": "Minifier",
+    "lineNumber": 10,
+    "testTargets": [
+      "Minifier"
+    ]
+  },
+  {
+    "__docId__": 96,
+    "kind": "test",
+    "name": "describe15",
+    "testId": 15,
+    "memberof": "test/minifier_test.js~describe14",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/minifier_test.js~describe14.describe15",
+    "access": null,
+    "description": ".factory()",
+    "lineNumber": 17,
+    "testTargets": [
+      "Minifier.factory"
+    ]
+  },
+  {
+    "__docId__": 97,
+    "kind": "test",
+    "name": "it16",
+    "testId": 16,
+    "memberof": "test/minifier_test.js~describe14.describe15",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/minifier_test.js~describe14.describe15.it16",
+    "access": null,
+    "description": "should return a `Minifier` instance",
+    "lineNumber": 18
+  },
+  {
+    "__docId__": 98,
+    "kind": "test",
+    "name": "it17",
+    "testId": 17,
+    "memberof": "test/minifier_test.js~describe14.describe15",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/minifier_test.js~describe14.describe15.it17",
+    "access": null,
+    "description": "should properly initialize the instance properties",
+    "lineNumber": 22
+  },
+  {
+    "__docId__": 99,
+    "kind": "test",
+    "name": "describe18",
+    "testId": 18,
+    "memberof": "test/minifier_test.js~describe14",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/minifier_test.js~describe14.describe18",
+    "access": null,
+    "description": "#_transform()",
+    "lineNumber": 38,
+    "testTargets": [
+      "Minifier#_transform"
+    ]
+  },
+  {
+    "__docId__": 100,
+    "kind": "test",
+    "name": "it19",
+    "testId": 19,
+    "memberof": "test/minifier_test.js~describe14.describe18",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/minifier_test.js~describe14.describe18.it19",
+    "access": null,
+    "description": "should remove the comments and whitespace",
+    "lineNumber": 42
+  },
+  {
+    "__docId__": 101,
+    "kind": "testFile",
+    "name": "test/safe_transformer_test.js",
+    "content": "'use strict';\n\nconst {expect} = require('chai');\nconst {SafeTransformer} = require('../lib/index.js');\n\n/**\n * @test {SafeTransformer}\n */\ndescribe('SafeTransformer', function() {\n  this.retries(2);\n  this.timeout(30000);\n\n  /**\n   * @test {SafeTransformer#close}\n   */\n  describe('#close()', () => {\n    let transformer = new SafeTransformer;\n\n    it('should complete without any error', async () => {\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n\n    it('should be callable multiple times', async () => {\n      await transformer.close();\n      await transformer.close();\n      expect(true).to.be.ok;\n    });\n  });\n\n  /**\n   * @test {SafeTransformer#transform}\n   */\n  describe('#transform()', () => {\n    let script = 'test/fixtures/sample.php';\n    let transformer = new SafeTransformer;\n    after(async () => await transformer.close());\n\n    it('should remove the inline comments', async () => {\n      expect(await transformer.transform(script)).to.contain(\"<?= 'Hello World!' ?>\");\n    });\n\n    it('should remove the multi-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('namespace dummy; class Dummy');\n    });\n\n    it('should remove the single-line comments', async () => {\n      expect(await transformer.transform(script)).to.contain('$className = get_class($this); return $className;');\n    });\n\n    it('should remove the whitespace', async () => {\n      expect(await transformer.transform(script)).to.contain('__construct() { }');\n    });\n  });\n});\n",
+    "static": true,
+    "longname": "/repo/gulp-php-minify/test/safe_transformer_test.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 102,
+    "kind": "test",
+    "name": "describe20",
+    "testId": 20,
+    "memberof": "test/safe_transformer_test.js",
+    "testDepth": 0,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20",
+    "access": null,
+    "description": "SafeTransformer",
+    "lineNumber": 9,
+    "testTargets": [
+      "SafeTransformer"
+    ]
+  },
+  {
+    "__docId__": 103,
+    "kind": "test",
+    "name": "describe21",
+    "testId": 21,
+    "memberof": "test/safe_transformer_test.js~describe20",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe21",
+    "access": null,
+    "description": "#close()",
+    "lineNumber": 16,
+    "testTargets": [
+      "SafeTransformer#close"
+    ]
+  },
+  {
+    "__docId__": 104,
+    "kind": "test",
+    "name": "it22",
+    "testId": 22,
+    "memberof": "test/safe_transformer_test.js~describe20.describe21",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe21.it22",
+    "access": null,
+    "description": "should complete without any error",
+    "lineNumber": 19
+  },
+  {
+    "__docId__": 105,
+    "kind": "test",
+    "name": "it23",
+    "testId": 23,
+    "memberof": "test/safe_transformer_test.js~describe20.describe21",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe21.it23",
+    "access": null,
+    "description": "should be callable multiple times",
+    "lineNumber": 24
+  },
+  {
+    "__docId__": 106,
+    "kind": "test",
+    "name": "describe24",
+    "testId": 24,
+    "memberof": "test/safe_transformer_test.js~describe20",
+    "testDepth": 1,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe24",
+    "access": null,
+    "description": "#transform()",
+    "lineNumber": 34,
+    "testTargets": [
+      "SafeTransformer#transform"
+    ]
+  },
+  {
+    "__docId__": 107,
+    "kind": "test",
+    "name": "it25",
+    "testId": 25,
+    "memberof": "test/safe_transformer_test.js~describe20.describe24",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe24.it25",
+    "access": null,
+    "description": "should remove the inline comments",
+    "lineNumber": 39
+  },
+  {
+    "__docId__": 108,
+    "kind": "test",
+    "name": "it26",
+    "testId": 26,
+    "memberof": "test/safe_transformer_test.js~describe20.describe24",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe24.it26",
+    "access": null,
+    "description": "should remove the multi-line comments",
+    "lineNumber": 43
+  },
+  {
+    "__docId__": 109,
+    "kind": "test",
+    "name": "it27",
+    "testId": 27,
+    "memberof": "test/safe_transformer_test.js~describe20.describe24",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe24.it27",
+    "access": null,
+    "description": "should remove the single-line comments",
+    "lineNumber": 47
+  },
+  {
+    "__docId__": 110,
+    "kind": "test",
+    "name": "it28",
+    "testId": 28,
+    "memberof": "test/safe_transformer_test.js~describe20.describe24",
+    "testDepth": 2,
+    "static": true,
+    "longname": "test/safe_transformer_test.js~describe20.describe24.it28",
+    "access": null,
+    "description": "should remove the whitespace",
+    "lineNumber": 51
+  }
+]

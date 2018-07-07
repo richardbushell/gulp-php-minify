@@ -1,0 +1,27 @@
+{
+  "coverage": "100%",
+  "expectCount": 24,
+  "actualCount": 24,
+  "files": {
+    "lib/fast_transformer.js": {
+      "expectCount": 12,
+      "actualCount": 12,
+      "undocumentLines": []
+    },
+    "lib/safe_transformer.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "lib/transform_mode.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "lib/transformer.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    }
+  }
+}
