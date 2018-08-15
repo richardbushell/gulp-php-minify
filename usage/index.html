@@ -483,14 +483,14 @@
                 
                 
                 <h1 id="usage">Usage</h1>
-<p>If you haven't used <a href="http://gulpjs.com">Gulp</a> before, be sure to check out the <a href="https://github.com/gulpjs/gulp/blob/master/docs/README.md">related documentation</a>, as it explains how to create a <code>gulpfile.js</code> as well as install and use plug-ins.
+<p>If you haven't used <a href="https://gulpjs.com">Gulp</a> before, be sure to check out the <a href="https://github.com/gulpjs/gulp/blob/master/docs/README.md">related documentation</a>, as it explains how to create a <code>gulpfile.js</code> as well as install and use plug-ins.
 Once you're familiar with that process, you may install the plug-in.</p>
 <h2 id="programming-interface">Programming interface</h2>
 <p>The plug-in takes a list of <a href="https://secure.php.net">PHP</a> scripts as input, and removes the comments and whitespace in these files by applying the <a href="https://secure.php.net/manual/en/function.php-strip-whitespace.php"><code>php_strip_whitespace()</code></a> function on their contents:</p>
 <div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="p">{</span><span class="nx">phpMinify</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@cedx/gulp-php-minify&#39;</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
 
-<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;minify:php&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;compress:php&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
   <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">phpMinify</span><span class="p">())</span>
   <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;path/to/out&#39;</span><span class="p">))</span>
 <span class="p">);</span>
@@ -507,9 +507,13 @@ and you should not have any other plug-in before it.</p>
 <h3 id="binary-string-php"><strong>binary</strong>: string = <code>"php"</code></h3>
 <p>The plug-in relies on the availability of the <a href="https://secure.php.net">PHP</a> executable on the target system. By default, the plug-in will use the <code>php</code> binary found on the system path.</p>
 <p>If the plug-in cannot find the default <code>php</code> binary, or if you want to use a different one, you can provide the path to the <code>php</code> executable by using the <code>binary</code> option:</p>
-<div class="codehilite"><pre><span></span><span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="p">{</span><span class="nx">phpMinify</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@cedx/gulp-php-minify&#39;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
+
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;compress:php&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
   <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">phpMinify</span><span class="p">({</span><span class="nx">binary</span><span class="o">:</span> <span class="s1">&#39;C:\\Program Files\\PHP\\php.exe&#39;</span><span class="p">}))</span>
-  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;path/to/out&#39;</span><span class="p">));</span>
+  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;path/to/out&#39;</span><span class="p">))</span>
+<span class="p">);</span>
 </pre></div>
 
 
@@ -519,19 +523,25 @@ and you should not have any other plug-in before it.</p>
 <li>the <code>safe</code> mode: as its name implies, this mode is very reliable. But it is also very slow as it spawns a new PHP process for every file to be processed. This is the default mode.</li>
 <li>the <code>fast</code> mode: as its name implies, this mode is very fast, but it is not very reliable. It spawns a PHP web server that processes the input files, but on some systems this fails. This mode requires a <a href="https://secure.php.net">PHP</a> runtime version <strong>7.2 or later</strong>.</li>
 </ul>
-<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="p">{</span><span class="nx">TransformMode</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@cedx/gulp-php-minify&#39;</span><span class="p">);</span>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="p">{</span><span class="nx">phpMinify</span><span class="p">,</span> <span class="nx">TransformMode</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@cedx/gulp-php-minify&#39;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
 
-<span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;compress:php&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
   <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">phpMinify</span><span class="p">({</span><span class="nx">mode</span><span class="o">:</span> <span class="nx">TransformMode</span><span class="p">.</span><span class="nx">fast</span><span class="p">}))</span>
-  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;path/to/out&#39;</span><span class="p">));</span>
+  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;path/to/out&#39;</span><span class="p">))</span>
+<span class="p">);</span>
 </pre></div>
 
 
 <h3 id="silent-boolean-false"><strong>silent</strong>: boolean = <code>false</code></h3>
 <p>By default, the plug-in prints to the standard output the paths of the minified scripts. You can disable this output by setting the <code>silent</code> option to <code>true</code>.</p>
-<div class="codehilite"><pre><span></span><span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
+<div class="codehilite"><pre><span></span><span class="kr">const</span> <span class="p">{</span><span class="nx">phpMinify</span><span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;@cedx/gulp-php-minify&#39;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
+
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;compress:php&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;path/to/lib/**/*.php&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">read</span><span class="o">:</span> <span class="kc">false</span><span class="p">})</span>
   <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">phpMinify</span><span class="p">({</span><span class="nx">silent</span><span class="o">:</span> <span class="kc">true</span><span class="p">}))</span>
-  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;path/to/out&#39;</span><span class="p">));</span>
+  <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;path/to/out&#39;</span><span class="p">))</span>
+<span class="p">);</span>
 </pre></div>
                 
                   
