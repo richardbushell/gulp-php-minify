@@ -11,7 +11,8 @@
   "dependencies": {
     "@cedx/enum": "^3.2.0",
     "@cedx/which": "^3.1.0",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "cross-spawn": "^6.0.5"
   },
   "devDependencies": {
     "@cedx/coveralls": "^5.0.0",
